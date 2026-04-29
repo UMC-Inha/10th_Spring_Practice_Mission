@@ -1,4 +1,18 @@
 package umc.location.exception.code;
 
-public enum LocationErrorCode {
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import umc.apiPayload.code.BaseErrorCode;
+
+@Getter
+@RequiredArgsConstructor
+public enum LocationErrorCode implements BaseErrorCode {
+    LOCATION_ERROR_CODE(HttpStatus.NOT_FOUND,
+            "LOCATION404_1",
+            "존재하지 않는 지역입니다.");
+
+    private final HttpStatus status;
+    private final String code;
+    private final String message;
 }
