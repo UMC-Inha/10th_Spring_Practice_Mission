@@ -12,19 +12,13 @@ import umc.domain.member.repository.MemberRepository;
 
 @Service
 @RequiredArgsConstructor
-
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
     public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
-    }
-
-    public MemberResDTO.getInfo(
-            MemberReqDTO.Getinfo dto
-    ){
         Long memberId = dto.id();
-        Member member = memberRespository.findById(memberId)
+        Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         return MemberConverter.toGetInfo(member);
     }
