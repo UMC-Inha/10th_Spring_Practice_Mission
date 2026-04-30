@@ -90,6 +90,10 @@ review.user_mission_id   NOT NULL UNIQUE
 
 ## 3. 최종 주요 테이블 역할
 
+![](https://img.boostad.site/2026/04/e060f2c55248e4e227d35c4c480f493a.svg)
+
+https://dbdiagram.io/d/69f2ff32c6a36f9c1bc70072
+
 ### member
 
 서비스 사용자 정보.
