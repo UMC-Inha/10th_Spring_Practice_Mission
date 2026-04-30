@@ -35,4 +35,9 @@ public class MemberResDTO {
             Integer rewardPoint,
             LocalDate dueDate
     ){}
+
+    @Builder
+    public record CreateUser(
+            Long userId
+    ) {}
 }

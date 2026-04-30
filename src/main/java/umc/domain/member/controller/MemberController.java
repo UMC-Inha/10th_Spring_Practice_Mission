@@ -29,4 +29,12 @@ public class MemberController {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, null);
     }
+
+    @PostMapping("/auth/users")
+    public ApiResponse<MemberResDTO.CreateUser> createUser(
+            @RequestBody MemberReqDTO.CreateUser request
+    ) {
+        BaseSuccessCode code = MemberSuccessCode.USER_CREATED;
+        return ApiResponse.onSuccess(code, null);
+    }
 }
