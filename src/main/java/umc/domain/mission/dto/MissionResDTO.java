@@ -24,4 +24,11 @@ public class MissionResDTO {
             MemberMissionStatus status,
             LocalDate dueDate
     ) {}
+
+    @Builder
+    public record UpdateMissionStatus(
+            Long missionId,
+            MemberMissionStatus status,
+            Integer rewardPoint
+    ) {}
 }

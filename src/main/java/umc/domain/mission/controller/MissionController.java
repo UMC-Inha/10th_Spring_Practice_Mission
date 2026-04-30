@@ -2,10 +2,8 @@ package umc.domain.mission.controller;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import umc.domain.mission.dto.MissionReqDTO;
 import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.enums.MemberMissionStatus;
 import umc.domain.mission.exception.code.MissionSuccessCode;
@@ -24,6 +22,16 @@ public class MissionController {
             @RequestParam List<MemberMissionStatus> status
     ) {
         BaseSuccessCode code = MissionSuccessCode.OK;
+        return ApiResponse.onSuccess(code, null);
+    }
+
+    @PatchMapping("/missions/{missionId}")
+    public ApiResponse<MissionResDTO.UpdateMissionStatus>
+    updateMissionsStatus(
+            @PathVariable Long missionId,
+            @RequestBody MissionReqDTO.UpdateMissionStatus request
+            ) {
+        BaseSuccessCode code = MissionSuccessCode.STATUS_UPDATED;
         return ApiResponse.onSuccess(code, null);
     }
 }
