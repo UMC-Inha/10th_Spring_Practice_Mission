@@ -1,4 +1,4 @@
 package umc.domain.category.entity.mapping;
 
-public class UserPreferredCategory {
+public class MemberPreferredCategory {
 }

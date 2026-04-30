@@ -1,4 +1,4 @@
 package umc.domain.mission.entity.mapping;
 
-public class UserMission {
+public class MemberMission {
 }
