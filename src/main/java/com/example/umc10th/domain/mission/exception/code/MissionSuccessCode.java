@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus;
 
 public enum MissionSuccessCode implements BaseSuccessCode {
 	HOME_FOUND(HttpStatus.OK, "HOME200_1", "홈 화면 조회에 성공했습니다."),
-	USER_MISSION_LIST_FOUND(HttpStatus.OK, "USER_MISSION200_1", "사용자 미션 목록 조회에 성공했습니다.");
+	USER_MISSION_LIST_FOUND(HttpStatus.OK, "USER_MISSION200_1", "사용자 미션 목록 조회에 성공했습니다."),
+	USER_MISSION_VERIFICATION_CREATED(HttpStatus.CREATED, "USER_MISSION201_1", "미션 성공 인증 요청이 완료되었습니다.");
 
 	private final HttpStatus status;
 	private final String code;
