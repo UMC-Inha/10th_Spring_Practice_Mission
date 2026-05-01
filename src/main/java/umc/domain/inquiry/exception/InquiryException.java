@@ -1,7 +1,7 @@
 package umc.domain.inquiry.exception;
 
 public class InquiryException extends RuntimeException {
-  public InquiryException(String message) {
-    super(message);
-  }
+    public InquiryException(String message) {
+        super(message);
+    }
 }

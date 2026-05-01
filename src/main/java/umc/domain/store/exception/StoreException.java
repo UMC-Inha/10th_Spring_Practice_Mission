@@ -1,7 +1,7 @@
 package umc.domain.store.exception;
 
-public class ReviewException extends RuntimeException {
-    public ReviewException(String message) {
+public class StoreException extends RuntimeException {
+    public StoreException(String message) {
         super(message);
     }
 }

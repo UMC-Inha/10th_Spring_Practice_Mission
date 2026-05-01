@@ -1,4 +1,4 @@
-package com.example.umc.domain.review.controller;
+package umc.domain.store.controller;
 
-public class ReviewController {
+public class StoreController {
 }

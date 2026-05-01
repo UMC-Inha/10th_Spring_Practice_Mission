@@ -1,4 +1,4 @@
-package com.example.umc.domain.mission.entity;
+package umc.domain.store.entity;
 
 public class StorePhoto {
 }
