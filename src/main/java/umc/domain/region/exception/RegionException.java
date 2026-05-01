@@ -1,7 +1,10 @@
 package umc.domain.region.exception;
 
-public class RegionException extends RuntimeException {
-    public RegionException(String message) {
-        super(message);
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.exception.GeneralException;
+
+public class RegionException extends GeneralException {
+    public RegionException(BaseErrorCode code) {
+        super(code);
     }
 }
