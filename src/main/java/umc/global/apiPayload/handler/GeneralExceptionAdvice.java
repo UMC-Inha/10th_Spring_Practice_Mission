@@ -17,7 +17,7 @@ public class GeneralExceptionAdvice {
             ProjectException e
     ) {
         BaseErrorCode errorCode = e.getErrorCode();
-        return ResponseEntity.status(errorCode.getHttpStatus())
+        return ResponseEntity.status(errorCode.getStatus())
                 .body(ApiResponse.onFailure(errorCode, null));
     }
 
@@ -28,7 +28,7 @@ public class GeneralExceptionAdvice {
     ) {
 
         BaseErrorCode code = GeneralErrorCode.INTERNAL_SERVER_ERROR;
-        return ResponseEntity.status(code.getHttpStatus())
+        return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(
                                 code,
                                 ex.getMessage()

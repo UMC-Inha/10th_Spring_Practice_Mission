@@ -4,8 +4,8 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 
-@Getter
 @RequiredArgsConstructor
+@Getter
 public enum GeneralErrorCode implements BaseErrorCode {
 
     BAD_REQUEST(HttpStatus.BAD_REQUEST,
@@ -26,7 +26,7 @@ public enum GeneralErrorCode implements BaseErrorCode {
             "서버 내부 오류가 발생하였습니다.")
     ;
 
-    private final HttpStatus httpStatus;
+    private final HttpStatus status;
     private final String code;
     private final String message;
 

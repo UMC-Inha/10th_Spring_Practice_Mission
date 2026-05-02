@@ -1,4 +1,4 @@
-package com.example.umc.domain.member.enums;
+package umc.domain.member.enums;
 
 public enum Gender {
 }
