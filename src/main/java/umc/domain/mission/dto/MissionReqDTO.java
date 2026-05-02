@@ -1,4 +1,4 @@
-package com.example.umc.domain.mission.dto;
+package umc.domain.mission.dto;
 
 public class MissionReqDTO {
 }

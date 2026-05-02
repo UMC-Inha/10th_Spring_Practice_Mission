@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import umc.global.apiPayload.code.BaseErrorCode;
 
 @Getter
 @RequiredArgsConstructor
-public enum MemberErrorCode {
+public enum MemberErrorCode implements BaseErrorCode {
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND,
             "MEMBER404_1",

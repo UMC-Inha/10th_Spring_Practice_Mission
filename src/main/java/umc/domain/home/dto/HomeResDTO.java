@@ -13,7 +13,7 @@ public class HomeResDTO {
             MissionDashBoardDTO missionDashBoard,
             int currentPoint,
             List<MissionDTO> unstartedMissionList
-    ){
+    ) {
         @Builder
         public record MissionDashBoardDTO(
                 String regionName,
