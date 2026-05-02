@@ -31,4 +31,11 @@ public class MemberController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 
+    //회원 가입
+    @PostMapping("/v1/members/signup")
+    public ApiResponse<MemberResDTO.SignUpRes> signup(
+            @RequestBody MemberReqDTO.SignUpReq req
+    ){
+        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, null);
+    }
 }

@@ -19,4 +19,13 @@ public class MemberResDTO {
     public record PointResDTO(
             int point
     ){}
+
+    //회원 가입
+    @Builder
+    public  record  SignUpRes(
+            Long memberId,
+            String name,
+            String birth,
+            String address
+    ){}
 }
