@@ -14,5 +14,9 @@ public class MemberResDTO {
             int Point
     ){}
 
-
+    //보유 포인트 조회
+    @Builder
+    public record getPoint(
+            int Point
+    ){}
 }
