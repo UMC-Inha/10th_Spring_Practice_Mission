@@ -6,17 +6,17 @@ public class MemberResDTO {
 
     //마이페이지
     @Builder
-    public record getInfo(
+    public record MyPageResDTO(
             int memberId,
             String name,
             String email,
             String phoneNumber,
-            int Point
+            int point
     ){}
 
     //보유 포인트 조회
     @Builder
-    public record getPoint(
-            int Point
+    public record PointResDTO(
+            int point
     ){}
 }

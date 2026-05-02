@@ -7,7 +7,7 @@ import umc.domain.member.dto.MemberResDTO;
 @Service
 public class MemberService {
 
-    public MemberResDTO.getInfo getInfo(MemberReqDTO.getInfo dto) {
+    public MemberResDTO.MyPageResDTO getInfo(MemberReqDTO.MyPageReqDTO dto) {
         return  null;
     }
 }

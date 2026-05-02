@@ -12,22 +12,22 @@ import umc.global.apiPayload.code.GeneralSuccessCode;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/member")
+@RequestMapping("/api")
 public class MemberController {
     private final MemberService memberService;
 
     //마이페이지
-    @PostMapping("/v1/me")
-    public ApiResponse<MemberResDTO.getInfo> getInfo(
-            @RequestBody MemberReqDTO.getInfo dto
+    @PostMapping("/v1/members/me")
+    public ApiResponse<MemberResDTO.MyPageResDTO> getInfo(
+            @RequestBody MemberReqDTO.MyPageReqDTO dto
     ){
         BaseSuccessCode code = MemberSuccessCode.MEMBER_SUCCESS;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));
     }
 
     //보유 포인트 조회
-    @GetMapping("/v1/points")
-    public ApiResponse<MemberResDTO.getPoint> getPoint(){
+    @GetMapping("/v1/members/me/points")
+    public ApiResponse<MemberResDTO.PointResDTO> getPoint(){
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
     }
 
