@@ -8,6 +8,7 @@ import java.util.List;
 
 public class MissionResDTO {
 
+    //미션 리스트 조회
     @Builder
     public record MissionList(
             List<Mission> missions
