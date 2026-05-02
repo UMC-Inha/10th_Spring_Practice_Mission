@@ -25,10 +25,10 @@ public class MissionController {
         return ApiResponse.onSuccess(code, null);
     }
 
-    @PatchMapping("/missions/{missionId}")
+    @PatchMapping("/missions/{memberMissionId}")
     public ApiResponse<MissionResDTO.UpdateMissionStatus>
     updateMissionsStatus(
-            @PathVariable Long missionId,
+            @PathVariable Long memberMissionId,
             @RequestBody MissionReqDTO.UpdateMissionStatus request
             ) {
         BaseSuccessCode code = MissionSuccessCode.STATUS_UPDATED;
