@@ -32,10 +32,8 @@ public class MemberController {
     }
 
     //회원 가입
-    @PostMapping("/v1/members/signup")
-    public ApiResponse<MemberResDTO.SignUpRes> signup(
-            @RequestBody MemberReqDTO.SignUpReq req
-    ){
+    @GetMapping("/v1/members/signup")
+    public ApiResponse<MemberResDTO.SignUpRes> signup(){
         return ApiResponse.onSuccess(MemberSuccessCode.CREATED, null);
     }
 }
