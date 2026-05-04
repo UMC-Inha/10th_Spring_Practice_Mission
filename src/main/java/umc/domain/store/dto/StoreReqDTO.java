@@ -1,4 +1,4 @@
 package umc.domain.store.dto;
 
-public class ReviewReqDTO {
+public class StoreReqDTO {
 }

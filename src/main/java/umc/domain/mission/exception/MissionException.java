@@ -1,7 +1,10 @@
-package com.example.umc.domain.mission.exception;
+package umc.domain.mission.exception;
 
-public class MissionException extends RuntimeException {
-    public MissionException(String message) {
-        super(message);
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.exception.ProjectException;
+
+public class MissionException extends ProjectException {
+    public MissionException(BaseErrorCode code) {
+        super(code);
     }
 }

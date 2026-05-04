@@ -1,4 +1,4 @@
-package com.example.umc.domain.member.converter;
+package umc.domain.member.converter;
 
 public class MemberConverter {
 }

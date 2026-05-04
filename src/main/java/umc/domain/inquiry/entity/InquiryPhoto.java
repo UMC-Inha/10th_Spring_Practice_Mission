@@ -1,4 +1,4 @@
-package com.example.umc.domain.member.entity;
+package umc.domain.inquiry.entity;
 
 public class InquiryPhoto {
 }

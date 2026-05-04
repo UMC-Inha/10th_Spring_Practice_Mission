@@ -1,4 +1,4 @@
-package com.example.umc.domain.review.entity;
+package umc.domain.review.entity;
 
 public class ReviewPhoto {
 }
