@@ -1,6 +1,7 @@
 package umc.domain.home.dto;
 
 import lombok.Builder;
+import umc.domain.mission.dto.MissionResDTO;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +13,7 @@ public class HomeResDTO {
     public record HomeDTO(
             MissionDashBoardDTO missionDashBoard,
             int currentPoint,
-            List<MissionDTO> unstartedMissionList
+            List<MissionResDTO.Mission> unstartedMissionList
     ) {
         @Builder
         public record MissionDashBoardDTO(
@@ -21,16 +22,5 @@ public class HomeResDTO {
                 int missionSuccessCount
         ){}
     }
-
-    @Builder
-    public record MissionDTO(
-            Long missionId,
-            int condition,
-            int missionPoint,
-            Date dueDate,
-            Long storeId,
-            String storeName,
-            String storeCategory
-    ){}
 
 }
