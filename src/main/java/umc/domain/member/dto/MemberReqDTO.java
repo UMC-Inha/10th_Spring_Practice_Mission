@@ -16,7 +16,7 @@ public class MemberReqDTO {
             String name,
             Gender gender,
             Date birth,
-            String adress,
+            String address,
             List<Integer> user_food
     ){}
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public class ReviewResDTO {
 
     @Builder
-    public record ReviewReq(
+    public record ReviewRes(
             Long reviewId,
             double rate,
             String content,

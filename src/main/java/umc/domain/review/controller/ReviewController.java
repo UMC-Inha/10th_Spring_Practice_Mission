@@ -12,7 +12,7 @@ import umc.global.apiPayload.ApiResponse;
 public class ReviewController {
 
     //리뷰 작성
-    @PostMapping("/v1/missionts/{missionId}/reviews")
+    @PostMapping("/v1/missions/{missionId}/reviews")
     public ApiResponse<ReviewReqDTO.ReviewReq> createReview(
             @PathVariable Long missionId,
             @RequestBody ReviewReqDTO.ReviewReq req
