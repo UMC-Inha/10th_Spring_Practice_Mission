@@ -3,7 +3,6 @@ package umc.domain.home.dto;
 import lombok.Builder;
 import umc.domain.mission.dto.MissionResDTO;
 
-import java.util.Date;
 import java.util.List;
 
 public class HomeResDTO {

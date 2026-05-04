@@ -2,7 +2,7 @@ package umc.domain.member.dto;
 
 import umc.domain.member.enums.Gender;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class MemberReqDTO {
@@ -15,8 +15,8 @@ public class MemberReqDTO {
             List<Integer> agreedTermsIds,
             String name,
             Gender gender,
-            Date birth,
+            LocalDate birth,
             String address,
-            List<Integer> user_food
+            List<Integer> userFood
     ){}
 }

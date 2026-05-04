@@ -2,8 +2,9 @@ package umc.domain.mission.dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.cglib.core.Local;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class MissionResDTO {
@@ -19,7 +20,7 @@ public class MissionResDTO {
             Long missionId,
             int condition,
             int missionPoint,
-            Date dueDate,
+            LocalDate dueDate,
             Long storeId,
             String storeName,
             String storeCategory
