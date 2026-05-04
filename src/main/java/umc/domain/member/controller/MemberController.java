@@ -16,10 +16,8 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/users/me")
-    public ApiResponse<MemberResDTO.GetInfo> getInfo(
-            @RequestBody MemberReqDTO.GetInfo dto
-            ){
+    @GetMapping("/users/me")
+    public ApiResponse<MemberResDTO.GetInfo> getInfo(){
         BaseSuccessCode code = MemberSuccessCode.MEMBER_VIEW;
         return ApiResponse.onSuccess(code, null);
     }
