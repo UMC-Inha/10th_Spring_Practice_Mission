@@ -1,7 +1,6 @@
 package umc.domain.review.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.review.dto.ReviewReqDTO;
 import umc.domain.review.dto.ReviewResDTO;
@@ -19,7 +18,7 @@ public class ReviewController {
             @PathVariable Long storeId,
             @ModelAttribute ReviewReqDTO.CreateReview request
             ){
-        BaseSuccessCode code = ReviewSuccessCode.OK;
+        BaseSuccessCode code = ReviewSuccessCode.REVIEW_WRITE;
         return ApiResponse.onSuccess(code, null);
     }
 }

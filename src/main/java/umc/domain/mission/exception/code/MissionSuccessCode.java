@@ -9,7 +9,7 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @RequiredArgsConstructor
 public enum MissionSuccessCode implements BaseSuccessCode {
 
-    OK(HttpStatus.OK,
+    MISSION_VIEW(HttpStatus.OK,
             "MISSION200_1",
             "미션 목록을 성공적으로 조회했습니다."),
     STATUS_UPDATED(HttpStatus.OK,

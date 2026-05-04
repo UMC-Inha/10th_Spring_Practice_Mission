@@ -10,7 +10,7 @@ public class MemberReqDTO {
             Long id
     ){}
 
-    public record CreateUser(
+    public record CreateMember(
             String name,
             Gender gender,
             LocalDate birth,

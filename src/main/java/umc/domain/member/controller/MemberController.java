@@ -20,21 +20,21 @@ public class MemberController {
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @RequestBody MemberReqDTO.GetInfo dto
             ){
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_VIEW;
         return ApiResponse.onSuccess(code, null);
     }
 
     @GetMapping("/home")
     public ApiResponse<MemberResDTO.Home> getHome(){
-        BaseSuccessCode code = MemberSuccessCode.OK;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_VIEW;
         return ApiResponse.onSuccess(code, null);
     }
 
-    @PostMapping("/auth/users")
-    public ApiResponse<MemberResDTO.CreateUser> createUser(
-            @RequestBody MemberReqDTO.CreateUser request
+    @PostMapping("/users")
+    public ApiResponse<MemberResDTO.CreateMember> createMember(
+            @RequestBody MemberReqDTO.CreateMember request
     ) {
-        BaseSuccessCode code = MemberSuccessCode.USER_CREATED;
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_CREATED;
         return ApiResponse.onSuccess(code, null);
     }
 }

@@ -9,10 +9,10 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @RequiredArgsConstructor
 public enum MemberSuccessCode implements BaseSuccessCode {
 
-    OK(HttpStatus.OK,
+    MEMBER_VIEW(HttpStatus.OK,
             "MEMBER200_1",
             "성공적으로 유저를 조회했습니다."),
-    USER_CREATED(HttpStatus.OK,
+    MEMBER_CREATED(HttpStatus.OK,
             "MEMBER200_2",
             "회원을 성공적으로 생성했습니다."),
     ;

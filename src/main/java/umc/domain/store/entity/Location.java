@@ -1,4 +1,4 @@
 package umc.domain.store.entity;
 
-public class location {
+public class Location {
 }

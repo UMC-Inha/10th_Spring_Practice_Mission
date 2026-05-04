@@ -21,11 +21,11 @@ public class MissionController {
     public ApiResponse<MissionResDTO.GetMissions> getMissions(
             @RequestParam List<MemberMissionStatus> status
     ) {
-        BaseSuccessCode code = MissionSuccessCode.OK;
+        BaseSuccessCode code = MissionSuccessCode.MISSION_VIEW;
         return ApiResponse.onSuccess(code, null);
     }
 
-    @PatchMapping("/missions/{memberMissionId}")
+    @PatchMapping("/member-missions/{memberMissionId}")
     public ApiResponse<MissionResDTO.UpdateMissionStatus>
     updateMissionsStatus(
             @PathVariable Long memberMissionId,

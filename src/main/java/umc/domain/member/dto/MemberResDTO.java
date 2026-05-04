@@ -37,7 +37,7 @@ public class MemberResDTO {
     ){}
 
     @Builder
-    public record CreateUser(
+    public record CreateMember(
             Long userId
     ) {}
 }
