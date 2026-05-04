@@ -1,10 +1,5 @@
 package umc.domain.mission.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-
-@Getter
-@RequiredArgsConstructor
 public class HomeResDTO {
     public record Home(
             String regionName, //상단 지역 이름
