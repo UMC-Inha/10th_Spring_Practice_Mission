@@ -1,7 +1,11 @@
 package umc.domain.point.exception;
 
-public class PointException extends RuntimeException {
-    public PointException(String message) {
-        super(message);
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.exception.ProjectException;
+
+public class PointException extends ProjectException {
+    public PointException(BaseErrorCode code) {
+
+        super(code);
     }
 }

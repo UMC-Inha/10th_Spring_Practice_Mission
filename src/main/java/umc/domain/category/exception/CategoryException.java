@@ -1,7 +1,10 @@
 package umc.domain.category.exception;
 
-public class CategoryException extends RuntimeException {
-    public CategoryException(String message) {
-        super(message);
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.exception.ProjectException;
+
+public class CategoryException extends ProjectException {
+    public CategoryException(BaseErrorCode code) {
+        super(code);
     }
 }
