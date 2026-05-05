@@ -20,11 +20,12 @@ public class ReviewController {
     @PostMapping("/{storeId}/reviews")
     @Operation(summary = "가게 리뷰 작성")
     public ApiResponse<ReviewResDTO.CreateReviewResultDTO> createReview(
-            @PathVariable(name = "storeId") Long StroeId,
+            @PathVariable(name = "storeId") Long StoreId,
             @RequestBody ReviewReqDTO.ReviewDTO request
     ){
         BaseSuccessCode code = ReviewSuccessCode.OK;
-        ReviewResDTO.CreateReviewResultDTO result = reviewService.createReview(storeId, request);
+        ReviewResDTO.CreateReviewResultDTO result = reviewService.createReview(StoreId, request);
         return ApiResponse.onSuccess(code, result);
     }
+
 }

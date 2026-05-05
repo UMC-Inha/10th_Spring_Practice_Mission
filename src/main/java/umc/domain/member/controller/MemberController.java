@@ -17,7 +17,7 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 public class MemberController {
-
+/*
     private final MemberService memberService;
 
     @PostMapping("/users")
@@ -29,4 +29,6 @@ public class MemberController {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, result);
     }
+
+ */
 }

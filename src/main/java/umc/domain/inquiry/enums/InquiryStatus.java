@@ -1,15 +1,13 @@
-package umc.domain.member.enums;
+package umc.domain.inquiry.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Gender {
-
-    MALE("남성"),
-    FEMALE("여성"),
-    NONE("선택 안함");
+public enum InquiryStatus {
+    PENDING("답변 대기"),
+    RESOLVED("답변 완료");
 
     private final String description;
 }

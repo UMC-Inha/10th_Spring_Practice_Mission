@@ -17,7 +17,7 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class HomeController {
-
+/*
     private final MissionService missionService;
 
     @GetMapping("/home")
@@ -31,5 +31,5 @@ public class HomeController {
         MissionResDTO.MissionPreviewListDTO result = missionService.getHomeInfo(memberId, regionId, cursor);
         return ApiResponse.onSuccess(code, result);
     }
-
+*/
 }

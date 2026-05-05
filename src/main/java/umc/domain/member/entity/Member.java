@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.domain.inquiry.entity.Inquiry;
 import umc.domain.member.enums.Gender;
 import umc.domain.review.entity.Review;
 import umc.global.common.BaseEntity;
@@ -56,4 +57,7 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Review> reviewLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+    private List<Inquiry> inquiries = new ArrayList<>();
 }

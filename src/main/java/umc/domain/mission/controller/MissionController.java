@@ -13,20 +13,8 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MissionController {
+/*
     private final MissionService missionService;
-
-    //홈화면
-    @GetMapping("/home")
-    @Operation(summary = "홈 화면 지역별 미션 목록 조회")
-    public ApiResponse<MissionResDTO.MissionPreviewListDTO> getMissonListInfo(
-            @RequestParam(name = "regionId") Long regionId,
-            @RequestParam(name = "cursor", required = false) Long cursor
-    ){
-        BaseSuccessCode code = MissionSuccessCode.OK;
-        //서비스 로직에서 지역 구분
-        MissionResDTO.MissionPreviewListDTO result = missionService.getRegionalMissions(regionId, cursor);
-        return ApiResponse.onSuccess(code, result);
-    }
 
     //미션 목록 조회
     @GetMapping("/userMissions")
@@ -40,7 +28,7 @@ public class MissionController {
         return ApiResponse.onSuccess(code, result);
     }
 
-    @PatchMapping("/missions/{userMissionId")
+    @PatchMapping("/missions/{userMissionId}")
     @Operation(summary = "미션 완료 처리")
     public ApiResponse<MissionResDTO.ChangeStatusDTO> completeMission(
             @PathVariable(name = "userMissionId") Long userMissionId
@@ -49,4 +37,6 @@ public class MissionController {
         MissionResDTO.ChangeStatusDTO result = missionService.completeMission(memberId, userMissionId);
         return ApiResponse.onSuccess(code, result);
     }
+
+ */
 }
