@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ReviewController {
 
-	@PostMapping("/api/user-missions/{userMissionId}/review")
+	@PostMapping("/api/member-missions/{memberMissionId}/review")
 	public ApiResponse<ReviewResponseDto> createReview(
-		@PathVariable Long userMissionId,
+		@PathVariable Long memberMissionId,
 		@RequestBody ReviewRequestDto request
 	) {
 		ReviewResponseDto response = new ReviewResponseDto(
 			1L,
-			userMissionId,
+			memberMissionId,
 			101L,
 			1L,
 			request.reviewContent(),

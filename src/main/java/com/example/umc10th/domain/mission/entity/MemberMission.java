@@ -1,7 +1,7 @@
 package com.example.umc10th.domain.mission.entity;
 
 import com.example.umc10th.domain.member.entity.Member;
-import com.example.umc10th.domain.mission.enums.UserMissionStatus;
+import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,17 +16,17 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_mission")
-public class UserMission {
+@Table(name = "member_mission")
+public class MemberMission {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_mission_id")
+	@Column(name = "member_mission_id")
 	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false, length = 30)
-	private UserMissionStatus status = UserMissionStatus.IN_PROGRESS;
+	private MemberMissionStatus status = MemberMissionStatus.IN_PROGRESS;
 
 	@Column(name = "started_at", nullable = false)
 	private LocalDateTime startedAt;

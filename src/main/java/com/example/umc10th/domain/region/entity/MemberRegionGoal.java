@@ -13,12 +13,12 @@ import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "user_region_goal")
-public class UserRegionGoal {
+@Table(name = "member_region_goal")
+public class MemberRegionGoal {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_region_goal_id")
+	@Column(name = "member_region_goal_id")
 	private Long id;
 
 	@Column(name = "completed_mission_count", nullable = false)

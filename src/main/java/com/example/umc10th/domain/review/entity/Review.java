@@ -1,7 +1,7 @@
 package com.example.umc10th.domain.review.entity;
 
 import com.example.umc10th.domain.member.entity.Member;
-import com.example.umc10th.domain.mission.entity.UserMission;
+import com.example.umc10th.domain.mission.entity.MemberMission;
 import com.example.umc10th.domain.store.entity.Store;
 import com.example.umc10th.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
@@ -40,8 +40,8 @@ public class Review extends BaseTimeEntity {
 	private Member member;
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_mission_id", nullable = false, unique = true)
-	private UserMission userMission;
+	@JoinColumn(name = "member_mission_id", nullable = false, unique = true)
+	private MemberMission memberMission;
 
 	public Long getId() {
 		return id;

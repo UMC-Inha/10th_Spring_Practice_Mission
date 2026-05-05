@@ -6,7 +6,7 @@ import java.util.List;
 
 public record ReviewResponseDto(
 	Long reviewId,
-	Long userMissionId,
+	Long memberMissionId,
 	Long missionId,
 	Long storeId,
 	String reviewContent,

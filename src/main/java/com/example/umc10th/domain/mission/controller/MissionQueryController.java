@@ -1,7 +1,7 @@
 package com.example.umc10th.domain.mission.controller;
 
-import com.example.umc10th.domain.mission.dto.UserMissionListResponseDto;
-import com.example.umc10th.domain.mission.enums.UserMissionStatus;
+import com.example.umc10th.domain.mission.dto.MemberMissionListResponseDto;
+import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
 import com.example.umc10th.domain.mission.exception.code.MissionSuccessCode;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import java.time.LocalDateTime;
@@ -13,18 +13,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MissionQueryController {
 
-	@GetMapping("/api/user-missions")
-	public ApiResponse<UserMissionListResponseDto> getUserMissions(
+	@GetMapping("/api/member-missions")
+	public ApiResponse<MemberMissionListResponseDto> getMemberMissions(
 		@RequestParam(required = false) Long regionId,
-		@RequestParam UserMissionStatus status,
+		@RequestParam MemberMissionStatus status,
 		@RequestParam(required = false) Long cursor,
 		@RequestParam Integer size
 	) {
 		LocalDateTime now = LocalDateTime.now();
-		UserMissionListResponseDto response = new UserMissionListResponseDto(
+		MemberMissionListResponseDto response = new MemberMissionListResponseDto(
 			status,
 			List.of(
-				new UserMissionListResponseDto.UserMissionSummaryDto(
+				new MemberMissionListResponseDto.MemberMissionSummaryDto(
 					44L,
 					101L,
 					regionId == null ? 1L : regionId,
@@ -33,8 +33,8 @@ public class MissionQueryController {
 					500,
 					status,
 					now,
-					status == UserMissionStatus.SUCCESS_REQUESTED ? now : null,
-					status == UserMissionStatus.COMPLETED ? now : null,
+					status == MemberMissionStatus.SUCCESS_REQUESTED ? now : null,
+					status == MemberMissionStatus.COMPLETED ? now : null,
 					7
 				)
 			),
@@ -43,6 +43,6 @@ public class MissionQueryController {
 			false
 		);
 
-		return ApiResponse.onSuccess(MissionSuccessCode.USER_MISSION_LIST_FOUND, response);
+		return ApiResponse.onSuccess(MissionSuccessCode.MEMBER_MISSION_LIST_FOUND, response);
 	}
 }

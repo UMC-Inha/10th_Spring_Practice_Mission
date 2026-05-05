@@ -3,7 +3,7 @@ package com.example.umc10th.api.home.dto;
 import java.util.List;
 
 public record HomeResponseDto(
-	Integer userPoint,
+	Integer memberPoint,
 	Long regionId,
 	String regionName,
 	Integer completedMissionCount,
