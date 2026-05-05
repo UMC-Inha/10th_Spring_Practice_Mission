@@ -9,7 +9,7 @@ import umc.apiPayload.code.BaseErrorCode;
 @RequiredArgsConstructor
 public enum FoodErrorCode implements BaseErrorCode {
 
-    FOOD_CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND,
+    FOOD_NOT_FOUND(HttpStatus.NOT_FOUND,
             "FOOD404_1",
             "존재하지 않는 음식입니다.");
 

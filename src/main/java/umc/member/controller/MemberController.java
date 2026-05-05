@@ -10,6 +10,7 @@ import umc.member.entity.Member;
 import umc.member.exception.code.MemberSuccessCode;
 import umc.member.service.MemberService;
 import umc.mission.dto.MissionResDTO;
+import umc.mission.service.MissionService;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,6 +18,7 @@ import umc.mission.dto.MissionResDTO;
 public class MemberController {
 
     private final MemberService memberService;
+    private final MissionService missionService;
 
     @PostMapping("/v1/users/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
@@ -28,9 +30,10 @@ public class MemberController {
 
     @GetMapping("/v1/home")
     public ApiResponse<MissionResDTO.MissionListDTO> getHomeInfo(
-            @RequestParam(name = "regionName") String regionName
+            @RequestParam(name = "regionName") String regionName,
+            @RequestParam(name = "page", defaultValue = "0") Integer page
     ) {
-        return ApiResponse.onSuccess(MemberSuccessCode.OK, result);
+        return ApiResponse.onSuccess(MemberSuccessCode.OK, missionService.getHomeInfo(regionName, page));
     }
 
     @PostMapping("/v1/auth/signup")
@@ -39,6 +42,6 @@ public class MemberController {
     ) {
         MemberResDTO.AuthResDTO.SignUpResultDTO result = memberService.signUp(request);
 
-        return ApiResponse.onSuccess(AuthSuccessCode.CREATED, result);
+        return ApiResponse.onSuccess(MemberSuccessCode.JOIN_OK, result);
     }
 }

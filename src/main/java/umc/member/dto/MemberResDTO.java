@@ -2,6 +2,8 @@ package umc.member.dto;
 
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 public class MemberResDTO {
 
     @Builder
@@ -16,8 +18,14 @@ public class MemberResDTO {
     public class AuthResDTO {
         @Builder
         public record SignUpResultDTO(
+                Long memberId,
                 String email,
-                String name
+                String name,
+                String gender,
+                String address,
+                String birth,
+                String socialType,
+                LocalDateTime createdAt
         ) {}
     }
 }
