@@ -18,7 +18,7 @@ public class HomeController {
     //홈 화면
     @GetMapping("/v1/home")
     public ApiResponse<HomeResDTO.HomeDTO> getHome(
-            @RequestParam String region
+            @RequestParam(name = "region") String region
     ){
         return ApiResponse.onSuccess(MemberSuccessCode.HOME_VIEW_SUCCESS, null);
     }
