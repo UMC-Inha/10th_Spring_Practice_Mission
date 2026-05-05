@@ -1,5 +1,8 @@
 package umc.domain.review.dto;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,5 +15,6 @@ public class ReviewResDTO {
 	@AllArgsConstructor
 	public static class CreateReviewResultDTO {
 		Long reviewId;
+		LocalDateTime createdAt;
 	}
 }
