@@ -1,8 +1,14 @@
 package umc.domain.review.dto;
 
+import lombok.Builder;
+import lombok.Getter;
+
 public class ReviewReqDTO {
-    public record ReviewDto(
-            Double score,
+
+    @Builder
+    public record ReviewDTO(
+            Long memberId,
+            Float score,
             String text
     ){}
 }

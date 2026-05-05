@@ -2,8 +2,12 @@ package umc.domain.mission.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import umc.domain.mission.converter.MissionConverter;
 import umc.domain.mission.dto.MissionResDTO;
+import umc.domain.mission.entity.mapping.MemberMission;
+import umc.domain.mission.enums.MissionStatus;
 import umc.domain.mission.exception.code.MissionSuccessCode;
 import umc.domain.mission.service.MissionService;
 import umc.global.apiPayload.ApiResponse;
@@ -13,34 +17,28 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class MissionController {
-    private final MissionService missionService;
 
-    //홈화면
-    @GetMapping("/home")
-    @Operation(summary = "홈 화면 지역별 미션 목록 조회")
-    public ApiResponse<MissionResDTO.MissionPreviewListDTO> getMissonListInfo(
-            @RequestParam(name = "regionId") Long regionId,
-            @RequestParam(name = "cursor", required = false) Long cursor
-    ){
-        BaseSuccessCode code = MissionSuccessCode.OK;
-        //서비스 로직에서 지역 구분
-        MissionResDTO.MissionPreviewListDTO result = missionService.getRegionalMissions(regionId, cursor);
-        return ApiResponse.onSuccess(code, result);
-    }
+    private final MissionService missionService;
 
     //미션 목록 조회
     @GetMapping("/userMissions")
     @Operation(summary = "미션 목록 조회")
     public ApiResponse<MissionResDTO.MissionPreviewListDTO> getMyMissions(
-            @RequestParam(name = "status") String status,
-            @RequestParam(name = "cursor", required = false) Long cursor
+            @RequestParam(name = "memberId") Long memberId,
+            @RequestParam(name = "status") MissionStatus status,
+            @RequestParam(name = "cursor", required = false) Integer cursor
     ){
-        BaseSuccessCode code = MissionSuccessCode.OK;
-        MissionResDTO.MissionPreviewListDTO result = missionService.getMyMissions(memberId, status, cursor);
+        BaseSuccessCode code = MissionSuccessCode.MISSION_OK;
+
+        //page로 받아옴
+        Page<MemberMission> memberMissionPage = missionService.getMyMissions(memberId, status, cursor);
+        //converter이용해서 DTO형식으로 반환
+        MissionResDTO.MissionPreviewListDTO result = MissionConverter.toMissionPreviewListDTO(memberMissionPage);
+        //결과 반환
         return ApiResponse.onSuccess(code, result);
     }
-
-    @PatchMapping("/missions/{userMissionId")
+/*
+    @PatchMapping("/missions/{userMissionId}")
     @Operation(summary = "미션 완료 처리")
     public ApiResponse<MissionResDTO.ChangeStatusDTO> completeMission(
             @PathVariable(name = "userMissionId") Long userMissionId
@@ -49,4 +47,7 @@ public class MissionController {
         MissionResDTO.ChangeStatusDTO result = missionService.completeMission(memberId, userMissionId);
         return ApiResponse.onSuccess(code, result);
     }
+
+ */
+
 }

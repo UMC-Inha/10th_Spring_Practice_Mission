@@ -11,6 +11,7 @@ public class MissionResDTO {
             Long nextCursor,
             Boolean hasNext
     ){}
+
     public record MissionPreviewDTO(
             Long missionId,
             String storeName,
@@ -21,6 +22,7 @@ public class MissionResDTO {
 
             String status
     ){}
+
     public record ChangeStatusDTO(
         Long userMissionId,
         String status

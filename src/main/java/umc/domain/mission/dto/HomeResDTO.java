@@ -1,17 +1,27 @@
 package umc.domain.mission.dto;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
 
-@Getter
-@RequiredArgsConstructor
 public class HomeResDTO {
-    public record Home(
-            String regionName, //상단 지역 이름
+    public record RegionMissionListDTO(
+            List<RegionMissionDTO> missionList,
+            Long nextCursor,
+            Boolean hasNext
+    ){}
 
-            Integer completeMissionList, //원형 프로그레스 바
-            Integer targetMissCount, //서비스에서 받아오기
+    public record RegionMissionDTO(
+            Long missionId,
+            String storeName,
+            String category,
+            Integer dDay,
+            String missionCount,
+            Integer rewardPoint
+    ){}
 
-            MissionResDTO.MissionPreviewListDTO missionPreviewListDTO //기존 DTO 재사용
-            ){}
+    public record HomeSummaryDTO(
+            Integer myPoint,//사용자 레벨
+            Integer currentCount,//현재 진행도
+            Integer targetCount,//목표 개수
+            Integer rewardPoint//달성 시 포인트
+    ){}
 }
