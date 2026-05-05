@@ -27,6 +27,7 @@ import umc.domain.member.enums.MemberStatus;
 import umc.domain.member.enums.SocialType;
 import umc.domain.mission.entity.mapping.MemberMission;
 import umc.domain.mission.enums.Address;
+import umc.global.apiPayload.code.BaseEntity;
 
 @Entity
 @Getter
@@ -34,7 +35,7 @@ import umc.domain.mission.enums.Address;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "member")
-public class Member {
+public class Member extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +62,9 @@ public class Member {
 	private String phoneNumber;
 
 	@Column(nullable = false)
+	private Boolean isPhoneVerified;
+
+	@Column(nullable = false)
 	private Integer point;
 
 	@Column(nullable = true, length = 100)
@@ -74,11 +78,11 @@ public class Member {
 	@Enumerated(EnumType.STRING)
 	private MemberStatus memberStatus;
 
-	/*
-	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<MemberMission> missions = new ArrayList<>();
 
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-	private Set<MemberFood> foods = new HashSet<>();
-	 */
+	private List<MemberMission> memberMissionList = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<MemberFood> memberFoodList = new ArrayList<>();
+
 }
