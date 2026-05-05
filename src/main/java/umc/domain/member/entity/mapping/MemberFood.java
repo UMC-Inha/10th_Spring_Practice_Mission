@@ -13,6 +13,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import umc.domain.member.entity.Member;
+import umc.domain.store.entity.Food;
+import umc.global.apiPayload.code.BaseEntity;
 
 @Entity
 @Getter
@@ -20,7 +22,7 @@ import umc.domain.member.entity.Member;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 
-public class MemberFood {
+public class MemberFood extends BaseEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -28,4 +30,8 @@ public class MemberFood {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", nullable = false)
 	private Member member;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "food_id", nullable = false)
+	private Food food;
 }
