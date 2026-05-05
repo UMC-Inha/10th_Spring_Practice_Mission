@@ -5,11 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum SocialType {
+public enum MemberStatus {
 
-	KAKAO("카카오"),
-	NAVER("네이버"),
-	GOOGLE("구글");
+	ACTIVE("활동"),
+	INACTIVE("비활동");
 
 	private final String label;
 }
