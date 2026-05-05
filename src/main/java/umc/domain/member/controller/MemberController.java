@@ -1,39 +1,59 @@
 package umc.domain.member.controller;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import umc.domain.member.dto.MemberReqDTO;
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.exception.code.MemberSuccessCode;
-import umc.domain.member.service.MemberService;
+import umc.domain.member.service.MemberQueryService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.BaseSuccessCode;
+import umc.global.apiPayload.code.GeneralSuccessCode;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 
 public class MemberController {
 
-	private final MemberService memberService;
+	private final MemberQueryService memberService;
+	private final MemberQueryService memberQueryService;
 
 	// 마이페이지
-	@PostMapping("/v1/users/me")
+	@PostMapping("/{memberId}/mypage")
 	public ApiResponse<MemberResDTO.GetInfo> getInfo(
-		@RequestBody MemberReqDTO.GetInfo dto
+		@PathVariable(name = "memberId") Long memberId
 	) {
-		BaseSuccessCode code = MemberSuccessCode.OK;
-		return ApiResponse.onSuccess(code, memberService.getInfo(dto));
+		MemberResDTO.GetInfo getInfo = memberService.getInfo(memberId);
+
+		return ApiResponse.onSuccess(MemberSuccessCode.OK, getInfo);
 	}
+
 
 	// 회원가입
 	@PostMapping("/signup")
 	public ApiResponse<String> join(@RequestBody MemberReqDTO.JoinDTO request) {
 		BaseSuccessCode code = MemberSuccessCode.MEMBER_JOINED;
-		return ApiResponse.onSuccess(code, memberService.join(request));
+		return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+	}
+
+
+	// 홈화면
+	@GetMapping("/{memberId}/home")
+	public ApiResponse<MemberResDTO.HomeResponseDTO> getHomeInfo(
+		@PathVariable(name = "memberId") Long memberId,
+		@RequestParam(name = "regionName") String regionName,
+		@RequestParam(name = "page", defaultValue = "0") Integer page) {
+
+		MemberResDTO.HomeResponseDTO result = memberQueryService.getHomeData(memberId, regionName, page);
+
+		return ApiResponse.onSuccess(MemberSuccessCode.OK, result);
 	}
 }
