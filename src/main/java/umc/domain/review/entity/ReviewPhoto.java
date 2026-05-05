@@ -12,7 +12,7 @@ import umc.domain.inquiry.entity.Inquiry;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "review")
+@Table(name = "review_photo")
 public class ReviewPhoto {
 
     @Id

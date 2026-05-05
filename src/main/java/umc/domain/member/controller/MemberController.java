@@ -17,7 +17,7 @@ public class MemberController {
     private final MemberService memberService;
 
     //마이 페이지
-    @PostMapping("/v1/members/me")
+    @PostMapping("/v1/members/me/{memberId}")
     public ApiResponse<MemberResDTO.MyPageResDTO> getInfo(
             @RequestBody MemberReqDTO.MyPageReqDTO dto
     ){
@@ -26,9 +26,11 @@ public class MemberController {
     }
 
     //보유 포인트 조회
-    @GetMapping("/v1/members/me/points")
-    public ApiResponse<MemberResDTO.PointResDTO> getPoint(){
-        return ApiResponse.onSuccess(GeneralSuccessCode.OK, null);
+    @GetMapping("/v1/members/me/points/{memberId}")
+    public ApiResponse<MemberResDTO.PointResDTO> getPoint(
+            @RequestParam(name = "memberId") Long id
+    ){
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, memberService.getPoint(id));
     }
 
     //회원 가입

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -37,10 +38,10 @@ public class Store {
     private Double rate;
 
     @Column(name = "open_time", nullable = false)
-    private LocalDate openTime;
+    private String openTime;
 
     @Column(name = "close_time", nullable = false)
-    private LocalDate closeTime;
+    private String closeTime;
 
     @Column(name = "manage_number", nullable = false)
     private String manageNumber;

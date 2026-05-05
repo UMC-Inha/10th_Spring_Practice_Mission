@@ -25,7 +25,7 @@ public class Mission {
     @Column(name = "point", nullable = false)
     private Integer point;
 
-    @Column(name = "condition", nullable = false)
+    @Column(name = "mission_condition", nullable = false)
     private Integer condition;
 
     @Column(name = "due_date",  nullable = false)
