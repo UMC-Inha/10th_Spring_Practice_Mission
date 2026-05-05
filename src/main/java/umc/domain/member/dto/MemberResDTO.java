@@ -8,4 +8,12 @@ public class MemberResDTO {
             Long userId,
             LocalDateTime createdAt
     ){}
+    public record MyProfileDTO(
+            String nickname,
+            String profileImageUrl,
+            String email,
+            String phoneNumber,
+            Boolean isPhoneVerified,
+            Integer point
+    ){}
 }
