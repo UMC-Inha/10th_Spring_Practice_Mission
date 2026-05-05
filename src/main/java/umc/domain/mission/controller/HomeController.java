@@ -2,12 +2,12 @@ package umc.domain.mission.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
+import umc.domain.mission.converter.HomeConverter;
 import umc.domain.mission.dto.HomeResDTO;
 import umc.domain.mission.dto.MissionResDTO;
+import umc.domain.mission.entity.Mission;
 import umc.domain.mission.exception.code.MissionSuccessCode;
 import umc.domain.mission.service.MissionService;
 import umc.global.apiPayload.ApiResponse;
@@ -15,21 +15,34 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
-public class HomeController {
-/*
+@RequestMapping("/api/home")
+public class HomeController { //API 2개로 나눠서 구현
+
     private final MissionService missionService;
 
-    @GetMapping("/home")
-    @Operation(summary = "홈 화면 종합 정보")
-    public ApiResponse<HomeResDTO.Home> getHomeInfo(
-            @RequestParam(name = "regionId") Long regionId,
-            @RequestParam(name = "cursor", required = false) Long cursor
+    @GetMapping("/summary")
+    @Operation(summary = "홈 화면 상단 정보")
+    public ApiResponse<HomeResDTO.HomeSummaryDTO> getHomeSummary(
+            @RequestHeader(name = "memberId") Long memberId
     ){
-        BaseSuccessCode code = MissionSuccessCode.OK;
-        //서비스 로직에서 지역 구분, 완료한 미션 계산해서 리턴 받기
-        MissionResDTO.MissionPreviewListDTO result = missionService.getHomeInfo(memberId, regionId, cursor);
+        BaseSuccessCode code = MissionSuccessCode.HOME_OK;
+        HomeResDTO.HomeSummaryDTO result = missionService.getHomeSummary(memberId);
         return ApiResponse.onSuccess(code, result);
     }
-*/
+
+    @GetMapping("/missions")
+    @Operation(summary = "홈 화면 미션 정보")
+    public ApiResponse<HomeResDTO.RegionMissionListDTO> getHomeInfo(
+            @RequestParam(name = "memberId") Long memberId,
+            @RequestParam(name = "regionId") String regionName,
+            @RequestParam(name = "cursor", required = false) Integer cursor
+    ){
+        BaseSuccessCode code = MissionSuccessCode.HOME_OK;
+        //엔티티 page 받아오기
+        Page<Mission> missionPage = missionService.getHomeInfo(memberId, regionName, cursor);
+        //컨버터 이용
+        HomeResDTO.RegionMissionListDTO result = HomeConverter.toRegionMissionListDTO(missionPage);
+
+        return ApiResponse.onSuccess(code, result);
+    }
 }

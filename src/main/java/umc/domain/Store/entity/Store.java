@@ -9,7 +9,6 @@ import umc.domain.mission.entity.Mission;
 import umc.domain.region.entity.City;
 import umc.domain.review.entity.Review;
 
-import javax.swing.plaf.synth.Region;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
