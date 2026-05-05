@@ -1,7 +1,10 @@
 package umc.domain.store.exception;
 
-public class StoreException extends RuntimeException {
-    public StoreException(String message) {
-        super(message);
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.exception.GeneralException;
+
+public class StoreException extends GeneralException {
+    public StoreException(BaseErrorCode code) {
+        super(code);
     }
 }
