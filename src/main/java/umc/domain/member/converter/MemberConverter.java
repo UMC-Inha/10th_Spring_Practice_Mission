@@ -9,11 +9,22 @@ public class MemberConverter {
             Member member
     ) {
         return MemberResDTO.GetInfo.builder()
+                .log_id(member.getLog_id())
                 .email(member.getEmail())
+                .password(member.getPassword())
                 .name(member.getName())
+                .gender(member.getGender())
+                .birth(member.getBirth())
+                .post(member.getPost())
+                .add1(member.getAdd1())
+                .add2(member.getAdd2())
+                .phone(member.getPhone())
                 .point(member.getPoint())
-                .phoneNumber(member.getPhoneNumber())
-                .profileUrl(member.getProfileUrl())
+                .status(member.getStatus())
+                .crt_dt(member.getCrt_dt())
+                .org_cd(member.getOrg_cd())
+                .chg_dt(member.getChg_dt())
+                .chg_tm(member.getChg_tm())
                 .build();
     }
 
