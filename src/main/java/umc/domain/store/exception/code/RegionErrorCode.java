@@ -8,12 +8,12 @@ import umc.global.apiPayload.code.BaseErrorCode;
 
 @Getter
 @RequiredArgsConstructor
-public enum StoreSuccessCode implements BaseErrorCode {
+public enum RegionErrorCode implements BaseErrorCode {
 
-
-    STORE_SUCCESS(HttpStatus.OK,
-            "STORE200_1",
-            "성공적으로 식당을 조회했습니다.");
+    REGION_NOT_FOUND(HttpStatus.NOT_FOUND,
+            "REGION404_1",
+            "해당 지역을 찾을 수 없습니다.")
+    ;
 
     private final HttpStatus status;
     private final String code;
