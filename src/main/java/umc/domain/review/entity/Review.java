@@ -43,4 +43,11 @@ public class Review extends BaseEntity {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<ReviewReply> reviewReplyList = new ArrayList<>();
+
+    public void addPhoto(String url) {
+        reviewPhotoList.add(ReviewPhoto.builder()
+                .review(this)
+                .photoUrl(url)
+                .build());
+    }
 }
