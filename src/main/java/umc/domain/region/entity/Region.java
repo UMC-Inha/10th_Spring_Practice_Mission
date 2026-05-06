@@ -1,4 +1,4 @@
-package umc.domain.store.entity;
+package umc.domain.region.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

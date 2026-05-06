@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import umc.domain.region.entity.Region;
 import umc.global.apiPayload.code.BaseEntity;
 
 import java.math.BigDecimal;
