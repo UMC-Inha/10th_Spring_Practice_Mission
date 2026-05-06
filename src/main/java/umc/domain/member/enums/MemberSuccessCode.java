@@ -2,7 +2,6 @@ package umc.domain.member.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.http.HttpStatus;
 import umc.global.apiPayload.code.BaseSuccessCode;
 
@@ -10,10 +9,7 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @RequiredArgsConstructor
 public enum MemberSuccessCode implements BaseSuccessCode {
 
-    OK(HttpStatus.OK,
-            "MEMBER200_1",
-            "성공적으로 유저를 조회했습니다."),
-    ;
+    OK(HttpStatus.OK, "MEMBER200_1", "성공적으로 유저를 조회했습니다.");
 
     private final HttpStatus status;
     private final String code;
