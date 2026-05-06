@@ -28,8 +28,8 @@ public class MemberMission {
 	@Column(nullable = false, length = 30)
 	private MemberMissionStatus status = MemberMissionStatus.IN_PROGRESS;
 
-	@Column(name = "challenged_at", nullable = false)
-	private LocalDateTime challengedAt;
+	@Column(name = "started_at", nullable = false)
+	private LocalDateTime startedAt;
 
 	@Column(name = "success_requested_at")
 	private LocalDateTime successRequestedAt;
@@ -37,8 +37,11 @@ public class MemberMission {
 	@Column(name = "completed_at")
 	private LocalDateTime completedAt;
 
-	@Column(name = "reviewed_at")
-	private LocalDateTime reviewedAt;
+	@Column(name = "rejected_at")
+	private LocalDateTime rejectedAt;
+
+	@Column(name = "canceled_at")
+	private LocalDateTime canceledAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "mission_id", nullable = false)
