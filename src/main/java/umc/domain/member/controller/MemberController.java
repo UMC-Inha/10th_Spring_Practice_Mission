@@ -18,7 +18,7 @@ public class MemberController {
 
     @PostMapping("/v1/users/me")
     public ApiResponse<MemberResponseDTO.GetInfo> getInfo(
-            @RequestParam MemberRequestDTO.GetInfo dto
+            @RequestBody MemberRequestDTO.GetInfo dto
     ) {
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));

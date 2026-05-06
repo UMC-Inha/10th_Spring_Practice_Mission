@@ -31,7 +31,7 @@ public class Member {
 
     private String phoneNumber;
 
-    private Boolean phone_verified;
+    private Boolean phoneVerified;
 
     private String profileUrl;
 
