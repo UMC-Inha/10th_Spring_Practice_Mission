@@ -1,13 +1,6 @@
 package umc.domain.member.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import umc.domain.member.enums.Gender;
 import umc.domain.member.enums.SocialType;
+import umc.domain.region.entity.Region;
 import umc.global.apiPayload.code.BaseEntity;
 
 import java.time.LocalDate;
@@ -33,6 +27,10 @@ public class Member extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
 
     @Column(name = "name", nullable = false, length = 50)
     private String name;

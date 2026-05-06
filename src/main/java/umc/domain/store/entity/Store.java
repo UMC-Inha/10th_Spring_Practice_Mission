@@ -16,6 +16,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import umc.domain.food.entity.Food;
 import umc.domain.region.entity.Region;
 import umc.global.apiPayload.code.BaseEntity;
 
@@ -38,11 +39,12 @@ public class Store extends BaseEntity {
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_id", nullable = false)
+    private Food category;
+
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "category", nullable = false)
-    private String category;
 
     @Column(name = "average_rating", nullable = false, precision = 2, scale = 1) // 정수부 1자리 + 소수부 1자리로 평균 평점 표현
     private BigDecimal averageRating;
