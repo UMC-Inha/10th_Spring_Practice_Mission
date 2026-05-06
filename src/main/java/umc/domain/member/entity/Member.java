@@ -3,6 +3,7 @@ package umc.domain.member.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import umc.global.apiPayload.code.BaseEntity;
 
 import java.time.LocalDate;
 
@@ -11,7 +12,8 @@ import java.time.LocalDate;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
-public class Member {
+@Table(name="members")
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
