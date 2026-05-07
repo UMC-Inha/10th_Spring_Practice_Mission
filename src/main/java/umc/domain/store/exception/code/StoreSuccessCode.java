@@ -1,4 +1,4 @@
-package umc.domain.member.exception.code;
+package umc.domain.store.exception.code;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +8,7 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @Getter
 @RequiredArgsConstructor
 
-public enum MemberSuccessCode implements BaseSuccessCode {
+public enum StoreSuccessCode implements BaseSuccessCode {
     OK(HttpStatus.OK, "COMMON200_1", "성공적으로 요청을 처리했습니다.");  // ← 세미콜론!
 
     private final HttpStatus status;

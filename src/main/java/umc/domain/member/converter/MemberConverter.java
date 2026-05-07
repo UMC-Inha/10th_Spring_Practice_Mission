@@ -21,10 +21,7 @@ public class MemberConverter {
                 .phone(member.getPhone())
                 .point(member.getPoint())
                 .status(member.getStatus())
-                .crt_dt(member.getCrt_dt())
                 .org_cd(member.getOrg_cd())
-                .chg_dt(member.getChg_dt())
-                .chg_tm(member.getChg_tm())
                 .build();
     }
 
