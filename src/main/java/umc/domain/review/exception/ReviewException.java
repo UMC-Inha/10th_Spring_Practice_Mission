@@ -1,7 +1,11 @@
 package umc.domain.review.exception;
 
-public class ReviewException extends RuntimeException {
-    public ReviewException(String message) {
-        super(message);
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.exception.ProjectException;
+
+public class ReviewException extends ProjectException {
+    public ReviewException(BaseErrorCode code) {
+
+        super(code);
     }
 }

@@ -1,7 +1,11 @@
 package umc.domain.inquiry.exception;
 
-public class InquiryException extends RuntimeException {
-    public InquiryException(String message) {
-        super(message);
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.exception.ProjectException;
+
+public class InquiryException extends ProjectException {
+    public InquiryException(BaseErrorCode code) {
+
+        super(code);
     }
 }
