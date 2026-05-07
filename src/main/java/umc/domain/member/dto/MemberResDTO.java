@@ -39,4 +39,14 @@ public class MemberResDTO {
                 String storeType
         ) {}
     }
+
+    @Builder
+    public record MyPageViewDTO(
+            Long id,
+            String profileUrl,
+            String nickname,
+            String email,
+            String phoneNumber,
+            Integer points
+    ) {}
 }
