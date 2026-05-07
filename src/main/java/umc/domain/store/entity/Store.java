@@ -1,4 +1,60 @@
 package umc.domain.store.entity;
 
-public class Store {
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import umc.domain.food.entity.Food;
+import umc.domain.region.entity.Region;
+import umc.global.apiPayload.code.BaseEntity;
+
+import java.math.BigDecimal;
+
+@Entity
+@Getter
+@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Table(name = "store")
+public class Store extends BaseEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "store_id")
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)      // Region -> Store @OneToMany를 추가할지는 더 고민 (현재 단방향)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "food_id", nullable = false)
+    private Food category;
+
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @Column(name = "average_rating", nullable = false, precision = 2, scale = 1) // 정수부 1자리 + 소수부 1자리로 평균 평점 표현
+    private BigDecimal averageRating;
+
+    @Column(name = "review_count", nullable = false)
+    private Integer reviewCount;
+
+    @Column(name = "address", nullable = false)
+    private String address;
+
+    @Column(name = "owner_number", nullable = false)
+    private String ownerNumber;
 }

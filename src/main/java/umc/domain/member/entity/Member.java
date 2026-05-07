@@ -1,39 +1,69 @@
 package umc.domain.member.entity;
 
-
 import jakarta.persistence.*;
-import lombok.*;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import umc.domain.member.enums.Gender;
+import umc.domain.member.enums.SocialType;
+import umc.domain.region.entity.Region;
+import umc.global.apiPayload.code.BaseEntity;
 
 import java.time.LocalDate;
 
 @Entity
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
-public class Member {
+@Table(name = "member")
+public class Member extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "member_id")
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "region_id")
+    private Region region;
+
+    @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    private String nickname;
+    @Column(name = "gender", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
+    @Column(name = "birth")
     private LocalDate birth;
 
+    @Column(name = "address", nullable = false, length = 200)
     private String address;
 
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
+    @Column(name = "point", nullable = false)
     private Integer point;
 
+    @Column(name = "phone_number", length = 20)
     private String phoneNumber;
 
-    private Boolean phoneVerified;
+    @Column(name = "phone_verified", nullable = false)
+    private Boolean isPhoneVerified;
 
+    @Column(name = "social_provider", nullable = false, length = 20)
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType;
+
+    @Column(name = "social_uid", nullable = false, length = 200)
+    private String socialUid;
+
+    @Column(name = "profile_url")
     private String profileUrl;
-
-
 }
