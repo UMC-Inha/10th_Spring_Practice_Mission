@@ -33,4 +33,20 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             @Param("cursorId") Long cursorId,
             @Param("pageSize") Integer pageSize
     );
+
+    @Query("""
+            select count(mm)
+            from MemberMission mm
+            join mm.mission m
+            join m.store s
+            join s.region r
+            where r.id = :regionId
+                and mm.missionStatus = :status
+                and mm.member.id = :memberId
+    """)
+    Integer countMissionsByRegion(
+            @Param("memberId") Long memberId,
+            @Param("regionId") Long regionId,
+            @Param("status") MissionStatus status
+    );
 }
