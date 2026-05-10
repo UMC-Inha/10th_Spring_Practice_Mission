@@ -50,7 +50,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
 
-        Region region = regionRepository.findByName(regionName)
+        Region region = regionRepository.findByRegionName(regionName)
                 .orElseThrow(() -> new RegionException(RegionErrorCode.NOT_FOUND_BY_NAME));
 
         Integer missionCount = memberMissionRepository.countMissionsByRegion(
