@@ -18,6 +18,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import umc.global.apiPayload.code.BaseEntity;
+
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
@@ -27,7 +29,7 @@ import java.time.LocalTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Table(name = "store_hours")
-public class StoreHours {
+public class StoreHours extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
