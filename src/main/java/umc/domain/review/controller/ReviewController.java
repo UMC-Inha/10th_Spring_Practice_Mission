@@ -16,13 +16,23 @@ public class ReviewController {
     private final ReviewService reviewService;
 
     @PostMapping("/stores/{storeId}/reviews")
-    public ApiResponse<ReviewResponseDTO.Create> create (
-        @PathVariable Long storeId,
-        @RequestBody ReviewRequestDTO.Create dto
+    public ApiResponse<ReviewResponseDTO.Create> create(
+            @PathVariable Long storeId,
+            @RequestBody ReviewRequestDTO.Create dto
     ) {
         Long memberId = 1L;
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED,
                 reviewService.createReview(storeId, memberId, dto)
+        );
+    }
+
+    @PostMapping("/reviews/{reviewId}/replies")
+    public ApiResponse<ReviewResponseDTO.CreateReply> createReply(
+            @PathVariable Long reviewId,
+            @RequestBody ReviewRequestDTO.CreateReply dto
+    ) {
+        return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_REPLY_CREATED,
+                reviewService.createReply(reviewId, dto)
         );
     }
 

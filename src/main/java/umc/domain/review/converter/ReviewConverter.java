@@ -4,6 +4,7 @@ import umc.domain.member.entity.Member;
 import umc.domain.review.dto.ReviewRequestDTO;
 import umc.domain.review.dto.ReviewResponseDTO;
 import umc.domain.review.entity.Review;
+import umc.domain.review.entity.ReviewReply;
 import umc.domain.store.entity.Store;
 
 public class ReviewConverter {
@@ -23,6 +24,20 @@ public class ReviewConverter {
         return ReviewResponseDTO.Create.builder()
                 .reviewId(review.getId())
                 .createdAt(review.getCreatedAt())
+                .build();
+    }
+
+    public static ReviewReply toReviewReply(ReviewRequestDTO.CreateReply dto, Review review) {
+        return ReviewReply.builder()
+                .review(review)
+                .content(dto.content())
+                .build();
+    }
+
+    public static ReviewResponseDTO.CreateReply toCreateReplyResponseDTO(ReviewReply reviewReply) {
+        return ReviewResponseDTO.CreateReply.builder()
+                .replyId(reviewReply.getId())
+                .createdAt(reviewReply.getCreatedAt())
                 .build();
     }
 }

@@ -12,4 +12,10 @@ public class ReviewResponseDTO {
             Long reviewId,
             LocalDateTime createdAt
     ) {}
+
+    @Builder
+    public record CreateReply(
+            Long replyId,
+            LocalDateTime createdAt
+    ) {}
 }

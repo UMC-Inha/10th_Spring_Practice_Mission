@@ -11,9 +11,11 @@ import umc.domain.review.converter.ReviewConverter;
 import umc.domain.review.dto.ReviewRequestDTO;
 import umc.domain.review.dto.ReviewResponseDTO;
 import umc.domain.review.entity.Review;
+import umc.domain.review.entity.ReviewReply;
 import umc.domain.review.exception.ReviewException;
 import umc.domain.review.exception.code.ReviewErrorCode;
 import umc.domain.review.repository.ReviewRepository;
+import umc.domain.review.repository.ReviewReplyRepository;
 import umc.domain.store.entity.Store;
 import umc.domain.store.exception.StoreException;
 import umc.domain.store.exception.code.StoreErrorCode;
@@ -24,6 +26,7 @@ import umc.domain.store.repository.StoreRepository;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+    private final ReviewReplyRepository reviewReplyRepository;
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
 
@@ -40,5 +43,17 @@ public class ReviewService {
         Review saved = reviewRepository.save(review);
 
         return ReviewConverter.toCreateResponseDTO(saved);
+    }
+
+    @Transactional
+    public ReviewResponseDTO.CreateReply createReply(Long reviewId, ReviewRequestDTO.CreateReply dto) {
+
+        Review review = reviewRepository.findById(reviewId)
+                .orElseThrow(() -> new ReviewException(ReviewErrorCode.REVIEW_NOT_FOUND));
+
+        ReviewReply reviewReply = ReviewConverter.toReviewReply(dto, review);
+        ReviewReply saved = reviewReplyRepository.save(reviewReply);
+
+        return ReviewConverter.toCreateReplyResponseDTO(saved);
     }
 }

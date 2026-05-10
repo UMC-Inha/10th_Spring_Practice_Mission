@@ -10,4 +10,8 @@ public class ReviewRequestDTO {
             String content
     ) {}
 
+    public record CreateReply(
+            String content
+    ) {}
+
 }
