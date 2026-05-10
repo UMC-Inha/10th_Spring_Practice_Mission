@@ -45,5 +45,6 @@ public class Inquiry extends BaseEntity {
     private InquiryType inquiryType;
 
     @OneToMany(mappedBy = "inquiry", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<InquiryPhoto> inquiryPhotos = new ArrayList<>();
 }

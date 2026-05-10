@@ -46,5 +46,6 @@ public class Store extends BaseEntity {
     private LocalTime closeTime;
 
     @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<StorePhoto> storePhotos = new ArrayList<>();
 }
