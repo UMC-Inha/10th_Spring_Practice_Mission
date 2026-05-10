@@ -9,6 +9,7 @@ public class MemberResponseDTO {
             String name,
             String email,
             String phoneNumber,
+            Boolean isPhoneVerified,
             String profileUrl,
             Integer point
     ) {}

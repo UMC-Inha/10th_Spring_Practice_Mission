@@ -13,6 +13,7 @@ public class MemberConverter {
                 .name(member.getName())
                 .profileUrl(member.getProfileUrl())
                 .phoneNumber(member.getPhoneNumber())
+                .isPhoneVerified(member.getIsPhoneVerified())
                 .point(member.getPoint())
                 .build();
     }
