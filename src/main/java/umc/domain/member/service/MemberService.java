@@ -75,6 +75,6 @@ public class MemberService {
         boolean hasNextPage = missions.size() > pageSize;
         List<Mission> results = new ArrayList<>(missions.subList(0, hasNextPage ? pageSize : missions.size()));
 
-        return MemberConverter.toHomeViewDTO(member, region, missionCount, 10, results);
+        return MemberConverter.toHomeViewDTO(member, region, missionCount, 10, results, hasNextPage);
     }
 }

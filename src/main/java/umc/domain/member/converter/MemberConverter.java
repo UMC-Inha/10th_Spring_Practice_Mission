@@ -27,7 +27,8 @@ public class MemberConverter {
             Region region,
             Integer completedCount,
             Integer goalCount,
-            List<Mission> missions
+            List<Mission> results,
+            boolean hasNextPage
     ) {
         MemberResDTO.HomeViewDTO.TotalInformationDto totalInfo =
                 MemberResDTO.HomeViewDTO.TotalInformationDto.builder()
@@ -38,7 +39,9 @@ public class MemberConverter {
                         .missionGoalCount(goalCount)
                         .build();
 
-        List<MemberResDTO.HomeViewDTO.MissionDto> missionDtos = missions.stream()
+        Mission lastMission = results.isEmpty() ? null : results.get(results.size() - 1);
+
+        List<MemberResDTO.HomeViewDTO.MissionDto> missionDtos = results.stream()
                 .map(m -> MemberResDTO.HomeViewDTO.MissionDto.builder()
                         .missionId(m.getId())
                         .missionDescription(m.getDescription())
@@ -53,6 +56,9 @@ public class MemberConverter {
         return MemberResDTO.HomeViewDTO.builder()
                 .totalInformation(totalInfo)
                 .missionList(missionDtos)
+                .nextCursorId(lastMission.getId())
+                .nextCursorDueDate(lastMission.getDueDate())
+                .hasNext(hasNextPage)
                 .build();
     }
 }
