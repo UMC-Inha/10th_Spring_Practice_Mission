@@ -16,9 +16,10 @@ public class MissionController {
 
     @GetMapping("/v1/users/me/missions")
     public ApiResponse<MissionResDTO.MissionListDTO> getMyMissions(
-            @RequestParam(name = "isComplete") Boolean isComplete
+            @RequestParam(name = "isComplete") Boolean isComplete,
+            @RequestParam(name = "page") Integer page
     ) {
-        return ApiResponse.onSuccess(MissionSuccessCode.USER_MISSION_OK, missionService.getMyMissions(isComplete));
+        return ApiResponse.onSuccess(MissionSuccessCode.USER_MISSION_OK, missionService.getMyMissions(isComplete, page));
     }
 
     @PatchMapping("/v1/users/user-missions/{userMissionId}")

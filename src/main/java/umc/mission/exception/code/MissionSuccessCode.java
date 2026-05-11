@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import umc.apiPayload.code.BaseErrorCode;
+import umc.apiPayload.code.BaseSuccessCode;
 
 @Getter
 @RequiredArgsConstructor
-public enum MissionSuccessCode implements BaseErrorCode {
+public enum MissionSuccessCode implements BaseSuccessCode {
 
     OK(HttpStatus.OK, "MISSION200_1", "성공적으로 미션을 조회했습니다."),
     COMPLETE_OK(HttpStatus.OK, "MISSION200_2", "미션 성공 신청 완료."),

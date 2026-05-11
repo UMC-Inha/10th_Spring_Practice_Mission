@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PostMapping;
+import umc.review.converter.ReviewConverter;
 import umc.review.dto.ReviewReqDTO;
 import umc.review.dto.ReviewResDTO;
 import umc.review.entity.Review;
@@ -26,11 +27,10 @@ public class ReviewService {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
 
-        Review newReview = Review.builder()
-                .star(dto.star())
-                .content(dto.content())
-                .photoUrl(dto.photoUrl())
-                .store(store) // 조회한 가게 엔티티를 넣어 연관관계를 설정합니다.
-                .build();
+        Review newReview = ReviewConverter.toReview(dto, store);
+
+        Review savedReview = reviewRepository.save(newReview);
+
+        return ReviewConverter.toCreateReviewDTO(savedReview);
     }
 }
