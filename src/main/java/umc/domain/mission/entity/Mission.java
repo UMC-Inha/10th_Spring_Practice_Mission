@@ -33,7 +33,7 @@ public class Mission extends BaseEntity {
     private Integer points;
 
     @Column(name = "mission_key", nullable = false)
-    private Long missionKey;
+    private Long missionKey;   // 사장님 구분 번호
 
     @Column(name = "due_date", nullable = false)
     private LocalDate dueDate;

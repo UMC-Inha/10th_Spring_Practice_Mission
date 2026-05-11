@@ -56,8 +56,8 @@ public class MemberConverter {
         return MemberResDTO.HomeViewDTO.builder()
                 .totalInformation(totalInfo)
                 .missionList(missionDtos)
-                .nextCursorId(lastMission.getId())
-                .nextCursorDueDate(lastMission.getDueDate())
+                .nextCursorId(hasNextPage ? lastMission.getId() : null)
+                .nextCursorDueDate(hasNextPage ? lastMission.getDueDate() : null)
                 .hasNext(hasNextPage)
                 .build();
     }
