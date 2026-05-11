@@ -44,13 +44,16 @@ public class MissionResDTO {
 		Boolean hasNext;
 	}
 
+
 	@Builder
 	@Getter
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class MissionDetailDTO {
+		Long memberMissionId;
 		Long missionId;
 		String storeName;
+		Integer point;
 		String missionContent;
 		String status; // 진행중, 진행완료
 	}

@@ -1,13 +1,10 @@
-package umc.domain.review.entity;
+package umc.domain.store.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,17 +18,13 @@ import umc.global.apiPayload.code.BaseEntity;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "review_reply")
-public class Reply extends BaseEntity {
+@Table(name = "food")
+public class Food extends BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "review_id", nullable = false)
-	private Review review;
-
-	@Column(nullable = false, columnDefinition = "TEXT")
-	private String content;
+	@Column(nullable = false)
+	private String name;
 }

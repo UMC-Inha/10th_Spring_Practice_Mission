@@ -1,4 +1,4 @@
 package umc.domain.review.service;
 
-public class ReviewService {
+public class ReviewQueryService {
 }
