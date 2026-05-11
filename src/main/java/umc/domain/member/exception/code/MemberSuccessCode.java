@@ -10,7 +10,7 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 public enum MemberSuccessCode implements BaseSuccessCode {
 
     OK(HttpStatus.OK,
-            "COMMON200",
+            "COMMON200_1",
             "회원가입에 성공했습니다."),
     ;
 

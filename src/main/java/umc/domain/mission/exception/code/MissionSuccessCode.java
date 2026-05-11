@@ -8,11 +8,14 @@ import umc.global.apiPayload.code.BaseSuccessCode;
 @RequiredArgsConstructor
 public enum MissionSuccessCode implements BaseSuccessCode {
 
-    OK(HttpStatus.OK,
-            "COMMON200",
-            "성공적으로 미션을 조회했습니다."),
+    HOME_OK(HttpStatus.OK,
+            "COMMON200_1",
+            "성공입니다."),
     MISSION_OK(HttpStatus.OK,
-            "COMMON200",
+            "COMMON200_1",
+            "성공적으로 미션을 조회했습니다."),
+    MISSION_COMPLETE_OK(HttpStatus.OK,
+            "COMMON200_1",
             "미션 완료 처리에 성공했습니다.")
     ;
 

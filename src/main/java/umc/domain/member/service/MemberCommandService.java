@@ -1,4 +1,4 @@
 package umc.domain.member.service;
 
-public class MemberService {
+public class MemberCommandService {
 }
