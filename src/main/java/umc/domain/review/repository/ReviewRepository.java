@@ -1,4 +1,7 @@
-package com.example.umc.domain.review.repository;
+package umc.domain.review.repository;
 
-public interface ReviewRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import umc.domain.review.entity.Review;
+
+public interface ReviewRepository extends JpaRepository<Review, Long> {
 }

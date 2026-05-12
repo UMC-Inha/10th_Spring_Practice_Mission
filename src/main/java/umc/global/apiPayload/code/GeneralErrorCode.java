@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum GeneralErrorCode implements BaseErrorCode {
 
     BAD_REQUEST(HttpStatus.BAD_REQUEST,
-            "COMMON_01",
+            "COMMON_1",
             "잘못된 요청입니다."),
     UNAUTHORIZED(HttpStatus.UNAUTHORIZED,
             "COMMON401_1",

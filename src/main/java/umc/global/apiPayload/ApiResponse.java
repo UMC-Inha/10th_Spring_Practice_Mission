@@ -22,7 +22,7 @@ public class ApiResponse<T> {
     private final String message;
 
     @JsonProperty("result")
-    private T result;
+    private final T result;
 
     // 성공한 경우
     public static <T> ApiResponse<T> onSuccess(BaseSuccessCode code, T result){

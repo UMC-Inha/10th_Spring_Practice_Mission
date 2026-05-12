@@ -7,7 +7,7 @@ public class MemberResDTO {
     //마이페이지
     @Builder
     public record MyPageResDTO(
-            int memberId,
+            Long memberId,
             String name,
             String email,
             String phoneNumber,

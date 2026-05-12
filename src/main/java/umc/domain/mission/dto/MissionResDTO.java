@@ -1,8 +1,6 @@
 package umc.domain.mission.dto;
 
 import lombok.Builder;
-import lombok.Getter;
-import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,11 +10,11 @@ public class MissionResDTO {
     //미션 리스트 조회
     @Builder
     public record MissionList(
-            List<Mission> missions
+            List<MissionDTO> missions
     ){}
 
     @Builder
-    public record Mission(
+    public record MissionDTO(
             Long missionId,
             int condition,
             int missionPoint,

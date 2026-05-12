@@ -11,14 +11,14 @@ public class HomeResDTO {
     @Builder
     public record HomeDTO(
             MissionDashBoardDTO missionDashBoard,
-            int currentPoint,
-            List<MissionResDTO.Mission> unstartedMissionList
+            Integer currentPoint,
+            List<MissionResDTO.MissionDTO> unstartedMissionList
     ) {
         @Builder
         public record MissionDashBoardDTO(
                 String regionName,
-                int missionCount,
-                int missionSuccessCount
+                Integer missionCount,
+                Integer missionSuccessCount
         ){}
     }
 
