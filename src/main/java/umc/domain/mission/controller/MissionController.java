@@ -17,10 +17,10 @@ public class MissionController {
 
     @GetMapping("/v1/missions/me/{isCompleted}/{memberId}")
     public ApiResponse<MissionResDTO.MissionList> getMissions(
-            @RequestParam boolean is_completed,
+            @RequestParam boolean isCompleted,
             @RequestParam Long memberId
     ){
-        return ApiResponse.onSuccess(MissionSuccessCode.MISSION_LIST_GET_SUCCESS, missionService.getMissions(memberId, is_completed));
+        return ApiResponse.onSuccess(MissionSuccessCode.MISSION_LIST_GET_SUCCESS, missionService.getMissions(memberId, isCompleted));
     }
 
     @PatchMapping("/v1/missions/{missionId}")
