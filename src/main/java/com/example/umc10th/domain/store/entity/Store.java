@@ -13,7 +13,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.math.BigDecimal;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "store")
 public class Store extends BaseTimeEntity {

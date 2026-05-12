@@ -1,16 +1,18 @@
 package com.example.umc10th.domain.region.entity;
 
+import com.example.umc10th.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "region")
-public class Region {
+public class Region extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,4 @@ public class Region {
 
 	@Column(nullable = false, length = 100, unique = true)
 	private String name;
-
-	@Column(name = "created_at", nullable = false, updatable = false)
-	private LocalDateTime createdAt;
 }

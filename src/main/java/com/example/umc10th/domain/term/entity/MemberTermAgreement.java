@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.term.entity;
 
+import com.example.umc10th.global.entity.BaseTimeEntity;
 import com.example.umc10th.domain.member.entity.Member;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -11,10 +12,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "member_term_agreement")
-public class MemberTermAgreement {
+public class MemberTermAgreement extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

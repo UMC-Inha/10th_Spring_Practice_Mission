@@ -14,7 +14,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "mission")
 public class Mission extends BaseTimeEntity {
@@ -49,18 +51,6 @@ public class Mission extends BaseTimeEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "store_id", nullable = false)
 	private Store store;
-
-	public Long getId() {
-		return id;
-	}
-
-	public String getConditionText() {
-		return content;
-	}
-
-	public Integer getRewardPoint() {
-		return rewardPoint;
-	}
 
 	public enum VerificationType {
 		OWNER_CONFIRM,

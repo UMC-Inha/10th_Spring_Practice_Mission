@@ -6,18 +6,21 @@ import com.example.umc10th.domain.mission.exception.MissionException;
 import com.example.umc10th.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc10th.domain.mission.repository.MissionRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MissionServiceImpl implements MissionService {
 
 	private final MissionRepository missionRepository;
-	private final MissionConverter missionConverter = new MissionConverter();
+	private final MissionConverter missionConverter;
 
-	public MissionServiceImpl(MissionRepository missionRepository) {
+	public MissionServiceImpl(MissionRepository missionRepository, MissionConverter missionConverter) {
 		this.missionRepository = missionRepository;
+		this.missionConverter = missionConverter;
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public MissionResponseDto getMission(Long missionId) {
 		return missionRepository.findById(missionId)
 			.map(missionConverter::toResponse)

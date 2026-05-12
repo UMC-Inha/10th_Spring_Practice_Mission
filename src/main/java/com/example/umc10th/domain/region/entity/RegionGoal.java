@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.region.entity;
 
+import com.example.umc10th.global.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,11 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.YearMonth;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "region_goal")
-public class RegionGoal {
+public class RegionGoal extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +25,7 @@ public class RegionGoal {
 	private Long id;
 
 	@Column(name = "target_month", nullable = false, length = 7)
-	private String targetMonth;
+	private YearMonth targetMonth;
 
 	@Column(name = "goal_mission_count", nullable = false)
 	private Integer goalMissionCount;

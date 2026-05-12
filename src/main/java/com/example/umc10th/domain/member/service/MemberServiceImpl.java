@@ -11,14 +11,20 @@ import org.springframework.stereotype.Service;
 public class MemberServiceImpl implements MemberService {
 
 	private final MemberRepository memberRepository;
-	private final MemberConverter memberConverter = new MemberConverter();
+	private final MemberConverter memberConverter;
 
-	public MemberServiceImpl(MemberRepository memberRepository) {
+	public MemberServiceImpl(MemberRepository memberRepository, MemberConverter memberConverter) {
 		this.memberRepository = memberRepository;
+		this.memberConverter = memberConverter;
 	}
 
 	@Override
 	public MemberResponseDto getMember(Long memberId) {
+		return getMyPage(memberId);
+	}
+
+	@Override
+	public MemberResponseDto getMyPage(Long memberId) {
 		return memberRepository.findById(memberId)
 			.map(memberConverter::toResponse)
 			.orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));

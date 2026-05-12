@@ -1,5 +1,6 @@
 package com.example.umc10th.domain.notification.entity;
 
+import com.example.umc10th.global.entity.BaseTimeEntity;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.notification.enums.NotificationType;
 import jakarta.persistence.Column;
@@ -14,10 +15,12 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "notification")
-public class Notification {
+public class Notification extends BaseTimeEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +42,6 @@ public class Notification {
 
 	@Column(name = "read_at")
 	private LocalDateTime readAt;
-
-	@Column(name = "created_at", nullable = false)
-	private LocalDateTime createdAt;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id", nullable = false)
