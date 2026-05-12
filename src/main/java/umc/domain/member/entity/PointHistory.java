@@ -6,10 +6,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import umc.domain.member.enums.PointState;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,6 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "point_history")
+@EntityListeners(AuditingEntityListener.class)
 public class PointHistory {
 
     @Id

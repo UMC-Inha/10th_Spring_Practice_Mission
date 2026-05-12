@@ -1,14 +1,13 @@
 package umc.domain.store.exception.code;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.code.BaseSuccessCode;
 
 @Getter
 @RequiredArgsConstructor
-public enum StoreSuccessCode implements BaseErrorCode {
+public enum StoreSuccessCode implements BaseSuccessCode {
 
 
     STORE_SUCCESS(HttpStatus.OK,
