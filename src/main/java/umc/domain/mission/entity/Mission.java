@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import umc.domain.store.entity.Store;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Getter
@@ -31,8 +30,8 @@ public class Mission {
     @Column(name = "due_date",  nullable = false)
     private LocalDate dueDate;
 
-    @Column(name = "is_active", nullable = false)
-    private Boolean isActive;
+    @Column(name = "is_started", nullable = false)
+    private Boolean isStarted;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")

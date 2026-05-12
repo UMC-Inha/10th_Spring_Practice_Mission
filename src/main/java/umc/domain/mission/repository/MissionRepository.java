@@ -14,6 +14,6 @@ public interface MissionRepository extends JpaRepository<Mission,Long> {
     @Query("SELECT COUNT(m) FROM Mission m WHERE m.store.region = :region")
     Integer countByRegion(@Param("region") Region region);
 
-    @Query("SELECT m FROM Mission m WHERE m.store.region = :region AND m.isActive = false")
+    @Query("SELECT m FROM Mission m WHERE m.store.region = :region AND m.isStarted = false")
     List<Mission> findUnstartedMissions(@Param("region") Region region);
 }
