@@ -1,6 +1,7 @@
 package umc.domain.mission.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.mission.dto.MissionReqDTO;
 import umc.domain.mission.dto.MissionResDTO;
@@ -15,12 +16,15 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    @GetMapping("/v1/missions/me/{isCompleted}/{memberId}")
-    public ApiResponse<MissionResDTO.MissionList> getMissions(
+    @GetMapping("/v1/missions/me/{memberId}")
+    public ApiResponse<MissionResDTO.Pagination<MissionResDTO.MissionDTO>> getMissions(
             @RequestParam boolean isCompleted,
-            @RequestParam Long memberId
+            @RequestParam Integer pageSize,
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort,
+            @PathVariable Long memberId
     ){
-        return ApiResponse.onSuccess(MissionSuccessCode.MISSION_LIST_GET_SUCCESS, missionService.getMissions(memberId, isCompleted));
+        return ApiResponse.onSuccess(MissionSuccessCode.MISSION_LIST_GET_SUCCESS, missionService.getMissions(memberId, isCompleted, pageSize, pageNumber, sort));
     }
 
     @PatchMapping("/v1/missions/{missionId}")

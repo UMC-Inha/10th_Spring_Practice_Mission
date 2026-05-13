@@ -1,6 +1,9 @@
 package umc.domain.mission.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import umc.domain.member.entity.Member;
 import umc.domain.member.exception.MemberException;
@@ -22,18 +25,32 @@ public class MissionService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
 
-    public MissionResDTO.MissionList getMissions(Long memberId, boolean isCompleted) {
+    public MissionResDTO.Pagination<MissionResDTO.MissionDTO> getMissions(
+            Long memberId,
+            boolean isCompleted,
+            Integer pageSize,
+            Integer pageNumber,
+            String sort) {
+
+        Sort sortInfo;
+        if (sort!=null){
+            sortInfo=Sort.by(sort).descending();
+        }
+        else{
+            sortInfo=Sort.by("id").descending();
+        }
+
+        PageRequest pageRequest =  PageRequest.of(pageNumber, pageSize, sortInfo);
 
         Member member = memberRepository.findById(memberId).orElseThrow(
                 ()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND)
         );
 
-        List<MemberMission> missionList = memberMissionRepository.findAllByMemberAndIsCompleted(member, isCompleted);
+        Page<MemberMission> missionList = memberMissionRepository.findAllByMemberAndIsCompleted(member, isCompleted, pageRequest);
 
-        List<Mission> missions = missionList.stream()
-                .map(MemberMission::getMission)
-                .toList();
+        Page<MissionResDTO.MissionDTO> missionDTOPage = missionList.map(MemberMission::getMission).map(MissionConverter::toGetMissionDTO);
 
-        return MissionConverter.toGetMissions(missions);
+
+        return MissionConverter.toPagination(missionDTOPage.getContent(), missionDTOPage.getNumber(), missionDTOPage.getSize());
     }
 }
