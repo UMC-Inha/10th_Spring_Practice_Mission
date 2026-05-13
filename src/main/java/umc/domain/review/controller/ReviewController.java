@@ -23,4 +23,18 @@ public class ReviewController {
         ReviewResDTO.ReviewCreateDTO resDto = reviewService.createReview(1L, storeId, reqDto);
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED, resDto);
     }
+
+    @GetMapping
+    public ApiResponse<ReviewResDTO.CursorPage> getMyReviews(
+            @RequestParam(defaultValue = "id") String query,  // 커서 종류
+            @RequestParam(required = false) String cursor,    // 커서
+            @RequestParam(defaultValue = "20") Integer pageSize
+    ) {
+        return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_LIST_VIEW, reviewService.getMyReviews(
+                1L,
+                query,
+                cursor,
+                pageSize
+        ));
+    }
 }

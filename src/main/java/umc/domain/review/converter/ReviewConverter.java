@@ -1,5 +1,6 @@
 package umc.domain.review.converter;
 
+import org.springframework.data.domain.Slice;
 import umc.domain.member.entity.Member;
 import umc.domain.review.dto.ReviewReqDTO;
 import umc.domain.review.dto.ReviewResDTO;
@@ -29,6 +30,32 @@ public class ReviewConverter {
                 .reviewContent(review.getContent())
                 .starRating(review.getStarRating())
                 .images(images)
+                .build();
+    }
+
+    public static ReviewResDTO.ReviewDTO toReviewDTO(Review review) {
+        return ReviewResDTO.ReviewDTO.builder()
+                .reviewId(review.getId())
+                .memberId(review.getMember().getId())
+                .nickname(review.getMember().getNickname())
+                .content(review.getContent())
+                .starRating(review.getStarRating())
+                .createdAt(review.getCreatedAt())
+                .images(review.getReviewPhotoList().stream()
+                        .map(photo -> photo.getPhotoUrl())
+                        .toList())
+                .build();
+    }
+
+    public static ReviewResDTO.CursorPage toCursorPage(Slice<Review> reviews, String nextCursor) {
+        return ReviewResDTO.CursorPage.<ReviewResDTO.ReviewDTO>builder()
+                .data(reviews.getContent().stream()
+                        .map(ReviewConverter::toReviewDTO)
+                        .toList()
+                )
+                .nextCursor(nextCursor)
+                .hasNext(reviews.hasNext())
+                .pageSize(reviews.getSize())
                 .build();
     }
 }

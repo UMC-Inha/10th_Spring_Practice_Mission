@@ -1,6 +1,8 @@
 package umc.domain.review.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.entity.Member;
@@ -11,6 +13,8 @@ import umc.domain.review.dto.ReviewReqDTO;
 import umc.domain.review.dto.ReviewResDTO;
 import umc.domain.review.converter.ReviewConverter;
 import umc.domain.review.entity.Review;
+import umc.domain.review.exception.ReviewException;
+import umc.domain.review.exception.code.ReviewErrorCode;
 import umc.domain.review.repository.ReviewRepository;
 import umc.domain.store.entity.Store;
 import umc.domain.store.exception.StoreException;
@@ -42,5 +46,56 @@ public class ReviewService {
 
         reviewRepository.save(review);
         return ReviewConverter.toReviewCreateDTO(review);
+    }
+
+    public ReviewResDTO.CursorPage getMyReviews(
+            Long memberId,
+            String query,
+            String cursor,
+            Integer pageSize
+    ) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
+
+        PageRequest pageRequest = PageRequest.of(0, pageSize);
+        Slice<Review> reviews;
+        String nextCursor = null;
+
+        // cursor -> "id:rating"
+        switch (query.toLowerCase()) {
+            case "id" -> {
+                Long idCursor = cursor != null ? Long.parseLong(cursor.split(":")[0]) : -1L;
+
+                reviews = reviewRepository.findReviewsByMemberIdInOrderByReviewId(
+                        memberId, idCursor, pageRequest
+                );
+
+                if (reviews.hasNext()) {
+                    Review last = reviews.getContent().get(reviews.getContent().size() - 1);
+                    nextCursor = last.getId() + ":0";
+                }
+            }
+            case "rating" -> {
+                Long idCursor = cursor != null ? Long.parseLong(cursor.split(":")[0]) : -1L;
+                Integer ratingCursor = cursor != null ? Integer.parseInt(cursor.split(":")[1]) : Integer.MAX_VALUE;
+
+                reviews = reviewRepository.findReviewsByMemberIdOrderByRating(
+                        memberId,
+                        idCursor,
+                        ratingCursor,
+                        pageRequest
+                );
+
+                if (reviews.hasNext()) {
+                    Review last = reviews.getContent().get(reviews.getContent().size() - 1);
+                    nextCursor = last.getId() + ":" + last.getStarRating();
+                }
+            }
+            default -> {
+                throw new ReviewException(ReviewErrorCode.NOT_APPLY_CURSOR);
+            }
+        }
+
+        return ReviewConverter.toCursorPage(reviews, nextCursor);
     }
 }
