@@ -2,6 +2,7 @@ package umc.domain.member.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -75,6 +76,6 @@ public class MemberResDTO {
 		String category;
 		String missionContent;
 		Integer point;
-		LocalDate deadline;
+		LocalTime deadline;
 	}
 }
