@@ -1,9 +1,12 @@
 package umc.domain.mission.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import umc.domain.member.entity.Member;
 import umc.domain.mission.entity.mapping.MemberMission;
 import umc.domain.mission.enums.MissionStatus;
 
@@ -48,5 +51,17 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             @Param("memberId") Long memberId,
             @Param("regionId") Long regionId,
             @Param("status") MissionStatus status
+    );
+
+    @Query("""
+            select mm
+            from MemberMission mm
+            where mm.member.id = :memberId
+                and mm.missionStatus in (:statuses)
+    """)
+    Page<MemberMission> findMemberMissionsUsingOffset(
+            @Param("memberId") Long memberId,
+            @Param("statuses") List<MissionStatus> statuses,
+            Pageable pageable
     );
 }

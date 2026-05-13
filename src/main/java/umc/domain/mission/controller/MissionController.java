@@ -1,6 +1,9 @@
 package umc.domain.mission.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.mission.dto.MissionReqDTO;
 import umc.domain.mission.dto.MissionResDTO;
@@ -21,7 +24,7 @@ public class MissionController {
     private final MissionService missionService;
 
     @GetMapping
-    public ApiResponse<MissionResDTO.MissionListDto> getMissions(
+    public ApiResponse<MissionResDTO.CursorPage> getMissions(
             @RequestParam List<MissionStatus> missionStatus,
             @RequestParam(required = false) LocalDate cursorDueDate,
             @RequestParam(required = false) Long cursorId,
@@ -29,6 +32,16 @@ public class MissionController {
     ){
         return ApiResponse.onSuccess(MissionSuccessCode.MISSIONS_VIEW,
                 missionService.getMissions(1L, missionStatus, cursorDueDate, cursorId, pageSize));
+    }
+
+    @GetMapping("/offset")
+    public ApiResponse<MissionResDTO.OffsetPage> getMissionsUsingOffset(
+            @RequestBody @Valid MissionReqDTO.MissionViewDTO reqDto,
+            @RequestParam List<MissionStatus> statuses,
+            @PageableDefault Pageable pageable
+    ){
+        return ApiResponse.onSuccess(MissionSuccessCode.MISSIONS_VIEW,
+                missionService.getMissionsUsingOffset(reqDto, statuses, pageable));
     }
 
     @PatchMapping("/{memberMissionId}")
