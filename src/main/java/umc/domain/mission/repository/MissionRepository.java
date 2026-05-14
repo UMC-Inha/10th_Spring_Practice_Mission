@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import umc.domain.mission.entity.Mission;
 
+import java.util.List;
+
 public interface MissionRepository extends JpaRepository<Mission, Long> {
 
     @Query("""
@@ -25,5 +27,7 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             Pageable pageable
     );
 
+    // 가게 내 미션 목록 조회 (페이징)
+    Page<Mission> findAllByStore_Id(Long storeId, Pageable pageable);
 
 }
