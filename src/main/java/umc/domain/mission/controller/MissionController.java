@@ -7,6 +7,7 @@ import umc.domain.mission.dto.MissionReqDTO;
 import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.enums.MemberMissionStatus;
 import umc.domain.mission.exception.code.MissionSuccessCode;
+import umc.domain.mission.service.MissionService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.BaseSuccessCode;
 
@@ -17,12 +18,17 @@ import java.util.List;
 @RequestMapping("/api")
 public class MissionController {
 
+    private final MissionService missionService;
+
     @GetMapping("/missions")
     public ApiResponse<MissionResDTO.GetMissions> getMissions(
-            @RequestParam List<MemberMissionStatus> status
+            @RequestParam List<MemberMissionStatus> status,
+            @RequestParam(defaultValue = "0") Integer page
     ) {
+        Long memberId = 1L; // TODO: memberId from access token
         BaseSuccessCode code = MissionSuccessCode.MISSION_VIEW;
-        return ApiResponse.onSuccess(code, null);
+        MissionResDTO.GetMissions response = missionService.getMissions(memberId, status, page);
+        return ApiResponse.onSuccess(code, response);
     }
 
     @PatchMapping("/member-missions/{memberMissionId}")

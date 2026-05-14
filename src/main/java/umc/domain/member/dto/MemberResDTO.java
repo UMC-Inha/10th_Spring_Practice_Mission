@@ -18,9 +18,9 @@ public class MemberResDTO {
 
     @Builder
     public record Home(
-            Long locationId,
-            String locationName,
-            Integer currentPoint,
+            Long regionId,
+            String regionName,
+            Long currentPoint,
             Integer completedMissionCount,
             List<HomeMission> missions
     ){}
@@ -32,7 +32,7 @@ public class MemberResDTO {
             String storeName,
             String storeCategory,
             String missionContent,
-            Integer rewardPoint,
+            Long rewardPoint,
             LocalDate dueDate
     ){}
 

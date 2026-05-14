@@ -15,19 +15,19 @@ public class MissionResDTO {
 
     @Builder
     public record MissionPreview(
-            Long missionId,
+            Long memberMissionId,
             Long storeId,
             String storeName,
             String storeCategory,
             String missionContent,
-            Integer rewardPoint,
+            Long rewardPoint,
             MemberMissionStatus status,
             LocalDate dueDate
     ) {}
 
     @Builder
     public record UpdateMissionStatus(
-            Long missionId,
+            Long memberMissionId,
             MemberMissionStatus status,
             Integer rewardPoint
     ) {}

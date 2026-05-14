@@ -1,4 +1,4 @@
-package umc.domain.term.entity;
+package umc.domain.store.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "term")
-public class Term {
+@Table(name = "region")
+public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,10 +20,4 @@ public class Term {
 
     @Column(name = "name", nullable = false)
     private String name;
-
-    @Column(name = "is_required", nullable = false)
-    private boolean isRequired;
-
-    @Column(name = "content", nullable = false)
-    private String content;
 }
