@@ -46,8 +46,12 @@ public class GeneralExceptionAdvice {
     public ResponseEntity<ApiResponse<Map<String, String>>> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException e
     ) {
-        // 검증 실패한 변수명과 실패 이유를 담을 Map
         Map<String, String> errors = new HashMap<>();
+        e.getBindingResult().getAllErrors().forEach(error -> {
+            String field = (error instanceof org.springframework.validation.FieldError fe)
+                    ? fe.getField() : error.getObjectName();
+            errors.put(field, error.getDefaultMessage());
+        });
         BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, errors));
