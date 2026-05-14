@@ -2,6 +2,7 @@ package umc.domain.member.dto;
 
 import lombok.Builder;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public class MemberResDTO {
@@ -17,7 +18,10 @@ public class MemberResDTO {
     @Builder
     public record HomeViewDTO(
             TotalInformationDto totalInformation,
-            List<MissionDto> missionList
+            List<MissionDto> missionList,
+            Long nextCursorId,
+            LocalDate nextCursorDueDate,
+            boolean hasNext
     ) {
         @Builder
         public record TotalInformationDto(
@@ -39,4 +43,14 @@ public class MemberResDTO {
                 String storeType
         ) {}
     }
+
+    @Builder
+    public record MyPageViewDTO(
+            Long id,
+            String profileUrl,
+            String nickname,
+            String email,
+            String phoneNumber,
+            Integer points
+    ) {}
 }
