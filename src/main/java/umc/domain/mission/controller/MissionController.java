@@ -1,6 +1,10 @@
 package umc.domain.mission.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -25,10 +29,10 @@ public class MissionController {
 
     @GetMapping
     public ApiResponse<MissionResDTO.CursorPage> getMissions(
-            @RequestParam List<MissionStatus> missionStatus,
+            @RequestParam @NotEmpty List<MissionStatus> missionStatus,
             @RequestParam(required = false) LocalDate cursorDueDate,
             @RequestParam(required = false) Long cursorId,
-            @RequestParam(defaultValue = "10") int pageSize
+            @RequestParam(defaultValue = "10") @Min(1) int pageSize
     ){
         return ApiResponse.onSuccess(MissionSuccessCode.MISSIONS_VIEW,
                 missionService.getMissions(1L, missionStatus, cursorDueDate, cursorId, pageSize));
@@ -37,7 +41,7 @@ public class MissionController {
     @GetMapping("/offset")
     public ApiResponse<MissionResDTO.OffsetPage> getMissionsUsingOffset(
             @RequestBody @Valid MissionReqDTO.MissionViewDTO reqDto,
-            @RequestParam List<MissionStatus> statuses,
+            @RequestParam @NotEmpty List<MissionStatus> statuses,
             @PageableDefault Pageable pageable
     ){
         return ApiResponse.onSuccess(MissionSuccessCode.MISSIONS_VIEW,
@@ -46,8 +50,8 @@ public class MissionController {
 
     @PatchMapping("/{memberMissionId}")
     public ApiResponse<MissionResDTO.MissionStatusUpdateDTO> updateMissionStatus(
-            @PathVariable Long memberMissionId,
-            @RequestBody MissionReqDTO.MissionStatusUpdateDTO reqDto
+            @PathVariable @Positive @NotNull Long memberMissionId,
+            @RequestBody @Valid MissionReqDTO.MissionStatusUpdateDTO reqDto
     ) {
         return ApiResponse.onSuccess(MissionSuccessCode.MISSION_STATUS_UPDATED, null);
     }
