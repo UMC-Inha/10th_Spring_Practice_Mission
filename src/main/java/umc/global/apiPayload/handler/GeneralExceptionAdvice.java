@@ -48,10 +48,6 @@ public class GeneralExceptionAdvice {
     ) {
         // 검증 실패한 변수명과 실패 이유를 담을 Map
         Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getFieldErrors().forEach(error ->
-            errors.put(error.getField(), error.getDefaultMessage())
-        );
-
         BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, errors));
@@ -66,6 +62,11 @@ public class GeneralExceptionAdvice {
         e.getValueResults().forEach(result ->
                 result.getResolvableErrors().forEach(error ->
                         errors.put(result.getMethodParameter().getParameterName(), error.getDefaultMessage())
+                )
+        );
+        e.getBeanResults().forEach(result ->
+                result.getFieldErrors().forEach(error ->
+                        errors.put(error.getField(), error.getDefaultMessage())
                 )
         );
 
