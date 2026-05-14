@@ -13,4 +13,9 @@ public class MissionRequestDTO {
             Integer rewardPoint,
             String missionCondition
     ) {}
+
+    // 내가 진행중인 미션 조회 - Request Body로 사용자 ID 받기 (추후 Path Variable 방식으로 변경 고민)
+    public record GetMyMissions(
+            Long memberId
+    ) {}
 }

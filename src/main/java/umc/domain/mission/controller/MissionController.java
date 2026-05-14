@@ -23,12 +23,13 @@ public class MissionController {
     // 내 미션 목록 조회 (status 필터링)
     @GetMapping("/missions")
     public ApiResponse<MissionResponseDTO.MissionList> getMissions(
+            @RequestBody MissionRequestDTO.GetMyMissions request,
             @RequestParam MissionStatus status,
-            @RequestParam(value = "page", defaultValue = "0") Integer page
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "10") Integer size
     ) {
-        Long memberId = 1L;
         return ApiResponse.onSuccess(MissionSuccessCode.MISSION_LIST_OK,
-                missionService.getMissions(memberId, status, page));
+                missionService.getMissions(request.memberId(), status, page, size));
     }
 
     // 가게 미션 생성

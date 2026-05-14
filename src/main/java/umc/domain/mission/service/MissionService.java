@@ -31,10 +31,10 @@ public class MissionService {
 
     // 내 미션 목록 조회 (status 필터링, 페이징)
     @Transactional
-    public MissionResponseDTO.MissionList getMissions(Long memberId, MissionStatus status, Integer page) {
+    public MissionResponseDTO.MissionList getMissions(Long memberId, MissionStatus status, Integer page, Integer size) {
         Page<MemberMission> memberMissions = memberMissionRepository
-                .findByMemberIdAndStatus(memberId, status, PageRequest.of(page, 10));
-        return MissionConverter.toMissionList(memberMissions.getContent());
+                .findByMemberIdAndStatus(memberId, status, PageRequest.of(page, size));
+        return MissionConverter.toMissionList(memberMissions);
     }
 
     // 홈 화면 미션 목록 조회 (지역 필터링, 페이징)

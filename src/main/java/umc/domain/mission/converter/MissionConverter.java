@@ -1,5 +1,7 @@
 package umc.domain.mission.converter;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Page;
 import umc.domain.member.entity.mapping.MemberMission;
 import umc.domain.mission.dto.MissionRequestDTO;
 import umc.domain.mission.dto.MissionResponseDTO;
@@ -23,13 +25,18 @@ public class MissionConverter {
                 .build();
     }
 
-    public static MissionResponseDTO.MissionList toMissionList(List<MemberMission> memberMissions) {
+    public static MissionResponseDTO.MissionList toMissionList(Page<MemberMission> memberMissions) {
         List<MissionResponseDTO.MissionItem> missionItems = new ArrayList<>();
-        for (MemberMission mm : memberMissions) {
+        for (MemberMission mm : memberMissions.getContent()) {
             missionItems.add(toMissionItem(mm));
         }
         return MissionResponseDTO.MissionList.builder()
-                .mission(missionItems)
+                .missions(missionItems)
+                .pageNumber(memberMissions.getNumber())
+                .pageSize(memberMissions.getSize())
+                .totalElements(memberMissions.getTotalElements())
+                .totalPages(memberMissions.getTotalPages())
+                .hasNext(memberMissions.hasNext())
                 .build();
     }
 
