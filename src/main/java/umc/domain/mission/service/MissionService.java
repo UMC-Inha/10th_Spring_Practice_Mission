@@ -28,7 +28,7 @@ public class MissionService {
     public MissionResponseDTO.HomeMissionList getHomeMissions(String regionName, Integer page) {
         Long memberId = 1L;
         Page<Mission> missions = missionRepository
-                .findAvailableMissionsByRegion(memberId, regionName, PageRequest.of(page, 10));
+                .findMissionsByRegion(memberId, regionName, PageRequest.of(page, 10));
         Long completedCount = memberMissionRepository
                 .countCompletedMissionsByRegion(memberId, regionName);
         return MissionConverter.toHomeMissionList(regionName, 999999, completedCount, missions.getContent());

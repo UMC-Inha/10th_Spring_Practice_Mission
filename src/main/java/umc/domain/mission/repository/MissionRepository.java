@@ -19,9 +19,11 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             )
             ORDER BY m.deadLine ASC
             """)
-    Page<Mission> findAvailableMissionsByRegion(
+    Page<Mission> findMissionsByRegion(
             @Param("memberId") Long memberId,
             @Param("regionName") String regionName,
             Pageable pageable
     );
+
+
 }

@@ -40,7 +40,7 @@ public class Member extends BaseEntity {
     private Gender gender;
 
     @Column(name = "birth")
-    private LocalDate birth;
+    private String birth;
 
     @Column(name = "address", nullable = false, length = 200)
     private String address;
