@@ -16,11 +16,18 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/v1/users/me")
+    @PostMapping("/v1/member/me")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @RequestBody MemberReqDTO.GetInfo dto
     ){
         BaseSuccessCode code = MemberSuccessCode.OK;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));
     }
+
+    @PostMapping("/v1/member/create")
+    public ApiResponse<String> createMember() {
+        memberService.createMember();
+        return ApiResponse.onSuccess(MemberSuccessCode.OK, "저장 완료");
+    }
+
 }
