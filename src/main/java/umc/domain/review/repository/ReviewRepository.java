@@ -14,6 +14,7 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     @Query("""
             select r
             from Review r
+                join fetch r.member m
             where r.member.id = :memberId
                 and r.id > :idCursor
             order by r.id asc
@@ -27,6 +28,7 @@ public interface ReviewRepository extends JpaRepository<Review,Long> {
     @Query("""
             select r
             from Review r
+                join fetch r.member m
             where r.member.id = :memberId
                 and (
                     r.starRating < :ratingCursor 

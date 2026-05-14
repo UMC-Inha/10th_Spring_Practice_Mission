@@ -61,7 +61,7 @@ public class ReviewService {
         Slice<Review> reviews;
         String nextCursor = null;
 
-        // cursor -> "id:rating"
+        // cursor -> "id:rating", cursor가 존재하지 않으면 첫 페이지 제공
         switch (query.toLowerCase()) {
             case "id" -> {
                 Long idCursor = cursor != null ? Long.parseLong(cursor.split(":")[0]) : -1L;

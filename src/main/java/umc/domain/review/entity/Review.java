@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.BatchSize;
 import umc.domain.member.entity.Member;
 import umc.domain.store.entity.Store;
 import umc.global.entity.BaseEntity;
@@ -40,10 +41,12 @@ public class Review extends BaseEntity {
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @BatchSize(size = 100)
     private List<ReviewPhoto> reviewPhotoList = new ArrayList<>();
 
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL,  orphanRemoval = true)
     @Builder.Default
+    @BatchSize(size = 100)
     private List<ReviewReply> reviewReplyList = new ArrayList<>();
 
     public void addPhoto(String url) {

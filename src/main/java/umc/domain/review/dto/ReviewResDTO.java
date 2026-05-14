@@ -27,8 +27,17 @@ public class ReviewResDTO {
             String content,
             Integer starRating,
             LocalDateTime createdAt,
-            List<String> images
-    ) {}
+            List<String> images,
+            List<ReviewReplyDTO> replies
+    ) {
+
+        @Builder
+        public record ReviewReplyDTO(
+                Long reviewReplyId,
+                String content,
+                LocalDateTime createdAt
+        ) {}
+    }
 
     @Builder
     public record CursorPage<T>(
