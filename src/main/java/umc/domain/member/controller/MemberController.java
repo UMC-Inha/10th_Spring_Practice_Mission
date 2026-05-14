@@ -7,21 +7,51 @@ import umc.domain.member.dto.MemberResponseDTO;
 import umc.domain.member.exception.code.MemberSuccessCode;
 import umc.domain.member.service.MemberService;
 import umc.global.apiPayload.ApiResponse;
-import umc.global.apiPayload.code.BaseSuccessCode;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/members")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/v1/users/me")
-    public ApiResponse<MemberResponseDTO.GetInfo> getInfo(
-            @RequestBody MemberRequestDTO.GetInfo dto
+    // 회원가입
+    @PostMapping("/signup")
+    public ApiResponse<MemberResponseDTO.SignUpDTO> signUp(
+            @RequestBody MemberRequestDTO.SignUpDTO requestDto
     ) {
-        BaseSuccessCode code = MemberSuccessCode.OK;
-        return ApiResponse.onSuccess(code, memberService.getInfo(dto));
+        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, null);
     }
+
+    // 홈 화면 조회
+    @GetMapping("/me/home")
+    public ApiResponse<MemberResponseDTO.HomeDTO> getHome(
+            @RequestParam String regionName,
+            @RequestParam(defaultValue = "10") int pageSize,
+            @RequestParam(defaultValue = "0") int page
+    ) {
+        Long memberId = 1L;
+        MemberResponseDTO.HomeDTO responseDto = memberService.getHome(memberId, regionName, page, pageSize);
+        return ApiResponse.onSuccess(MemberSuccessCode.HOME_VIEW, responseDto);
+    }
+
+    // 마이페이지
+    @GetMapping("/me")
+    public ApiResponse<MemberResponseDTO.MyPageDTO> getMyPage() {
+        MemberResponseDTO.MyPageDTO responseDto = memberService.getMyPage(1L);
+        return ApiResponse.onSuccess(MemberSuccessCode.MY_PAGE_VIEW, responseDto);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
