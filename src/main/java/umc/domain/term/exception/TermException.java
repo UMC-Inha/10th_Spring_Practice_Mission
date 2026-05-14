@@ -1,7 +1,10 @@
 package umc.domain.term.exception;
 
-public class TermException extends RuntimeException {
-    public TermException(String message) {
-        super(message);
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.exception.ProjectException;
+
+public class TermException extends ProjectException {
+    public TermException(BaseErrorCode errorCode) {
+        super(errorCode);
     }
 }

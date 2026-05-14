@@ -41,7 +41,7 @@ public class Store extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "food_id", nullable = false)
-    private Food category;
+    private Food food;
 
     @Column(name = "name", nullable = false)
     private String name;

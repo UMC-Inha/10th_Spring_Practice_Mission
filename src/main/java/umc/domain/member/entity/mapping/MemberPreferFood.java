@@ -8,6 +8,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import umc.domain.food.entity.Food;
 import umc.domain.member.entity.Member;
+import umc.global.apiPayload.code.BaseEntity;
 
 import java.time.LocalDateTime;
 
@@ -18,7 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "member_prefer_food")
 @EntityListeners(AuditingEntityListener.class)
-public class MemberPreferFood {
+public class MemberPreferFood extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,7 +34,4 @@ public class MemberPreferFood {
     @JoinColumn(name = "food_id", nullable = false)
     private Food food;
 
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 }
