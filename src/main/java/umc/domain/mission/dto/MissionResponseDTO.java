@@ -63,11 +63,4 @@ public class MissionResponseDTO {
             Integer pageSize
     ) {}
 
-    @Builder
-    public record SliceResponse<T>(
-        List<T> data,
-        Boolean hasNext,
-        String nextCursor,
-        Integer pageSize
-    ) {}
 }
