@@ -1,5 +1,6 @@
 package umc.domain.review.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.review.dto.ReviewRequestDTO;
@@ -19,7 +20,7 @@ public class ReviewController {
     @PostMapping("/stores/{storeId}/reviews")
     public ApiResponse<ReviewResponseDTO.Create> create(
             @PathVariable Long storeId,
-            @RequestBody ReviewRequestDTO.Create dto
+            @Valid @RequestBody ReviewRequestDTO.Create dto
     ) {
         Long memberId = 1L;  // 추후 JWT 토큰 사용 시 하드코딩 제거
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED,
