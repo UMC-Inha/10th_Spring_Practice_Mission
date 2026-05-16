@@ -3,6 +3,7 @@ package umc.domain.mission.dto;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MissionResDTO {
@@ -18,18 +19,10 @@ public class MissionResDTO {
             Long missionId,
             int condition,
             int missionPoint,
-            LocalDate dueDate,
+            LocalDateTime dueDate,
             Long storeId,
             String storeName,
             String storeCategory
-    ){}
-
-    //페이지네이션 틀
-    @Builder
-    public record Pagination<T>(
-            List<T> data,
-            Integer pageNumber,
-            Integer pageSize
     ){}
 
 }

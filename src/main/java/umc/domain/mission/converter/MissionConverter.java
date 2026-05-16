@@ -2,6 +2,7 @@ package umc.domain.mission.converter;
 
 import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.entity.Mission;
+import umc.global.dto.PageResDTO;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,12 +32,12 @@ public class MissionConverter {
     }
 
     //페이지네이션 틀
-    public static <T> MissionResDTO.Pagination<T> toPagination(
+    public static <T> PageResDTO.Pagination<T> toPagination(
             List<T> data,
             Integer pageNumber,
             Integer pageSize
     ){
-        return MissionResDTO.Pagination.<T>builder()
+        return PageResDTO.Pagination.<T>builder()
                 .data(data)
                 .pageNumber(pageNumber)
                 .pageSize(pageSize)

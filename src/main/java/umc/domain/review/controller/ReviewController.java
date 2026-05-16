@@ -8,6 +8,7 @@ import umc.domain.review.entity.Review;
 import umc.domain.review.exception.code.ReviewSuccessCode;
 import umc.domain.review.service.ReviewService;
 import umc.global.apiPayload.ApiResponse;
+import umc.global.dto.CusorResDTO;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,12 +19,19 @@ public class ReviewController {
 
     //리뷰 작성
     @PostMapping("/v1/reviews/{storeId}/{memberId}")
-    public ApiResponse<ReviewResDTO.ReviewRes> createReview(
+    public ApiResponse<ReviewResDTO.CreateReviewRes> createReview(
             @PathVariable Long memberId,
             @PathVariable Long storeId,
-            @RequestBody ReviewReqDTO.ReviewReq req
+            @RequestBody ReviewReqDTO.CreateReviewReq req
     ){
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED, reviewService.createReview(memberId, storeId, req));
+    }
+
+    @GetMapping("/v1/reviews")
+    public ApiResponse<CusorResDTO.Pagination<ReviewResDTO.ReviewRes>> getMyReviews(
+            @RequestBody ReviewReqDTO.MyReview req
+    ){
+        return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_FOUND, reviewService.getMyReviews(req));
     }
 
 }

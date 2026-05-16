@@ -16,6 +16,7 @@ import umc.domain.mission.entity.mapping.MemberMission;
 import umc.global.entity.BaseEntity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,7 +40,7 @@ public class Member extends BaseEntity {
     private Gender gender;
 
     @Column(name = "birth", nullable = false)
-    private LocalDate birth;
+    private LocalDateTime birth;
 
     @Column(name = "address", nullable = false)
     private String address;

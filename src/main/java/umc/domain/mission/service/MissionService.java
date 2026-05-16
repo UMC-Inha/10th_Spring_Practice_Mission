@@ -15,6 +15,7 @@ import umc.domain.mission.entity.Mission;
 import umc.domain.mission.entity.mapping.MemberMission;
 import umc.domain.mission.repository.MemberMissionRepository;
 import umc.domain.mission.repository.MissionRepository;
+import umc.global.dto.PageResDTO;
 
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class MissionService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
 
-    public MissionResDTO.Pagination<MissionResDTO.MissionDTO> getMissions(
+    public PageResDTO.Pagination<MissionResDTO.MissionDTO> getMissions(
             Long memberId,
             boolean isCompleted,
             Integer pageSize,
