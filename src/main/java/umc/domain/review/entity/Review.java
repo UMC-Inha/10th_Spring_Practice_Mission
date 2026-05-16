@@ -48,4 +48,7 @@ public class Review extends BaseEntity {
 
     @Column(name = "content", nullable = false, length = 1000)
     private String content;
+
+    // ReviewReply, ReviewPhoto 각각 @OneToMany 필드 선언은 추후 고민
+    // review.getReply or review.getPhoto 접근이 많지 않을 것 같음
 }

@@ -1,6 +1,8 @@
 package umc.domain.review.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.entity.Member;
@@ -20,6 +22,10 @@ import umc.domain.store.entity.Store;
 import umc.domain.store.exception.StoreException;
 import umc.domain.store.exception.code.StoreErrorCode;
 import umc.domain.store.repository.StoreRepository;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -55,5 +61,60 @@ public class ReviewService {
         ReviewReply saved = reviewReplyRepository.save(reviewReply);
 
         return ReviewConverter.toCreateReplyResponseDTO(saved);
+    }
+
+    @Transactional(readOnly = true)
+    public ReviewResponseDTO.CursorPage<ReviewResponseDTO.ReviewDTO> getMyReviews(
+            Long memberId, String query, String cursor, Integer pageSize) {
+
+        if (!memberRepository.existsById(memberId)) {
+            throw new MemberException(MemberErrorCode.MEMBER_NOT_FOUND);
+        }
+
+        Slice<Review> slice;
+
+        // query = star or id
+        // 별점순
+        if ("star".equals(query)) {
+            BigDecimal starCursor = new BigDecimal("5.1");
+            Long idCursor = 0L;
+
+            if (cursor != null) {
+                String[] parts = cursor.split(":");
+                starCursor = new BigDecimal(parts[0]);  // star = 4.5
+                idCursor = Long.parseLong(parts[1]);    // id값. 별점이 같은 리뷰가 여러 개일 수 있으므로
+            }
+
+            slice = reviewRepository.findByMemberIdOrderByStar(memberId, idCursor, starCursor, PageRequest.of(0, pageSize));
+        } // 아이디 순
+        else {
+            Long idCursor = Long.MAX_VALUE; // 아이디 최댓값
+
+            if (cursor != null) {
+                idCursor = Long.parseLong(cursor);
+            }
+
+            slice = reviewRepository.findByMemberIdOrderById(memberId, idCursor, PageRequest.of(0, pageSize));
+        }
+
+        List<ReviewResponseDTO.ReviewDTO> items = slice.getContent().stream()
+                .map(review -> {
+                    ReviewReply reply = reviewReplyRepository.findByReview_Id(review.getId())
+                            .stream().findFirst().orElse(null);
+                    return ReviewConverter.toReviewDTO(review, reply);
+                })
+                .collect(Collectors.toList());
+
+        String nextCursor = null;
+        if (slice.hasNext()) {
+            Review last = slice.getContent().get(slice.getContent().size() - 1);  // 마지막 인덱스
+            if ("star".equals(query)) {
+                nextCursor = last.getStar().toPlainString() + ":" + last.getId();
+            } else {
+                nextCursor = String.valueOf(last.getId());
+            }
+        }
+
+        return ReviewConverter.toCursorPage(slice, items, nextCursor);
     }
 }
