@@ -1,9 +1,11 @@
 package umc.domain.mission.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class MissionReqDTO {
 
     public record MissionStatusUpdate(
-            boolean is_completed
+            @NotNull boolean is_completed
     ){}
 
 }

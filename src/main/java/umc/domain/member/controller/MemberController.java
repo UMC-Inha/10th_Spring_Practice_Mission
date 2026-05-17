@@ -1,5 +1,6 @@
 package umc.domain.member.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.member.dto.MemberReqDTO;
@@ -19,7 +20,7 @@ public class MemberController {
     //마이 페이지
     @GetMapping("/v1/members/me")
     public ApiResponse<MemberResDTO.MyPageResDTO> getInfo(
-            @RequestBody MemberReqDTO.MyPageReqDTO dto
+            @RequestBody @Valid MemberReqDTO.MyPageReqDTO dto
     ){
         BaseSuccessCode code = MemberSuccessCode.MEMBER_SUCCESS;
         return ApiResponse.onSuccess(code, memberService.getInfo(dto));
@@ -28,14 +29,16 @@ public class MemberController {
     //보유 포인트 조회
     @GetMapping("/v1/members/me/points/{memberId}")
     public ApiResponse<MemberResDTO.PointResDTO> getPoint(
-            @RequestParam(name = "memberId") Long id
+            @RequestParam(name = "memberId") @Valid Long id
     ){
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, memberService.getPoint(id));
     }
 
     //회원 가입
     @GetMapping("/v1/members/signup")
-    public ApiResponse<MemberResDTO.SignUpRes> signup(){
+    public ApiResponse<MemberResDTO.SignUpRes> signup(
+            @RequestBody @Valid MemberReqDTO.SignUpReq dto
+    ){
         return ApiResponse.onSuccess(MemberSuccessCode.CREATED, null);
     }
 }

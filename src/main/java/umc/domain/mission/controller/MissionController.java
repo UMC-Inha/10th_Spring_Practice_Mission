@@ -1,6 +1,9 @@
 package umc.domain.mission.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.mission.dto.MissionReqDTO;
 import umc.domain.mission.dto.MissionResDTO;
@@ -29,8 +32,8 @@ public class MissionController {
 
     @PatchMapping("/v1/missions/{missionId}")
     public ApiResponse<MissionResDTO.MissionDTO> updateMission(
-            @PathVariable Long missionId,
-            @RequestBody MissionReqDTO.MissionStatusUpdate req
+            @PathVariable @NotNull Long missionId,
+            @RequestBody @Valid MissionReqDTO.MissionStatusUpdate req
     ){
         return ApiResponse.onSuccess(MissionSuccessCode.MISSION_UPDATE, null);
     }

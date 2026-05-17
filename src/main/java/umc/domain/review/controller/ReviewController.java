@@ -1,5 +1,7 @@
 package umc.domain.review.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.review.dto.ReviewReqDTO;
@@ -20,16 +22,16 @@ public class ReviewController {
     //리뷰 작성
     @PostMapping("/v1/reviews/{storeId}/{memberId}")
     public ApiResponse<ReviewResDTO.CreateReviewRes> createReview(
-            @PathVariable Long memberId,
-            @PathVariable Long storeId,
-            @RequestBody ReviewReqDTO.CreateReviewReq req
+            @PathVariable @NotNull Long memberId,
+            @PathVariable @NotNull Long storeId,
+            @RequestBody @Valid ReviewReqDTO.CreateReviewReq req
     ){
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_CREATED, reviewService.createReview(memberId, storeId, req));
     }
 
     @GetMapping("/v1/reviews")
     public ApiResponse<CusorResDTO.Pagination<ReviewResDTO.ReviewRes>> getMyReviews(
-            @RequestBody ReviewReqDTO.MyReview req
+            @RequestBody @Valid ReviewReqDTO.MyReview req
     ){
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_FOUND, reviewService.getMyReviews(req));
     }
