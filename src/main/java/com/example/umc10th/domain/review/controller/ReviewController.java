@@ -8,6 +8,9 @@ import com.example.umc10th.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc10th.domain.review.service.ReviewService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Positive;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +29,9 @@ public class ReviewController {
 
 	@PostMapping("/api/member-missions/{memberMissionId}/review")
 	public ApiResponse<ReviewResponseDto> createReview(
-		@PathVariable Long memberMissionId,
+		@PathVariable
+		@Positive(message = "회원 미션 ID는 양수여야 합니다.")
+		Long memberMissionId,
 		@Valid @RequestBody ReviewRequestDto request
 	) {
 		ReviewResponseDto response = reviewService.createReview(memberMissionId, request);
@@ -36,10 +41,15 @@ public class ReviewController {
 
 	@GetMapping("/api/reviews/my")
 	public ApiResponse<ReviewListResponseDto> getMyReviews(
-		@RequestParam Long memberId,
+		@RequestParam
+		@Positive(message = "회원 ID는 양수여야 합니다.")
+		Long memberId,
 		@RequestParam(defaultValue = "ID") ReviewSortType sort,
 		@RequestParam(required = false) String cursor,
-		@RequestParam(defaultValue = "10") Integer size
+		@RequestParam(defaultValue = "10")
+		@Min(value = 1, message = "조회 크기는 1 이상이어야 합니다.")
+		@Max(value = 50, message = "조회 크기는 최대 50까지 가능합니다.")
+		Integer size
 	) {
 		ReviewListResponseDto response = reviewService.getMyReviews(memberId, sort, cursor, size);
 
