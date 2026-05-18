@@ -8,9 +8,10 @@ import com.example.umc10th.domain.mission.enums.MemberMissionStatus;
 import com.example.umc10th.domain.mission.repository.MemberMissionRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,19 +70,15 @@ public class MemberMissionServiceImpl implements MemberMissionService {
 		Integer pageSize
 	) {
 		List<MemberMissionStatus> statuses = toSearchStatuses(MemberMissionStatus.IN_PROGRESS);
-		PageRequest pageRequest = PageRequest.of(
-			pageNumber,
-			pageSize,
-			Sort.by(Sort.Direction.DESC, "id")
-		);
-		Page<MemberMission> page = memberMissionRepository.findByMemberAndStatusesWithOffset(
+		Page<Long> page = memberMissionRepository.findIdsByMemberAndStatusesWithOffset(
 			memberId,
 			statuses,
-			pageRequest
+			PageRequest.of(pageNumber, pageSize)
 		);
+		List<MemberMission> memberMissions = findMemberMissionsInPageOrder(page.getContent());
 
 		return new MemberMissionOffsetPageResponseDto(
-			page.getContent().stream()
+			memberMissions.stream()
 				.map(memberMissionConverter::toSummary)
 				.toList(),
 			page.getNumber(),
@@ -91,6 +88,24 @@ public class MemberMissionServiceImpl implements MemberMissionService {
 			page.isFirst(),
 			page.isLast()
 		);
+	}
+
+	private List<MemberMission> findMemberMissionsInPageOrder(List<Long> memberMissionIds) {
+		if (memberMissionIds.isEmpty()) {
+			return List.of();
+		}
+
+		List<MemberMission> memberMissions = memberMissionRepository.findAllWithMissionAndStoreByIdIn(memberMissionIds);
+		Map<Long, MemberMission> memberMissionMap = memberMissions.stream()
+			.collect(Collectors.toMap(
+				MemberMission::getId,
+				memberMission -> memberMission,
+				(left, right) -> left
+			));
+
+		return memberMissionIds.stream()
+			.map(memberMissionMap::get)
+			.toList();
 	}
 
 	private List<MemberMissionStatus> toSearchStatuses(MemberMissionStatus status) {

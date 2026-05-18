@@ -30,12 +30,11 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
 
 	@Query(
 		value = """
-			select mm
+			select mm.id
 			from MemberMission mm
-			join fetch mm.mission m
-			join fetch m.store s
 			where mm.member.id = :memberId
 				and mm.status in :statuses
+			order by mm.id desc
 			""",
 		countQuery = """
 			select count(mm)
@@ -44,9 +43,20 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
 				and mm.status in :statuses
 			"""
 	)
-	Page<MemberMission> findByMemberAndStatusesWithOffset(
+	Page<Long> findIdsByMemberAndStatusesWithOffset(
 		@Param("memberId") Long memberId,
 		@Param("statuses") List<MemberMissionStatus> statuses,
 		Pageable pageable
+	);
+
+	@Query("""
+		select mm
+		from MemberMission mm
+		join fetch mm.mission m
+		join fetch m.store s
+		where mm.id in :memberMissionIds
+		""")
+	List<MemberMission> findAllWithMissionAndStoreByIdIn(
+		@Param("memberMissionIds") List<Long> memberMissionIds
 	);
 }
