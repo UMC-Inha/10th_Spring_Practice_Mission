@@ -7,6 +7,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import umc.global.security.exception.CustomAccessDenied;
+import umc.global.security.exception.CustomEntryPoint;
 
 @EnableWebSecurity
 @Configuration
@@ -36,6 +38,10 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
+                )
+                .exceptionHandling( exception -> exception
+                        .accessDeniedHandler(customAccessDenied())
+                        .authenticationEntryPoint(customEntryPoint())
                 );
         return http.build();
     }
@@ -43,5 +49,15 @@ public class SecurityConfig {
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CustomAccessDenied  customAccessDenied(){
+        return new CustomAccessDenied();
+    }
+
+    @Bean
+    public CustomEntryPoint customEntryPoint(){
+        return new CustomEntryPoint();
     }
 }
