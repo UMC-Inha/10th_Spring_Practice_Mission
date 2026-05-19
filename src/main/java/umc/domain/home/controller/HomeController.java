@@ -3,7 +3,7 @@ package umc.domain.home.controller;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.home.dto.HomeResDTO;
 import umc.domain.home.service.HomeService;
@@ -20,8 +20,8 @@ public class HomeController {
     //홈 화면
     @GetMapping("/v1/home/{memberId}")
     public ApiResponse<HomeResDTO.HomeDTO> getHome(
-            @RequestParam(name = "region") @NotBlank String region,
-            @PathVariable @NotNull Long memberId
+            @RequestParam(name = "region") @NotBlank @Validated String region,
+            @PathVariable @NotNull @Validated Long memberId
     ){
         return ApiResponse.onSuccess(MemberSuccessCode.HOME_VIEW_SUCCESS, homeService.getHome(memberId, region));
     }

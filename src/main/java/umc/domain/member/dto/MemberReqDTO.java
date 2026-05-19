@@ -27,6 +27,11 @@ public class MemberReqDTO {
             LocalDate birth,
             @NotBlank
             String address,
-            List<Integer> userFood
+            List<Integer> userFood,
+            @NotBlank
+            String email,
+            @NotBlank
+            String password,
+            String phoneNumber
     ){}
 }

@@ -20,7 +20,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     @Query("""
     select r from Review r
-    where r.member.id = :mememberId
+    where r.member.id = :memberId
     and (
         r.rate < :ratingCursor
             or (r.rate = :ratingCursor and r.id > :idCursor)

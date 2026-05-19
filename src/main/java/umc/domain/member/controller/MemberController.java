@@ -35,10 +35,10 @@ public class MemberController {
     }
 
     //회원 가입
-    @GetMapping("/v1/members/signup")
+    @PostMapping("/v1/auth/members/signup")
     public ApiResponse<MemberResDTO.SignUpRes> signup(
             @RequestBody @Valid MemberReqDTO.SignUpReq dto
     ){
-        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, null);
+        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, memberService.signUp(dto));
     }
 }
