@@ -40,16 +40,16 @@ public class Member extends BaseEntity {
     private Gender gender;
 
     @Column(name = "birth", nullable = false)
-    private LocalDateTime birth;
+    private LocalDate birth;
 
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "social_type",  nullable = false)
+    @Column(name = "social_type", nullable = true)
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
-    @Column(name = "social_uid",  nullable = false)
+    @Column(name = "social_uid", nullable = true)
     private String socialUid;
 
     @Column(name = "phone_number")
@@ -58,8 +58,11 @@ public class Member extends BaseEntity {
     @Column(name = "point")
     private Integer point;
 
-    @Column(name = "mail")
-    private String mail;
+    @Column(name = "email", nullable = false)
+    private String email;
+
+    @Column(name ="password", nullable = false)
+    private String password;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<MemberFood> memberFoodList = new ArrayList<>();
@@ -76,4 +79,7 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
     private List<PointHistory> pointHistoryList = new ArrayList<>();
 
+    public void changePassword(String password){
+        this.password = password;
+    }
 }
