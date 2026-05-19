@@ -13,7 +13,10 @@ public enum ReviewErrorCode implements BaseErrorCode {
             HttpStatus.BAD_REQUEST,
             "REVIEW400_1",
             "리뷰 생성에 실패했습니다."
-    );
+    ), INVALID_SORT_TYPE(
+            HttpStatus.BAD_REQUEST,
+            "REVIEW400_2",
+            "지원하지 않는 정렬 방식입니다.");
 
     private final HttpStatus status;
     private final String code;

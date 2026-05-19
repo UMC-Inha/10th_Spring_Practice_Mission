@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import umc.domain.store.entity.Store;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -28,7 +29,7 @@ public class Mission {
     private Integer condition;
 
     @Column(name = "due_date",  nullable = false)
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
 
     @Column(name = "is_started", nullable = false)
     private Boolean isStarted;
