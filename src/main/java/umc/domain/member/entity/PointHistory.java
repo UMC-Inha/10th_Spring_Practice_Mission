@@ -5,12 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import umc.domain.member.enums.PointState;
+import umc.global.entity.BaseEntity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,15 +17,11 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "point_history")
 @EntityListeners(AuditingEntityListener.class)
-public class PointHistory {
+public class PointHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
 
     @Column(name = "point_change", nullable = false)
     private Integer pointChange;

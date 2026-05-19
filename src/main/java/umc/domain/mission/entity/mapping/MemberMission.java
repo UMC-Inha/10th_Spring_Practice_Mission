@@ -5,14 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import umc.domain.member.entity.Member;
 import umc.domain.mission.entity.Mission;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import umc.global.entity.BaseEntity;
 
 @Entity
 @Getter
@@ -21,7 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Table(name = "member_mission")
 @EntityListeners(AuditingEntityListener.class)
-public class MemberMission {
+public class MemberMission extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,13 +33,5 @@ public class MemberMission {
 
     @Column(name = "is_completed", nullable = false)
     private Boolean isCompleted;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
 }

@@ -5,15 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import umc.domain.inquiry.enums.InquiryStatus;
 import umc.domain.inquiry.enums.InquiryType;
 import umc.domain.member.entity.Member;
+import umc.global.entity.BaseEntity;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "inquiry")
 @EntityListeners(AuditingEntityListener.class)
-public class Inquiry {
+public class Inquiry extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,14 +40,6 @@ public class Inquiry {
     @Column(name = "inquiry_status", nullable = false)
     @Enumerated(EnumType.STRING)
     private InquiryStatus inquiryStatus;
-
-    @CreatedDate
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @LastModifiedDate
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
