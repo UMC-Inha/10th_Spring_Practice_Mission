@@ -2,6 +2,7 @@ package umc.domain.review.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,4 +18,35 @@ public class ReviewResDTO {
 		Long reviewId;
 		LocalDateTime createdAt;
 	}
+
+	@Builder
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class ReviewPreviewDTO {
+		Long reviewId;
+		String storeName;
+		Integer star;
+		String content;
+		LocalDateTime createdAt;
+	}
+
+	@Builder
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class ReviewListDTO {
+		private List<ReviewPreviewDTO> reviews;
+		private Boolean hasNext;
+		private String cursor;
+		private Integer page;
+	}
+
+	@Builder
+	public record Pagination<T> (
+		List<T> data,
+		Boolean hasNext,
+		String nextCursor,
+		Integer pageSize
+	) {}
 }

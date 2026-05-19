@@ -1,6 +1,7 @@
 package umc.domain.mission.entity;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +18,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import umc.domain.store.entity.Store;
-import umc.global.apiPayload.code.BaseEntity;
+import umc.global.apiPayload.entity.BaseEntity;
 
 @Entity
 @Getter
@@ -42,7 +43,7 @@ public class Mission extends BaseEntity {
 	private String missionCondition;
 
 	@Column(nullable = false)
-	private LocalDate deadline;
+	private LocalTime deadline;
 
 	@Column(nullable = false)
 	private Boolean isActive;

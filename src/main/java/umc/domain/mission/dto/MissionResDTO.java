@@ -1,5 +1,7 @@
 package umc.domain.mission.dto;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -31,7 +33,7 @@ public class MissionResDTO {
 		String storeName;
 		String missionContent;
 		Integer missionPoint;
-		Integer missionDeadline;
+		LocalTime missionDeadline;
 	}
 
 	// 미션목록 조회
@@ -57,4 +59,25 @@ public class MissionResDTO {
 		String missionContent;
 		String status; // 진행중, 진행완료
 	}
+
+
+	@Builder
+	@Getter
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class GetMission {
+		Long missionId;
+		Long storeId;
+		String missionContent;
+		Integer missionPoint;
+		LocalTime missionDeadline;
+	}
+
+	@Builder
+	public record Pagination<T> (
+		List<T> data,
+		Boolean hasNext,
+		String nextCursor,
+		Integer pageSize
+	) {}
 }
