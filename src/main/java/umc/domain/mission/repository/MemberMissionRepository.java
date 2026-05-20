@@ -53,12 +53,22 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             @Param("status") MissionStatus status
     );
 
-    @Query("""
+    @Query(
+            value = """
             select mm
+            from MemberMission mm
+                join fetch mm.mission m
+                join fetch m.store s
+            where mm.member.id = :memberId
+                and mm.missionStatus in (:statuses) 
+        """,
+            countQuery = """
+            select count(mm)
             from MemberMission mm
             where mm.member.id = :memberId
                 and mm.missionStatus in (:statuses)
-    """)
+        """
+    )
     Page<MemberMission> findMemberMissionsUsingOffset(
             @Param("memberId") Long memberId,
             @Param("statuses") List<MissionStatus> statuses,
