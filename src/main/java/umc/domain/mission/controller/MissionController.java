@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.mission.dto.MissionReqDTO;
 import umc.domain.mission.dto.MissionResDTO;
@@ -23,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/missions")
 @RequiredArgsConstructor
+@Validated
 public class MissionController {
 
     private final MissionService missionService;
