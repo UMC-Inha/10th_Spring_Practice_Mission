@@ -3,7 +3,7 @@ package umc.location.exception.code;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import umc.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.code.BaseErrorCode;
 
 @Getter
 @RequiredArgsConstructor

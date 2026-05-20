@@ -27,4 +27,13 @@ public class MemberTerm {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "term_id")
     private Term term;
+
+    public void mappingMember(Member member){
+        this.member = member;
+        member.getMemberTermList().add(this);
+    }
+
+    public void mappingFood(Term term){
+        this.term = term;
+    }
 }

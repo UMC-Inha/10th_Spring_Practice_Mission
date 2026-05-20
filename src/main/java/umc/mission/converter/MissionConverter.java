@@ -1,7 +1,7 @@
 package umc.mission.converter;
 
 import org.springframework.data.domain.Page;
-import umc.apiPayload.dto.BaseResDTO;
+import umc.global.dto.BaseResDTO;
 import umc.mission.dto.MissionReqDTO;
 import umc.mission.dto.MissionResDTO;
 import umc.mission.entity.Mapping.MemberMission;

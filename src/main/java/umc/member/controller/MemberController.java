@@ -1,12 +1,12 @@
 package umc.member.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import umc.apiPayload.ApiResponse;
-import umc.apiPayload.code.BaseSuccessCode;
+import umc.global.apiPayload.ApiResponse;
+import umc.global.apiPayload.code.BaseSuccessCode;
 import umc.member.dto.MemberReqDTO;
 import umc.member.dto.MemberResDTO;
-import umc.member.entity.Member;
 import umc.member.exception.code.MemberSuccessCode;
 import umc.member.service.MemberService;
 import umc.mission.dto.MissionResDTO;
@@ -21,6 +21,7 @@ public class MemberController {
     private final MissionService missionService;
 
     @PostMapping("/v1/users/me")
+    @Operation(summary = "마이페이지 조회")
     public ApiResponse<MemberResDTO.GetInfo> getInfo(
             @RequestBody MemberReqDTO.GetInfo dto
     ){
@@ -29,6 +30,7 @@ public class MemberController {
     }
 
     @GetMapping("/v1/home")
+    @Operation(summary = "지역 미션 조회")
     public ApiResponse<MissionResDTO.MissionListDTO> getHomeInfo(
             @RequestParam(name = "memberId") Long memberId,
             @RequestParam(name = "regionName") String regionName,
@@ -38,6 +40,7 @@ public class MemberController {
     }
 
     @PostMapping("/v1/auth/signup")
+    @Operation(summary = "회원가입")
     public ApiResponse<MemberResDTO.AuthResDTO.SignUpResultDTO> signUp(
             @RequestBody MemberReqDTO.SingUpDTO request
     ) {

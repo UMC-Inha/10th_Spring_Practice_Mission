@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import umc.apiPayload.dto.BaseResDTO;
+import umc.global.dto.BaseResDTO;
 import umc.mission.converter.MissionConverter;
 import umc.mission.dto.MissionResDTO;
 import umc.mission.entity.Mapping.MemberMission;

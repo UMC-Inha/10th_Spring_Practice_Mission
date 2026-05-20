@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import umc.apiPayload.entity.BaseEntity;
+import umc.global.entity.BaseEntity;
 import umc.member.entity.mapping.MemberFood;
 import umc.member.entity.mapping.MemberTerm;
 import umc.member.enums.Gender;
@@ -43,6 +43,9 @@ public class Member extends BaseEntity {
 
     @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "point", nullable = false)
     private Integer point;

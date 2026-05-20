@@ -6,7 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import umc.apiPayload.dto.BaseResDTO;
+import umc.global.dto.BaseResDTO;
 import umc.location.enums.LocationName;
 import umc.location.exception.LocationException;
 import umc.location.exception.code.LocationErrorCode;
@@ -25,8 +25,6 @@ import umc.store.entity.Store;
 import umc.store.exception.StoreException;
 import umc.store.exception.code.StoreErrorCode;
 import umc.store.repository.StoreRepository;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

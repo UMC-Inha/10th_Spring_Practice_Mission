@@ -29,15 +29,12 @@ public class MemberFood {
     @JoinColumn(name = "food_id")
     private Food food;
 
-    public void setMember(Member member) {
-        if (this.member != null) {
-            this.member.getMemberFoodList().remove(this);
-        }
-
+    public void mappingMember(Member member){
         this.member = member;
+        member.getMemberFoodList().add(this);
+    }
 
-        if (member != null) {
-            member.getMemberFoodList().add(this);
-        }
+    public void mappingFood(Food food){
+        this.food = food;
     }
 }

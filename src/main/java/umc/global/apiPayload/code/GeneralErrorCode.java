@@ -1,4 +1,4 @@
-package umc.apiPayload.code;
+package umc.global.apiPayload.code;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

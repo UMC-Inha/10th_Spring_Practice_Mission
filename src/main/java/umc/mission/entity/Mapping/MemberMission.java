@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import umc.apiPayload.entity.BaseEntity;
+import umc.global.entity.BaseEntity;
 import umc.member.entity.Member;
 import umc.mission.entity.Mission;
 import umc.mission.enums.MissionStatus;

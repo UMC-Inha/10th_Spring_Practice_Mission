@@ -26,9 +26,10 @@ public class MemberConverter {
                 .build();
     }
 
-    public static Member toMember(MemberReqDTO.SingUpDTO request){
+    public static Member toMember(MemberReqDTO.SingUpDTO request, String password){
         return Member.builder()
                 .email(request.email())
+                .password(password)
                 .name(request.name())
                 .gender(Gender.valueOf(request.gender()))
                 .birth(request.birth())

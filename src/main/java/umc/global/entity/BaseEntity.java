@@ -1,4 +1,4 @@
-package umc.apiPayload.entity;
+package umc.global.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

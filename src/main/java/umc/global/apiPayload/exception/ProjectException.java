@@ -1,8 +1,8 @@
-package umc.apiPayload.exception;
+package umc.global.apiPayload.exception;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import umc.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.code.BaseErrorCode;
 
 @Getter
 @RequiredArgsConstructor

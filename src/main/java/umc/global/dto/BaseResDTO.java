@@ -1,4 +1,4 @@
-package umc.apiPayload.dto;
+package umc.global.dto;
 
 import lombok.Builder;
 
