@@ -7,6 +7,6 @@ import umc.domain.member.entity.Member;
 import umc.domain.member.entity.MemberMission;
 import umc.domain.mission.entity.Mission;
 
-public interface MemberRepository extends JpaRepository<Member, Long> {
-    // findById는 JPA가 기본 제공!
+public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
+    Page<MemberMission> findAllByMember_IdAndMission_Id(Long memberId, Long missionId, Pageable pageable);
 }
