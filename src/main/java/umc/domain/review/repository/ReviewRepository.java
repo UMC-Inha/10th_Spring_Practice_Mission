@@ -13,8 +13,6 @@ import java.util.List;
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     Slice<Review> findByMember_IdAndIdLessThanOrderByIdDesc(Long memberId, long idCursor, PageRequest pageRequest);
 
-    Slice<Review> findReviewsByMember_IdOrderByIdDesc(Long memberId, PageRequest pageRequest);
-
     @Query("""
         select r
         from Review r
@@ -32,14 +30,4 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             Pageable pageable
     );
 
-    @Query("""
-        select r
-        from Review r
-        where r.member.id = :memberId
-        order by r.rating desc, r.id desc
-    """)
-    Slice<Review> findFirstByMemberIdOrderByRating(
-            @Param("memberId") Long memberId,
-            Pageable pageable
-    );
 }

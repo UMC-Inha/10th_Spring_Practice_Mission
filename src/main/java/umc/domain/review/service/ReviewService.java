@@ -74,65 +74,64 @@ public class ReviewService {
         List<Review> content;
         Review lastReview;
 
-        if(!cursor.equals("-1")){
+        switch (query.toLowerCase()){
+            case "id":
+                idCursor = cursor.equals("-1")
+                        ? Long.MAX_VALUE
+                        : Long.parseLong(cursor.split(":")[0]);
 
-            String[] cursorSplit = cursor.split(":");
-            switch(query.toLowerCase()){
-                case "id":
+                reviewList = reviewRepository.findByMember_IdAndIdLessThanOrderByIdDesc(
+                        memberId,
+                        idCursor,
+                        pageRequest
+                );
 
-                    idCursor = Long.parseLong(cursorSplit[1]);
+                content = reviewList.getContent();
 
-                    reviewList = reviewRepository.findByMember_IdAndIdLessThanOrderByIdDesc(
-                            memberId,
-                            idCursor,
-                            pageRequest
+                if(content.isEmpty()){
+                    return ReviewConverter.toPaginationCursor(
+                            List.of(),
+                            false,
+                            null,
+                            0
                     );
-                    content = reviewList.getContent();
-                    lastReview = content.get(content.size() - 1);
-                    nextCursor = lastReview.getId() + ":" + lastReview.getId();
-                    break;
+                }
 
-                case "rating":
+                lastReview = content.get(content.size() - 1);
+                nextCursor = lastReview.getId() + ":" + lastReview.getId();
 
-                    ratingCursor = Integer.parseInt(cursorSplit[0]);
-                    idCursor = Long.parseLong(cursorSplit[1]);
+                break;
 
-                    reviewList = reviewRepository.findNextByMemberIdAndRatingCursor(memberId, ratingCursor, idCursor, pageRequest);
+            case "rating":
+                idCursor = cursor.equals("-1")
+                        ? Long.MAX_VALUE
+                        : Long.parseLong(cursor.split(":")[1]);
 
-                    content = reviewList.getContent();
-                    lastReview = content.get(content.size() - 1);
-                    nextCursor = lastReview.getRating() + ":" + lastReview.getId();
+                ratingCursor = cursor.equals("-1")
+                        ? Integer.MAX_VALUE
+                        : Integer.parseInt(cursor.split(":")[0]);
 
-                    break;
+                reviewList = reviewRepository.findNextByMemberIdAndRatingCursor(memberId, ratingCursor, idCursor, pageRequest);
 
-                default:
-                    throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
-            }
+                content = reviewList.getContent();
+
+                if(content.isEmpty()){
+                    return ReviewConverter.toPaginationCursor(
+                            List.of(),
+                            false,
+                            null,
+                            0
+                    );
+                }
+
+                lastReview = content.get(content.size() - 1);
+                nextCursor = lastReview.getRating() + ":" + lastReview.getId();
+
+                break;
+
+            default:
+                throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
         }
-        else{
-            switch(query.toLowerCase()){
-                case "id":
-
-                    reviewList = reviewRepository.findReviewsByMember_IdOrderByIdDesc(memberId, pageRequest);
-                    content = reviewList.getContent();
-                    lastReview = content.get(content.size() - 1);
-                    nextCursor = lastReview.getId() + ":" + lastReview.getId();
-                    break;
-
-                case "rating":
-
-                    reviewList = reviewRepository.findFirstByMemberIdOrderByRating(memberId, pageRequest);
-
-                    content = reviewList.getContent();
-                    lastReview = content.get(content.size() - 1);
-                    nextCursor = lastReview.getRating() + ":" + lastReview.getId();
-
-                    break;
-                default:
-                    throw new ReviewException(ReviewErrorCode.QUERY_NOT_VALID);
-            }
-        }
-
 
         return ReviewConverter.toPaginationCursor(
                 reviewList.map(ReviewConverter::toGetMyReview).toList(),

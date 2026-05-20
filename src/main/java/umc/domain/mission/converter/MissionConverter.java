@@ -47,7 +47,7 @@ public class MissionConverter {
                 .content(dto.conditional())
                 .rewardPoint(Long.valueOf(dto.point()))
                 .endAt(dto.deadLine())
-                .title("tempTitle")
+                .title(dto.title())
                 .startedAt(LocalDate.now())
                 .build();
     }
