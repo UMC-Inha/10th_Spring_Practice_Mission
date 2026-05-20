@@ -3,6 +3,7 @@ package umc.review.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import umc.apiPayload.entity.BaseEntity;
+import umc.member.entity.Member;
 import umc.store.entity.Store;
 
 @Entity
@@ -25,6 +26,10 @@ public class Review extends BaseEntity {
 
     @Column()
     private String photoUrl;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id")
+    private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")

@@ -59,4 +59,11 @@ public class MissionResDTO {
     public record MissionCompleteResultDTO(
             Long userMissionId
     ) {}
+
+    @Builder
+    public record GetMission(
+            Long missionId,
+            Integer point,
+            String content
+    ){}
 }

@@ -10,4 +10,14 @@ public class ReviewResDTO {
             Long reviewId,
             LocalDateTime createdAt
     ) {}
+
+    //ReviewReqDTO에
+    @Builder
+    public record ReviewDetailDTO(
+            Long reviewId,
+            String storeName,
+            Integer star,
+            String content,
+            LocalDateTime createdAt
+    ) {}
 }

@@ -10,7 +10,7 @@ import umc.apiPayload.code.BaseErrorCode;
 public enum StoreErrorCode implements BaseErrorCode {
 
     STORE_NOT_FOUND(HttpStatus.NOT_FOUND,
-            "FOOD404_1",
+            "STORE404_1",
             "존재하지 않는 가게입니다.");
 
     private final HttpStatus status;

@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import umc.location.enums.LocationName;
 import umc.mission.entity.Mission;
 
+import java.util.List;
+
 public interface MissionRepository extends JpaRepository<Mission, Long> {
     @Query("SELECT m FROM Mission m " +
             "JOIN FETCH m.store s " +
@@ -18,4 +20,6 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
             @Param("location") LocationName location,
             Pageable pageable
     );
+
+    Page<Mission> findAllByStore_Id(Long storeId, Pageable pageable);
 }
