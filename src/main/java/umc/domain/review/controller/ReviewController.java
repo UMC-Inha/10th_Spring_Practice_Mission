@@ -1,7 +1,9 @@
 package umc.domain.review.controller;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.review.dto.ReviewReqDTO;
 import umc.domain.review.dto.ReviewResDTO;
@@ -10,6 +12,7 @@ import umc.domain.review.service.ReviewService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.BaseSuccessCode;
 
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -30,8 +33,8 @@ public class ReviewController {
 
     @GetMapping("/reviews")
     public ApiResponse<ReviewResDTO.PaginationCursor<ReviewResDTO.GetMyReview>> getMyReviews(
-            @RequestParam Integer pageSize,
-            @RequestParam String cursor,
+            @RequestParam @Positive Integer pageSize,
+            @RequestParam(defaultValue = "-1") String cursor,
             @RequestParam String query
     ) {
         Long memberId = 1L; // TODO: Get memberId from accessToken

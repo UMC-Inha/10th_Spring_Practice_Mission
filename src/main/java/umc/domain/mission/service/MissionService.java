@@ -149,6 +149,17 @@ public class MissionService {
         }
 
         List<Mission> content = missionList.getContent();
+
+        // 빈 페이지 응답
+        if(content.isEmpty()){
+            return MissionConverter.toPagination(
+                    List.of(),
+                    false,
+                    null,
+                    0
+            );
+        }
+
         Mission lastMission = content.get(content.size() -1 );
         nextCursor = lastMission.getId() + ":" + lastMission.getId();
 
