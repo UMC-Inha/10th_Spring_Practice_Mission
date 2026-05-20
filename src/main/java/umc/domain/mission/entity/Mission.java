@@ -8,6 +8,9 @@ import lombok.NoArgsConstructor;
 import umc.domain.common.BaseEntity;
 import umc.domain.store.entity.Store;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -24,11 +27,11 @@ public class Mission extends BaseEntity {
     @Column(name = "conditional", nullable = false, length = 200)
     private String conditional;
 
-    @Column(name = "start_dt", nullable = false, length = 8)
-    private String start_dt;
+    @Column(name = "start_dt", nullable = false)
+    private LocalDate start_dt;
 
-    @Column(name = "end_dt", nullable = false, length = 8)
-    private String end_dt;
+    @Column(name = "end_dt", nullable = false)
+    private LocalDate end_dt;
 
     @Column(name = "reward_point", nullable = false)
     private Integer reward_point;

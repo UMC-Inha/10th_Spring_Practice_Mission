@@ -3,9 +3,11 @@ package umc.domain.member.converter;
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.dto.MemberReqDTO;
 import umc.domain.member.entity.Member;
-import umc.domain.mission.dto.MissionReqDTO;
+import umc.domain.member.entity.MemberMission;
+import umc.domain.mission.entity.Mission;
 
 public class MemberConverter {
+    // 멤버 생성
     public static Member toMember(
             MemberReqDTO.CreateMember dto
     ) {
@@ -47,6 +49,33 @@ public class MemberConverter {
                 .org_cd(member.getOrg_cd())
                 .build();
 
+
+    }
+
+    // 멤버 미션 생성
+    public static MemberMission toMemberMission(
+            Mission mission,
+            Member member,
+            MemberReqDTO.CreateMemberMission dto
+    ) {
+        return MemberMission.builder()
+                .mission(mission)
+                .member(member)
+                .succ_yn(dto.succ_yn())
+                .user_start_dt(dto.user_start_dt())
+                .build();
+    }
+
+    // 멤버 미션 조회
+    public static MemberResDTO.GetMemberMission toGetMemberMission(
+            MemberMission memberMission
+    ){
+        return MemberResDTO.GetMemberMission.builder()
+                .member_id(memberMission.getMember().getId())
+                .mission_id(memberMission.getMission().getId())
+                .succ_yn(memberMission.getSucc_yn())
+                .user_start_dt(memberMission.getUser_start_dt())
+                .build();
 
     }
 

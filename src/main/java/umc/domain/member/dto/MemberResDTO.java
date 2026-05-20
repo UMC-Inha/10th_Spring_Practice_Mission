@@ -5,6 +5,8 @@ import umc.domain.member.enums.Gender;
 import umc.domain.member.enums.Org_cd;
 import umc.domain.member.enums.Status;
 
+import java.time.LocalDate;
+
 public class MemberResDTO {
 
     @Builder
@@ -24,5 +26,13 @@ public class MemberResDTO {
             Status status,
             Org_cd org_cd
 
+    ){}
+
+    @Builder
+    public record GetMemberMission(
+            Long member_id,
+            Long mission_id,
+            String succ_yn,
+            LocalDate user_start_dt
     ){}
 }

@@ -37,4 +37,28 @@ public class MemberController {
         BaseSuccessCode code = MemberSuccessCode.OK;  // ✅ MissionSuccessCode → MemberSuccessCode
         return ApiResponse.onSuccess(code, memberService.getMembers(pageSize, pageNumber, sort));
     }
+
+    // 멤버 미션 생성
+    @PostMapping("/v1/member/missions")
+    public ApiResponse<Void> createMemberMissions(
+            @RequestParam Long memberId,    // ✅ 추가
+            @RequestParam Long missionId,
+            @RequestBody MemberReqDTO.CreateMemberMission dto  // ✅ @PathVariable → @RequestBody
+    ) {
+        BaseSuccessCode code = MemberSuccessCode.MISSIONCREATED;
+        return ApiResponse.onSuccess(code, memberService.createMemberMission(memberId, missionId, dto));
+    }
+
+    // 멤버 미션 조회
+    @GetMapping("/v1/member/missions")  // ✅ @PostMapping → @GetMapping
+    public ApiResponse<List<MemberResDTO.GetMemberMission>> getMemberMissions(
+            @RequestParam Long memberId,   // ✅ 추가
+            @RequestParam Long missionId,
+            @RequestParam Integer pageSize,       // ✅ @PathVariable → @RequestParam
+            @RequestParam Integer pageNumber,
+            @RequestParam(required = false) String sort
+    ){
+        BaseSuccessCode code = MemberSuccessCode.MISSIONOK;  // ✅ MissionSuccessCode → MemberSuccessCode
+        return ApiResponse.onSuccess(code, memberService.getMemberMissions(memberId, missionId, pageSize, pageNumber, sort));
+    }
 }

@@ -4,6 +4,8 @@ import umc.domain.member.enums.Gender;
 import umc.domain.member.enums.Org_cd;
 import umc.domain.member.enums.Status;
 
+import java.time.LocalDate;
+
 public class MemberReqDTO {
     public record CreateMember(
             String log_id,
@@ -19,5 +21,10 @@ public class MemberReqDTO {
             Integer point,
             Status status,
             Org_cd org_cd
+    ){}
+
+    public record CreateMemberMission(
+            String succ_yn,
+            LocalDate user_start_dt
     ){}
 }

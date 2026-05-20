@@ -8,7 +8,7 @@ import umc.global.apiPayload.code.BaseErrorCode;
 @Getter
 @RequiredArgsConstructor
 public enum MissionErrorCode implements BaseErrorCode{
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404_1", "해당 미션을 찾을 수 없습니다.");
+    MISSION_NOT_FOUND(HttpStatus.NOT_FOUND, "MISSION404_1", "해당 미션을 찾을 수 없습니다.");
 
     private final HttpStatus status;
     private final String code;

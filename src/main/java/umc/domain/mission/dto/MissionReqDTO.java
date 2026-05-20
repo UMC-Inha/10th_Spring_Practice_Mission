@@ -8,8 +8,8 @@ public class MissionReqDTO {
     public record CreateMission(
             Integer reward_point,
             String conditional,
-            String start_dt,
-            String end_dt
+            LocalDate start_dt,
+            LocalDate end_dt
 
     ){}
 }
