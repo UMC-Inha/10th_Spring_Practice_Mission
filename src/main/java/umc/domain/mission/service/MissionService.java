@@ -2,7 +2,9 @@ package umc.domain.mission.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.entity.Member;
@@ -13,6 +15,7 @@ import umc.domain.mission.converter.MissionConverter;
 import umc.domain.mission.dto.MissionReqDTO;
 import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.entity.mapping.MemberMission;
+import umc.domain.mission.enums.MissionSortType;
 import umc.domain.mission.enums.MissionStatus;
 import umc.domain.mission.repository.MemberMissionRepository;
 
@@ -61,11 +64,19 @@ public class MissionService {
     public MissionResDTO.OffsetPage getMissionsUsingOffset(
             MissionReqDTO.MissionViewDTO reqDto,
             List<MissionStatus> statuses,
-            Pageable pageable
+            int page,
+            MissionSortType sortType,
+            int pageSize
     ) {
         Member member = memberRepository.findById(reqDto.memberId())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.NOT_FOUND));
 
+        Sort sort = switch(sortType) {
+            case LATEST -> Sort.by("createdAt").descending();
+            case DEADLINE ->  Sort.by("dueDate").ascending();
+        };
+
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
         Page<MemberMission> memberMissions = memberMissionRepository.findMemberMissionsUsingOffset(
                 member.getId(),
                 statuses,
