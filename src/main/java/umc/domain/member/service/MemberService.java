@@ -28,6 +28,8 @@ import java.util.List;
 @Transactional(readOnly = true)
 public class MemberService {
 
+    private static final int GOAL_COUNT = 10;
+
     private final MemberRepository memberRepository;
     private final RegionRepository regionRepository;
     private final MemberMissionRepository memberMissionRepository;
@@ -75,6 +77,6 @@ public class MemberService {
         boolean hasNextPage = missions.size() > pageSize;
         List<Mission> results = new ArrayList<>(missions.subList(0, hasNextPage ? pageSize : missions.size()));
 
-        return MemberConverter.toHomeViewDTO(member, region, missionCount, 10, results, hasNextPage);
+        return MemberConverter.toHomeViewDTO(member, region, missionCount, GOAL_COUNT, results, hasNextPage);
     }
 }
