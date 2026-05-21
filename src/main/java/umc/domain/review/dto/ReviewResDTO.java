@@ -13,4 +13,20 @@ public class ReviewResDTO {
             Integer rating,
             List<String> imageUrls
     ){}
+
+    @Builder
+    public record GetMyReview(
+            Long reviewId,
+            String content,
+            Integer rating
+    ) {}
+
+    @Builder
+    public record PaginationCursor<T>(
+            List<T> data,
+            Boolean hasNext,
+            String nextCursor,
+            Integer pageSize
+    ){}
+
 }

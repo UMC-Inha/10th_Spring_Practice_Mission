@@ -15,6 +15,9 @@ public enum MissionSuccessCode implements BaseSuccessCode {
     STATUS_UPDATED(HttpStatus.OK,
             "MISSION200_2",
             "미션 상태를 성공적으로 변경했습니다."),
+    MISSION_CREATED(HttpStatus.CREATED,
+            "MISSION201_1",
+            "성공적으로 미션을 생성했습니다"),
     ;
 
     private final HttpStatus status;

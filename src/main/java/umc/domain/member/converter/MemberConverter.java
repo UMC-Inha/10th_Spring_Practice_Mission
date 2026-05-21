@@ -35,7 +35,7 @@ public class MemberConverter {
                 .storeCategory(storeCategoryMap.get(store.getId()))
                 .missionContent(mission.getContent())
                 .rewardPoint(mission.getRewardPoint())
-                .dueDate(mission.getEnd_at())
+                .dueDate(mission.getEndAt())
                 .build();
     }
 

@@ -1,4 +1,7 @@
 package umc.domain.inquiry.repository;
 
-public class InquiryRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import umc.domain.inquiry.entity.Inquiry;
+
+public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
 }

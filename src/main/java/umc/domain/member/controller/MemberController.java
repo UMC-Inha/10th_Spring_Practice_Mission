@@ -1,5 +1,6 @@
 package umc.domain.member.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.member.dto.MemberReqDTO;
@@ -37,7 +38,7 @@ public class MemberController {
 
     @PostMapping("/users")
     public ApiResponse<MemberResDTO.CreateMember> createMember(
-            @RequestBody MemberReqDTO.CreateMember request
+            @RequestBody @Valid MemberReqDTO.CreateMember request
     ) {
         BaseSuccessCode code = MemberSuccessCode.MEMBER_CREATED;
         return ApiResponse.onSuccess(code, null);
