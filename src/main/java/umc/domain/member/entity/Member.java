@@ -20,13 +20,13 @@ import java.time.LocalDate;
 public class Member extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY  )
     private Long id;
 
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "nickname", nullable = false)
+    @Column(name = "nickname")
     private String nickname;
 
     @Column(name = "phone_number")
@@ -43,10 +43,10 @@ public class Member extends BaseEntity {
     @Column(name = "address", nullable = false)
     private String address;
 
-    @Column(name = "current_point", nullable = false)
+    @Column(name = "current_point")
     private Long currentPoint;
 
-    @Column(name = "social_provider", nullable = false)
+    @Column(name = "social_provider")
     @Enumerated(EnumType.STRING)
     @Builder.Default
     private SocialProvider socialProvider = SocialProvider.LOCAL;
@@ -54,7 +54,10 @@ public class Member extends BaseEntity {
     @Column(name = "social_id")
     private String socialId;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false)
     private String email;
+
+    @Column(name = "password", nullable = false)
+    private String password;
 
 }

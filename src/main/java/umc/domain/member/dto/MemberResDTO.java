@@ -38,6 +38,6 @@ public class MemberResDTO {
 
     @Builder
     public record CreateMember(
-            Long userId
+            Long memberId
     ) {}
 }

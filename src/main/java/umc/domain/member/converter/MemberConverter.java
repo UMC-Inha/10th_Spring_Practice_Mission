@@ -3,6 +3,7 @@ package umc.domain.member.converter;
 import org.springframework.data.domain.Page;
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.entity.Member;
+import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.mission.entity.Mission;
 import umc.domain.store.entity.Region;
 import umc.domain.store.entity.Store;
@@ -59,4 +60,13 @@ public class MemberConverter {
                 .missions(homeMissions)
                 .build();
     }
+
+    public static MemberResDTO.CreateMember toCreateMember(
+            Member member
+    ) {
+        return MemberResDTO.CreateMember.builder()
+                .memberId(member.getId())
+                .build();
+    }
+
 }
