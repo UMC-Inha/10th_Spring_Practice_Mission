@@ -32,7 +32,7 @@ public class ReviewController {
     @PostMapping("/reviews/{reviewId}/replies")
     public ApiResponse<ReviewResponseDTO.CreateReply> createReply(
             @PathVariable Long reviewId,
-            @RequestBody ReviewRequestDTO.CreateReply dto
+            @Valid @RequestBody ReviewRequestDTO.CreateReply dto
     ) {
         return ApiResponse.onSuccess(ReviewSuccessCode.REVIEW_REPLY_CREATED,
                 reviewService.createReply(reviewId, dto)

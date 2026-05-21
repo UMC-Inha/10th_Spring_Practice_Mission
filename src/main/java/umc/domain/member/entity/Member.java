@@ -48,6 +48,9 @@ public class Member extends BaseEntity {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
+    @Column(name = "password")
+    private String password;
+
     @Column(name = "point", nullable = false)
     private Integer point;
 
@@ -57,11 +60,11 @@ public class Member extends BaseEntity {
     @Column(name = "phone_verified", nullable = false)
     private Boolean isPhoneVerified;
 
-    @Column(name = "social_provider", nullable = false, length = 20)
+    @Column(name = "social_provider", length = 20)
     @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
-    @Column(name = "social_uid", nullable = false, length = 200)
+    @Column(name = "social_uid", length = 200)
     private String socialUid;
 
     @Column(name = "profile_url")

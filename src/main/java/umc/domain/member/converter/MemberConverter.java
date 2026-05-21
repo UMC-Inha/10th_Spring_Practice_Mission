@@ -15,14 +15,17 @@ import java.util.List;
 
 
 public class MemberConverter {
-   public static Member toMember(MemberRequestDTO.SignUpDTO dto) {
+   public static Member toMember(MemberRequestDTO.SignUpDTO dto, String encodedPassword) {
 
       return Member.builder()
+              .email(dto.email())
+              .password(encodedPassword)
               .name(dto.name())
               .gender(dto.gender())
               .birth(dto.birth())
               .address(dto.address())
               .point(0)
+              .isPhoneVerified(false)
               .build();
    }
 
