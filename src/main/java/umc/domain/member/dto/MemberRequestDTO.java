@@ -1,5 +1,9 @@
 package umc.domain.member.dto;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import umc.domain.member.enums.Gender;
 
 import java.time.LocalDateTime;
@@ -9,17 +13,26 @@ public class MemberRequestDTO {
 
     // 회원가입
     public record SignUpDTO(
+            @NotBlank
             String name,
+            @NotNull
             Gender gender,
+            @NotBlank
             String birth,
+            @NotBlank
             String address,
-            List<Long> foodIds,  // 회원가입 시 선호 음식 선택
-            List<TermDTO> terms  // 회원가입 시 약관 동의
+            List<Long> foodIds, // 회원가입 시 선호 음식 선택
+            @NotNull
+            @NotEmpty
+            @Valid
+            List<TermDTO> terms // 회원가입 시 약관 동의
     ) {}
 
     // 약관
     public record TermDTO(
+            @NotNull
             Long termId,
+            @NotNull
             Boolean isAgreed
     ) {}
 
