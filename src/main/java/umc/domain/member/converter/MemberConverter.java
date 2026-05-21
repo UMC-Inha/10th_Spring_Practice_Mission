@@ -7,14 +7,16 @@ import umc.domain.member.entity.MemberMission;
 import umc.domain.mission.entity.Mission;
 
 public class MemberConverter {
-    // 멤버 생성
+    // 멤버 생성 — 암호화된 비밀번호를 인자로 받음
     public static Member toMember(
-            MemberReqDTO.CreateMember dto
+            MemberReqDTO.CreateMember dto,
+            String encodedPassword
     ) {
+
         return Member.builder()
                 .log_id(dto.log_id())
                 .email(dto.email())
-                .password(dto.password())
+                .password(encodedPassword) // ★ 암호화된 비밀번호 사용
                 .name(dto.name())
                 .gender(dto.gender())
                 .birth(dto.birth())
