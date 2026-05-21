@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.domain.term.enums.TermName;
 
 @Entity
 @Getter
@@ -19,7 +20,8 @@ public class Term {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private TermName name;
 
     @Column(name = "is_required", nullable = false)
     private boolean isRequired;
