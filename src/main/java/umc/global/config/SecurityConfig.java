@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import umc.global.security.exception.CustomAccessDenied;
 import umc.global.security.exception.CustomEntryPoint;
 
@@ -43,8 +44,12 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .exceptionHandling(exception -> exception
+                        .defaultAuthenticationEntryPointFor( // 폼 로그인을 위한 임시 설정
+                                customEntryPoint(),
+                                request -> request.getRequestURI().startsWith("/api")
+                        )
                         .accessDeniedHandler(customAccessDenied())
-                        .authenticationEntryPoint(customEntryPoint())
+                        // .authenticationEntryPoint(customEntryPoint()) // 전역 설정
                 )
         ;
 
