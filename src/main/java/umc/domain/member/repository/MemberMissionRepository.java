@@ -17,15 +17,12 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             SELECT mm FROM MemberMission mm
             JOIN FETCH mm.mission m
             JOIN FETCH m.store s
-            JOIN FETCH s.region r
             WHERE mm.member.id = :memberId AND mm.missionStatus = :status
-            AND r.name = :regionName
             ORDER BY mm.startedAt DESC
             """)
-    Page<MemberMission> findByMemberIdAndStatusAndRegion(
+    Page<MemberMission> findByMemberIdAndStatus(
             @Param("memberId") Long memberId,
             @Param("status") MissionStatus status,
-            @Param("regionName") String regionName,
             Pageable pageable
     );
 
