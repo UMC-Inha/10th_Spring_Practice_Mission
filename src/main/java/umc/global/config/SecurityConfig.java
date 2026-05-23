@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import umc.global.security.util.CustomAccessDenied;
+import umc.global.security.util.CustomEntryPoint;
 
 @EnableWebSecurity
 @Configuration
@@ -18,7 +20,6 @@ public class SecurityConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/auth/**",
             "/api/members/signup"
     };
 
@@ -38,6 +39,10 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
+                )
+                .exceptionHandling(ex -> ex
+                        .authenticationEntryPoint(new CustomEntryPoint())
+                        .accessDeniedHandler(new CustomAccessDenied())
                 );
 
         return http.build();
@@ -47,4 +52,5 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
