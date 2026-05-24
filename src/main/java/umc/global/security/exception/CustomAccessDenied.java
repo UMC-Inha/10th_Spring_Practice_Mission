@@ -1,27 +1,27 @@
-package umc.global.security;
+package umc.global.security.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.BaseErrorCode;
 import umc.global.apiPayload.code.GeneralErrorCode;
 
 import java.io.IOException;
 
-public class CustomEntryPoint implements AuthenticationEntryPoint {
+public class CustomAccessDenied implements AccessDeniedHandler {
 
     @Override
-    public void commence(
+    public void handle(
             HttpServletRequest request,
             HttpServletResponse response,
-            AuthenticationException authException
+            AccessDeniedException accessDeniedException
     ) throws IOException, ServletException {
         ObjectMapper objectMapper = new ObjectMapper();
-        BaseErrorCode code = GeneralErrorCode.UNAUTHORIZED;
+        BaseErrorCode code = GeneralErrorCode.FORBIDDEN;
 
         // 응답 Content-Type, HTTP 상태코드 정의
         response.setContentType("application/json;charset=UTF-8");

@@ -1,4 +1,4 @@
-package umc.global.security;
+package umc.global.security.entity;
 
 import jakarta.annotation.Nullable;
 import lombok.Getter;
