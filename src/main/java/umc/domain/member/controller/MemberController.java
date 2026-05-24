@@ -1,16 +1,19 @@
 package umc.domain.member.controller;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import umc.domain.member.dto.MemberReqDTO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.exception.code.MemberSuccessCode;
 import umc.domain.member.service.MemberService;
 import umc.global.apiPayload.ApiResponse;
+import umc.global.security.entity.AuthMember;
 
 import java.time.LocalDate;
 
@@ -40,8 +43,10 @@ public class MemberController {
     }
 
     @GetMapping("/me")
-    public ApiResponse<MemberResDTO.MyPageViewDTO> getMyPage(){
-        MemberResDTO.MyPageViewDTO resDto = memberService.getMyPage(1L);
+    public ApiResponse<MemberResDTO.MyPageViewDTO> getMyPage(
+            @AuthenticationPrincipal AuthMember authMember
+            ){
+        MemberResDTO.MyPageViewDTO resDto = memberService.getMyPage(authMember.getMember().getId());
         return ApiResponse.onSuccess(MemberSuccessCode.MY_PAGE_VIEW, resDto);
     }
 }
