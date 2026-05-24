@@ -27,6 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailsService;
+    private final ObjectMapper objectMapper;
 
     @Override
     protected void doFilterInternal(
@@ -58,15 +59,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             }
             filterChain.doFilter(request, response);
         } catch (Exception e) {
-            ObjectMapper mapper = new ObjectMapper();
             BaseErrorCode code = GeneralErrorCode.UNAUTHORIZED;
 
             response.setContentType("application/json;charset=UTF-8");
             response.setStatus(code.getStatus().value());
 
-            ApiResponse<Void> errorResponse = ApiResponse.onFailure(code,null);
+            ApiResponse<Void> errorResponse = ApiResponse.onFailure(code, null);
 
-            mapper.writeValue(response.getOutputStream(), errorResponse);
+            objectMapper.writeValue(response.getOutputStream(), errorResponse);
         }
     }
 }
