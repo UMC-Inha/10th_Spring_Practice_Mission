@@ -1,6 +1,10 @@
 package umc.domain.auth.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +19,8 @@ import umc.domain.member.entity.Term;
 import umc.domain.member.repository.FoodRepository;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.member.repository.TermRepository;
+import umc.global.security.entity.AuthMember;
+import umc.global.security.util.JwtUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +36,8 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TermRepository termRepository;
     private final FoodRepository foodRepository;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     public AuthResDTO.SignUpDTO signUp(AuthReqDTO.SignUpDTO reqDto) {
@@ -45,6 +53,22 @@ public class AuthService {
 
         memberRepository.save(member);
         return AuthConverter.toSignUpDTO(member);
+    }
+
+    public AuthResDTO.LoginDTO login(AuthReqDTO.LoginDTO reqDto) {
+        Authentication authentication;
+
+        try {
+            authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(reqDto.email(), reqDto.password())
+            );
+        } catch (AuthenticationException e) {
+            throw new AuthException(AuthErrorCode.INVALID_LOGIN_FORM);
+        }
+
+        String accessToken = jwtUtil.createAccessToken((AuthMember) authentication.getPrincipal());
+
+        return new AuthResDTO.LoginDTO(accessToken);
     }
 
     private void addTermsToMember(Member member, List<AuthReqDTO.SignUpDTO.TermDTO> termDTOs) {

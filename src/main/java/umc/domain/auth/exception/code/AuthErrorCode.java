@@ -14,6 +14,7 @@ public enum AuthErrorCode implements BaseErrorCode {
     INVALID_TERM(HttpStatus.BAD_REQUEST, "AUTH404_2", "유효하지 않은 약관입니다."),
     INVALID_FOOD(HttpStatus.BAD_REQUEST, "AUTH404_3", "유효하지 않은 음식입니다."),
     TERMS_MISMATCH(HttpStatus.BAD_REQUEST, "AUTH404_4", "모든 약관에 대한 동의 여부가 필요합니다."),
+    INVALID_LOGIN_FORM(HttpStatus.BAD_REQUEST, "AUTH404_5", "아이디나 비밀번호가 틀렸습니다.")
     ;
 
     private final HttpStatus status;

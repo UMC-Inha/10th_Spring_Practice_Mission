@@ -43,4 +43,12 @@ public class AuthReqDTO {
                 Long foodId
         ) {}
     }
+
+    public record LoginDTO(
+            @NotBlank
+            @Email
+            String email,
+            @NotBlank
+            String password
+    ) {}
 }
