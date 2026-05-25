@@ -99,10 +99,15 @@ public class AuthService {
     }
 
     private void addFoodsToMember(Member member, List<AuthReqDTO.SignUpDTO.FoodPreferenceDTO> foodDTOs) {
-        foodDTOs.forEach(foodDTO -> {
-            Food food = foodRepository.findById(foodDTO.foodId())
-                    .orElseThrow(() -> new AuthException(AuthErrorCode.INVALID_FOOD));
-            member.addPreferenceFood(food);
-        });
+        List<Long> foodIds = foodDTOs.stream()
+                        .map(AuthReqDTO.SignUpDTO.FoodPreferenceDTO::foodId)
+                        .toList();
+
+        List<Food> foods = foodRepository.findAllById(foodIds);
+        if (foodIds.size() != foods.size()) {
+            throw new AuthException(AuthErrorCode.INVALID_FOOD);
+        }
+
+        foods.forEach(member::addPreferenceFood);
     }
 }
