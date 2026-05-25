@@ -1,13 +1,14 @@
 package umc.domain.member.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import umc.domain.member.entity.mapping.MemberFood;
 import umc.domain.member.entity.mapping.MemberTerm;
 import umc.domain.member.enums.Gender;
 import umc.domain.member.enums.SocialType;
-import umc.domain.mission.entity.mapping.MemberMission;
-import umc.domain.review.entity.Review;
 import umc.global.entity.BaseEntity;
 
 import java.time.LocalDate;
@@ -60,6 +61,9 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "social_type")
     private SocialType socialType;
+
+    @Column(name = "social_uid")
+    private String socialUid;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

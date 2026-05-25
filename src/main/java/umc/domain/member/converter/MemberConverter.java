@@ -2,8 +2,10 @@ package umc.domain.member.converter;
 
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.entity.Member;
+import umc.domain.member.enums.Gender;
 import umc.domain.mission.entity.Mission;
 import umc.domain.region.entity.Region;
+import umc.global.security.dto.OAuthDTO;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
@@ -59,6 +61,16 @@ public class MemberConverter {
                 .nextCursorId(hasNextPage ? lastMission.getId() : null)
                 .nextCursorDueDate(hasNextPage ? lastMission.getDueDate() : null)
                 .hasNext(hasNextPage)
+                .build();
+    }
+
+    public static Member toMember(OAuthDTO oAuthDTO) {
+        return Member.builder()
+                .name(oAuthDTO.getName())
+                .email(oAuthDTO.getEmail())
+                .socialUid(oAuthDTO.getSocialUid())
+                .socialType(oAuthDTO.getSocialType())
+                .gender(Gender.NONE)
                 .build();
     }
 }
