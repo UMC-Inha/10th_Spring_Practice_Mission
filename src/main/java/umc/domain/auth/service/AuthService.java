@@ -82,7 +82,7 @@ public class AuthService {
                 .map(AuthReqDTO.SignUpDTO.TermDTO::termId)
                 .collect(Collectors.toSet());
 
-        if (!allTermIds.containsAll(requestedTermIds)) {
+        if (termDTOs.size() != requestedTermIds.size() || !allTermIds.equals(requestedTermIds)) {
             throw new AuthException(AuthErrorCode.TERMS_MISMATCH);
         }
 
