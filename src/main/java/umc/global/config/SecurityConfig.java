@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -15,6 +16,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import umc.global.security.exception.CustomAccessDenied;
 import umc.global.security.exception.CustomEntryPoint;
 import umc.global.security.filter.JwtAuthFilter;
+import umc.global.security.filter.OAuthSuccessHandler;
+import umc.global.security.service.CustomOAuth2UserService;
 
 @EnableWebSecurity
 @Configuration
@@ -22,17 +25,21 @@ import umc.global.security.filter.JwtAuthFilter;
 public class SecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final OAuthSuccessHandler oAuthSuccessHandler;
+    private final CustomEntryPoint customEntryPoint;
+    private final CustomAccessDenied customAccessDenied;
 
     private final String[] allowUris = {
-            // Swagger 허용
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
-            "/auth/**"
+            "/auth/**",
+            "/oauth2/**",
+            "/login/oauth2/**"
     };
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomOAuth2UserService customOAuth2UserService) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(requests -> requests
@@ -40,7 +47,14 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
-                .sessionManagement(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .oauth2Login(oauth2 -> oauth2
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .successHandler(oAuthSuccessHandler)
+                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
@@ -48,8 +62,8 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .exceptionHandling(exception -> exception
-                        .accessDeniedHandler(customAccessDenied())
-                        .authenticationEntryPoint(customEntryPoint())
+                        .accessDeniedHandler(customAccessDenied)
+                        .authenticationEntryPoint(customEntryPoint)
                 );
 
         return http.build();
@@ -58,16 +72,6 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public CustomAccessDenied customAccessDenied() {
-        return new CustomAccessDenied();
-    }
-
-    @Bean
-    public CustomEntryPoint customEntryPoint() {
-        return new CustomEntryPoint();
     }
 
     @Bean
