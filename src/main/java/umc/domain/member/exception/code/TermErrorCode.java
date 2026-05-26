@@ -8,11 +8,10 @@ import umc.global.apiPayload.code.BaseErrorCode;
 
 @Getter
 @RequiredArgsConstructor
-public enum MemberErrorCode implements BaseErrorCode {
+public enum TermErrorCode implements BaseErrorCode {
+	TERM_NOT_FOUND(HttpStatus.NOT_FOUND, "TERM404_1", "해당 약관을 찾을 수 없습니다."),
 
-	MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404_1", "해당 사용자를 찾을 수 없습니다."),
-
-	EMAIL_ALREADY_EXISTS(HttpStatus.CONFLICT, "MEMBER409_1", "이미 존재하는 이메일입니다.");
+	REQUIRED_TERM_NOT_AGREED(HttpStatus.BAD_REQUEST, "TERM400_1", "필수 약관에 동의해야 합니다.");
 
 	private final HttpStatus status;
 	private final String code;

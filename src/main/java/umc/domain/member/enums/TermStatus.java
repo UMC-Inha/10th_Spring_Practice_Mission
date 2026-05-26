@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum Term {
+public enum TermStatus {
 
 	REQUIRED("필수"),
 	OPTIONAL("선택");
