@@ -8,14 +8,6 @@ import java.util.List;
 public class MemberResDTO {
 
     @Builder
-    public record SignUpDTO(
-            Long memberId,
-            String name,
-            String birth,
-            String address
-    ) {}
-
-    @Builder
     public record HomeViewDTO(
             TotalInformationDto totalInformation,
             List<MissionDto> missionList,

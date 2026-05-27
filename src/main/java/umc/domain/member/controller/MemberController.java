@@ -22,13 +22,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/signup")
-    public ApiResponse<MemberResDTO.SignUpDTO> signUp(
-            @RequestBody @Valid MemberReqDTO.SignUpDTO reqDto
-    ){
-        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, null);
-    }
-
     @GetMapping("/home")
     public ApiResponse<MemberResDTO.HomeViewDTO> getHome(
             @RequestParam @NotBlank String regionName,

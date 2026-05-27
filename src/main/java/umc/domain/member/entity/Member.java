@@ -32,8 +32,11 @@ public class Member extends BaseEntity {
     @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "email")
+    @Column(name = "email", nullable = false,  unique = true)
     private String email;
+
+    @Column(name = "password")
+    private String password;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -65,4 +68,21 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<MemberFood> memberFoods = new ArrayList<>();
+
+    public void addPreferenceFood(Food food){
+        memberFoods.add(MemberFood.builder()
+                .food(food)
+                .member(this)
+                .build()
+        );
+    }
+
+    public void addMemberTerm(Term term, boolean isAgreed){
+        memberTerms.add(MemberTerm.builder()
+                .term(term)
+                .member(this)
+                .isAgreed(isAgreed)
+                .build()
+        );
+    }
 }
