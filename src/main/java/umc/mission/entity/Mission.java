@@ -5,10 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import umc.apiPayload.entity.BaseEntity;
+import umc.global.entity.BaseEntity;
 import umc.store.entity.Store;
-
-import java.time.LocalDate;
 
 @Entity
 @Getter

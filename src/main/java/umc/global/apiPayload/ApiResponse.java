@@ -1,11 +1,11 @@
-package umc.apiPayload;
+package umc.global.apiPayload;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import umc.apiPayload.code.BaseErrorCode;
-import umc.apiPayload.code.BaseSuccessCode;
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.code.BaseSuccessCode;
 
 @Getter
 @AllArgsConstructor

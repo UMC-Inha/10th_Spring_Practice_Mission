@@ -1,13 +1,13 @@
-package umc.apiPayload.handler;
+package umc.global.apiPayload.handler;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import umc.apiPayload.ApiResponse;
-import umc.apiPayload.code.BaseErrorCode;
-import umc.apiPayload.code.GeneralErrorCode;
-import umc.apiPayload.exception.ProjectException;
+import umc.global.apiPayload.ApiResponse;
+import umc.global.apiPayload.code.BaseErrorCode;
+import umc.global.apiPayload.code.GeneralErrorCode;
+import umc.global.apiPayload.exception.ProjectException;
 
 import java.util.HashMap;
 import java.util.Map;

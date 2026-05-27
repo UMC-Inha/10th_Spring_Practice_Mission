@@ -1,17 +1,16 @@
 package umc.mission.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import umc.apiPayload.ApiResponse;
-import umc.apiPayload.code.BaseSuccessCode;
-import umc.apiPayload.dto.BaseResDTO;
+import umc.global.apiPayload.ApiResponse;
+import umc.global.apiPayload.code.BaseSuccessCode;
+import umc.global.dto.BaseResDTO;
 import umc.mission.dto.MissionReqDTO;
 import umc.mission.dto.MissionResDTO;
 import umc.mission.exception.code.MissionSuccessCode;
 import umc.mission.service.MemberMissionService;
 import umc.mission.service.MissionService;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,6 +20,7 @@ public class MissionController {
     private final MemberMissionService memberMissionService;
 
     @GetMapping("/v1/users/me/missions")
+    @Operation(summary = "미션 조회 옛날 버전")
     public ApiResponse<MissionResDTO.MissionListDTO> getMyMissions(
             @RequestParam(name = "isComplete") Boolean isComplete,
             @RequestParam(name = "page") Integer page
@@ -29,6 +29,7 @@ public class MissionController {
     }
 
     @PatchMapping("/v1/users/user-missions/{userMissionId}")
+    @Operation(summary = "미션 성공 업데이트")
     public ApiResponse<MissionResDTO.MissionCompleteResultDTO> completeMission(
             @PathVariable(name = "userMissionId") Long userMissionId
     ) {
@@ -36,6 +37,7 @@ public class MissionController {
     }
 
     @PostMapping("/v1/stores/{storeId}/missions")
+    @Operation(summary = "가게 미션 생성")
     public ApiResponse<Void> createMission(
             @PathVariable Long storeId,
             @RequestBody MissionReqDTO.CreateMission dto
@@ -45,6 +47,7 @@ public class MissionController {
     }
 
     @GetMapping("/v1/stores/{storeId}/missions")
+    @Operation(summary = "가게 미션 조회")
     public ApiResponse<BaseResDTO.Pagination<MissionResDTO.GetMission>> getMissions(
             @PathVariable Long storeId,
             @RequestParam Integer pageSize,
@@ -56,6 +59,7 @@ public class MissionController {
     }
 
     @GetMapping("/v1/missions/in-progress")
+    @Operation(summary = "진행 중/완료 한 미션 조회")
     public ApiResponse<BaseResDTO.Pagination<MissionResDTO.MissionInfoDTO>> getInProgressMissions(
             @RequestParam Long memberId,
             @RequestParam Integer pageSize,

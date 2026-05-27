@@ -1,6 +1,6 @@
-package umc.apiPayload.converter;
+package umc.global.converter;
 
-import umc.apiPayload.dto.BaseResDTO;
+import umc.global.dto.BaseResDTO;
 
 import java.util.List;
 

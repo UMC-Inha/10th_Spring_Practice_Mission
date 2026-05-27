@@ -2,8 +2,7 @@ package umc.review.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import umc.apiPayload.entity.BaseEntity;
-import umc.mission.entity.Mapping.MemberMission;
+import umc.global.entity.BaseEntity;
 
 @Entity
 @Getter
