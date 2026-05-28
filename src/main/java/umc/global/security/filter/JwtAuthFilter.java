@@ -1,0 +1,71 @@
+package umc.global.security.filter;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.filter.OncePerRequestFilter;
+import umc.global.apiPayload.code.GeneralErrorCode;
+import umc.global.security.exception.SecurityErrorResponseWriter;
+import umc.global.security.service.CustomUserDetailsService;
+import umc.global.security.util.JwtUtil;
+
+import java.io.IOException;
+
+@RequiredArgsConstructor
+public class JwtAuthFilter extends OncePerRequestFilter {
+
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final SecurityErrorResponseWriter securityErrorResponseWriter;
+
+    @Override
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
+            @NonNull HttpServletResponse response,
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
+
+        try {
+            // 토큰 가져오기
+            String token = request.getHeader("Authorization");
+            // token이 없거나 Bearer가 아니면 넘기기
+            if (token == null || !token.startsWith("Bearer ")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            // Bearer이면 추출
+            token = token.replace("Bearer ", "");
+            // AccessToken 검증하기: 올바른 토큰이면
+            if (jwtUtil.isValid(token)) {
+                // 토큰에서 memberId 추출
+                Long memberId = jwtUtil.getMemberId(token);
+
+                if (memberId == null) {
+                    securityErrorResponseWriter.write(response, GeneralErrorCode.UNAUTHORIZED);
+                    return;
+                }
+
+                UserDetails member = customUserDetailsService.loadUserByMemberId(memberId);
+
+                Authentication auth = new UsernamePasswordAuthenticationToken(
+                        member,
+                        null,
+                        member.getAuthorities()
+                );
+
+                // 인증 완료 후 SecurityContextHolder에 넣기
+                SecurityContextHolder.getContext().setAuthentication(auth);
+            }
+            filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            securityErrorResponseWriter.write(response, GeneralErrorCode.UNAUTHORIZED);
+        }
+    }
+}

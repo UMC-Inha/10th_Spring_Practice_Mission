@@ -9,8 +9,18 @@ import umc.global.apiPayload.code.BaseErrorCode;
 @AllArgsConstructor
 public enum MemberErrorCode implements BaseErrorCode {
 
-    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "MEMBER404_1", "해당 사용자를 찾을 수 없습니다."),
-    EMAIL_ALREADY_EXIST(HttpStatus.CONFLICT, "MEMBER409_1", "해당 이메일은 이미 사용 중 입니다."),
+    MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND,
+            "MEMBER404_1",
+            "해당 사용자를 찾을 수 없습니다."),
+    EMAIL_ALREADY_EXIST(HttpStatus.CONFLICT,
+            "MEMBER409_1",
+            "해당 이메일은 이미 사용 중 입니다."),
+    LOGIN_FAILED(HttpStatus.UNAUTHORIZED,
+            "MEMBER401_1",
+            "이메일 또는 비밀번호가 일치하지 않습니다."),
+    NOT_SUPPORT_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST,
+            "MEMBER400_1",
+            "지원하지 않는 소셜 로그인 제공자입니다."),
     ;
 
     private final HttpStatus status;

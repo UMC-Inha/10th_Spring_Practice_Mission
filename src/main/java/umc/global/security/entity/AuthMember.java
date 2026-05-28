@@ -28,6 +28,6 @@ public class AuthMember implements UserDetails {
 
     @Override
     public String getUsername(){
-        return member.getEmail();
+         return member.getEmail();
     }
 }

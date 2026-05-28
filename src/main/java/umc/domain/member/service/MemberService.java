@@ -36,6 +36,8 @@ import umc.domain.term.enums.TermName;
 import umc.domain.term.exception.TermException;
 import umc.domain.term.exception.code.TermErrorCode;
 import umc.domain.term.repository.TermRepository;
+import umc.global.security.entity.AuthMember;
+import umc.global.security.util.JwtUtil;
 
 import java.util.List;
 import java.util.Map;
@@ -55,6 +57,7 @@ public class MemberService {
     private final TermRepository termRepository;
     private final MemberPreferredCategoryRepository memberPreferredCategoryRepository;
     private final TermAgreementRepository termAgreementRepository;
+    private final JwtUtil jwtUtil;
 
     @Transactional(readOnly = true)
     public MemberResDTO.GetInfo getInfo(Long memberId) {
@@ -198,5 +201,19 @@ public class MemberService {
         if(termList.size() != termNameList.size()){
             throw new TermException(TermErrorCode.TERM_MASTER_DATA_NOT_FOUND);
         }
+    }
+
+    @Transactional
+    public MemberResDTO.Login login(MemberReqDTO.Login request){
+        Member member = memberRepository.findByEmail(request.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.LOGIN_FAILED));
+
+        if(!passwordEncoder.matches(request.paassword(), member.getPassword())){
+            throw new MemberException(MemberErrorCode.LOGIN_FAILED);
+        }
+
+        String accessToken = jwtUtil.createAccessToken(new AuthMember(member));
+
+        return MemberConverter.toLogin(accessToken);
     }
 }
