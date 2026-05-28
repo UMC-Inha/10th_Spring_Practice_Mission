@@ -3,7 +3,7 @@ package umc.domain.home.controller;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.home.dto.HomeResDTO;
 import umc.domain.home.service.HomeService;
@@ -11,6 +11,7 @@ import umc.domain.member.exception.code.MemberSuccessCode;
 import umc.global.apiPayload.ApiResponse;
 
 @RestController
+@Validated
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class HomeController {

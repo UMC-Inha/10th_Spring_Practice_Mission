@@ -5,19 +5,17 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.entity.Member;
 import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.mission.converter.MissionConverter;
 import umc.domain.mission.dto.MissionResDTO;
-import umc.domain.mission.entity.Mission;
 import umc.domain.mission.entity.mapping.MemberMission;
 import umc.domain.mission.repository.MemberMissionRepository;
-import umc.domain.mission.repository.MissionRepository;
 import umc.global.dto.PageResDTO;
 
-import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -26,6 +24,7 @@ public class MissionService {
     private final MemberRepository memberRepository;
     private final MemberMissionRepository memberMissionRepository;
 
+    @Transactional(readOnly = true)
     public PageResDTO.Pagination<MissionResDTO.MissionDTO> getMissions(
             Long memberId,
             boolean isCompleted,

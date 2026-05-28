@@ -2,6 +2,8 @@ package umc.domain.member.dto;
 
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 public class MemberResDTO {
 
     //마이페이지
@@ -24,8 +26,6 @@ public class MemberResDTO {
     @Builder
     public  record  SignUpRes(
             Long memberId,
-            String name,
-            String birth,
-            String address
+            LocalDateTime createdAt
     ){}
 }

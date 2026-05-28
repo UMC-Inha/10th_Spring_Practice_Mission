@@ -4,12 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import umc.domain.member.entity.Member;
 import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.member.repository.MemberRepository;
-import umc.domain.mission.exception.MissionException;
-import umc.domain.mission.exception.code.MissionErrorCode;
 import umc.domain.review.converter.ReviewConverter;
 import umc.domain.review.dto.ReviewReqDTO;
 import umc.domain.review.dto.ReviewResDTO;
@@ -31,6 +30,7 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
 
+    @Transactional
     public ReviewResDTO.CreateReviewRes createReview(Long memberId, Long storeId, ReviewReqDTO.CreateReviewReq req) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 ()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND)
@@ -59,13 +59,15 @@ public class ReviewService {
         Member member = memberRepository.findById(req.id())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
 
+        String sortType = req.sort()==null?"id":req.sort().toLowerCase();
 
         //cursor = id : rating
-        if (!req.cursor().equals("-1")) {
+        if (!"-1".equals(req.cursor())) {
 
             String[] cursorSplit = req.cursor().split(":");
 
-            switch (req.sort().toLowerCase()) {
+
+            switch (sortType) {
                 case "id":
                     idCursor = Long.parseLong(cursorSplit[0]);
 
@@ -102,7 +104,24 @@ public class ReviewService {
             }
         }
         else{
-            reviewList = reviewRepository.findAllByMember(member, pageRequest);
+
+            switch (sortType) {
+                case "id":
+
+                    reviewList = reviewRepository
+                            .findAllByMember(member, pageRequest);
+                    break;
+
+
+                case "rate":
+
+                    reviewList = reviewRepository
+                            .findAllByMemberIdOrderByRatingDesc(member.getId(), 5.0, 1L, pageRequest);
+
+                    break;
+                default:
+                    throw new ReviewException(ReviewErrorCode.INVALID_SORT_TYPE);
+            }
         }
 
         return ReviewConverter.toPagination(

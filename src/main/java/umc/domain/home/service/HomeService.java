@@ -2,6 +2,7 @@ package umc.domain.home.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import umc.domain.home.converter.HomeConverter;
 import umc.domain.home.dto.HomeResDTO;
 import umc.domain.member.entity.Member;
@@ -9,14 +10,11 @@ import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.member.repository.MemberRepository;
 import umc.domain.mission.entity.Mission;
-import umc.domain.mission.entity.mapping.MemberMission;
 import umc.domain.mission.repository.MemberMissionRepository;
 import umc.domain.mission.repository.MissionRepository;
 import umc.domain.store.entity.Region;
-import umc.domain.store.entity.Store;
 import umc.domain.store.exception.StoreException;
 import umc.domain.store.exception.code.RegionErrorCode;
-import umc.domain.store.exception.code.StoreErrorCode;
 import umc.domain.store.repository.RegionRepository;
 import umc.domain.store.repository.StoreRepository;
 
@@ -32,6 +30,7 @@ public class HomeService {
     private final RegionRepository regionRepository;
     private final MemberMissionRepository memberMissionRepository;
 
+    @Transactional(readOnly = true)
     public HomeResDTO.HomeDTO getHome(Long memberId, String region) {
         Member member = memberRepository.findById(memberId).orElseThrow(
                 ()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND)

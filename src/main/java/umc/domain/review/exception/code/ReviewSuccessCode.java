@@ -2,7 +2,6 @@ package umc.domain.review.exception.code;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.graphql.GraphQlProperties;
 import org.springframework.http.HttpStatus;
 import umc.global.apiPayload.code.BaseSuccessCode;
 
@@ -14,7 +13,7 @@ public enum ReviewSuccessCode implements BaseSuccessCode {
             "REVIEW201_1",
             "리뷰가 성공적으로 생성되었습니다."),
 
-    REVIEW_FOUND(HttpStatus.FOUND,
+    REVIEW_FOUND(HttpStatus.OK,
             "REVIEW200_1",
             "리뷰가 성공적으로 조회되었습니다.");
 
