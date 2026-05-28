@@ -3,11 +3,14 @@ package umc.domain.member.converter;
 import org.springframework.data.domain.Page;
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.entity.Member;
+import umc.domain.member.enums.Gender;
 import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.mission.entity.Mission;
 import umc.domain.store.entity.Region;
 import umc.domain.store.entity.Store;
+import umc.global.security.dto.OAuthDTO;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -75,4 +78,18 @@ public class MemberConverter {
                 .build();
     }
 
+    // nullable = false 거나 NullPointerException이 발생 가능한 attribute에는 더미
+    public static Member toMember(OAuthDTO dto) {
+        return Member.builder()
+                .name(dto.getName())
+                .email(dto.getSocialEmail())
+                .password("")
+                .gender(Gender.NONE)
+                .birth(LocalDate.of(2000, 1, 1))
+                .address("NONE")
+                .socialProvider(dto.getSocialProvider())
+                .socialId(dto.getSocialId())
+                .currentPoint(0L)
+                .build();
+    }
 }

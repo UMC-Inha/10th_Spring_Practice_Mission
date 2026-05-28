@@ -18,6 +18,9 @@ public enum MemberErrorCode implements BaseErrorCode {
     LOGIN_FAILED(HttpStatus.UNAUTHORIZED,
             "MEMBER401_1",
             "이메일 또는 비밀번호가 일치하지 않습니다."),
+    NOT_SUPPORT_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST,
+            "MEMBER400_1",
+            "지원하지 않는 소셜 로그인 제공자입니다."),
     ;
 
     private final HttpStatus status;
