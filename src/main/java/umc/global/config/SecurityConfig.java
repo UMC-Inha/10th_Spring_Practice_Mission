@@ -1,5 +1,7 @@
 package umc.global.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +15,11 @@ import umc.global.security.util.CustomEntryPoint;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomAccessDenied customAccessDenied;
+    private final CustomEntryPoint customEntryPoint;
 
     private final String[] allowUris = {
             // Swagger 허용
@@ -41,8 +47,8 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(new CustomEntryPoint())
-                        .accessDeniedHandler(new CustomAccessDenied())
+                        .authenticationEntryPoint(customEntryPoint)
+                        .accessDeniedHandler(customAccessDenied)
                 );
 
         return http.build();
@@ -53,4 +59,8 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public ObjectMapper objectMapepr() {
+        return new ObjectMapper();
+    }
 }

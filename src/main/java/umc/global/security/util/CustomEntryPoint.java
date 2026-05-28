@@ -3,15 +3,21 @@ package umc.global.security.util;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.BaseErrorCode;
 import umc.global.apiPayload.code.GeneralErrorCode;
 
 import java.io.IOException;
 
+@Component
+@RequiredArgsConstructor
 public class CustomEntryPoint implements AuthenticationEntryPoint {
+
+    private final ObjectMapper objectMapper;
 
     @Override
     public void commence(
@@ -19,7 +25,6 @@ public class CustomEntryPoint implements AuthenticationEntryPoint {
             HttpServletResponse response,
             AuthenticationException authException
     ) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
         BaseErrorCode code = GeneralErrorCode.UNAUTHORIZED;
 
         // 응답 Content-Type, HTTP 상태코드 정의

@@ -29,6 +29,9 @@ import umc.domain.region.entity.Region;
 import umc.domain.region.exception.RegionException;
 import umc.domain.region.exception.code.RegionErrorCode;
 import umc.domain.region.repository.RegionRepository;
+import umc.domain.term.entity.Term;
+import umc.domain.term.exception.TermException;
+import umc.domain.term.exception.code.TermErrorCode;
 import umc.domain.term.repository.TermRepository;
 
 import java.util.List;
@@ -81,11 +84,18 @@ public class MemberService {
 
     private void saveTermAgreements(Member member, List<MemberRequestDTO.TermDTO> terms) {
         List<MemberTerm> memberTerms = terms.stream()
-                .map(termDto -> MemberTerm.builder()
-                        .member(member)
-                        .term(termRepository.getReferenceById(termDto.termId()))
-                        .isAgreed(termDto.isAgreed())
-                        .build())
+                .map(termDto -> {
+                    Term term = termRepository.findById(termDto.termId())
+                            .orElseThrow(() -> new TermException(TermErrorCode.TERM_NOT_FOUND));
+                    if (term.getIsRequired() && !termDto.isAgreed()) {
+                        throw new TermException((TermErrorCode.REQUIRED_TERM_NOT_AGREED));
+                    }
+                    return MemberTerm.builder()
+                            .member(member)
+                            .term(term)
+                            .isAgreed(termDto.isAgreed())
+                            .build();
+                })
                 .toList();
         memberTermRepository.saveAll(memberTerms);
     }
