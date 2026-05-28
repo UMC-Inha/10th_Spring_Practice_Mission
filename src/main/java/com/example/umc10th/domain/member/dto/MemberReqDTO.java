@@ -10,7 +10,9 @@ public class MemberReqDTO {
        String name,
        Gender gender,
        LocalDate birth,
-       String address
+       String address,
+       String email,
+       String password
    ){}
 
    public record GetMyPage(
