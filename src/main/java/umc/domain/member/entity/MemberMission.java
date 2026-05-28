@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import umc.domain.common.BaseEntity;
 import umc.domain.mission.entity.Mission;
-import umc.domain.store.entity.Store;
 
 import java.time.LocalDate;
 
@@ -21,7 +20,7 @@ public class MemberMission extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "mebmer_mission_id", nullable = false)
+    @Column(name = "member_mission_id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -2,37 +2,43 @@ package umc.domain.member.dto;
 
 import lombok.Builder;
 import umc.domain.member.enums.Gender;
-import umc.domain.member.enums.Org_cd;
+import umc.domain.member.enums.Social_Type;
 import umc.domain.member.enums.Status;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class MemberResDTO {
 
+    // Member 조회
     @Builder
-    public record GetMember(
+    public record GetMemberDTO(
             Long member_id,
-            String log_id,
             String email,
-            String password,
             String name,
             Gender gender,
             String birth,
-            String post,
-            String add1,
-            String add2,
             String phone,
             Integer point,
-            Status status,
-            Org_cd org_cd
-
+            Status status
     ){}
 
+    // 회원가입
     @Builder
-    public record GetMemberMission(
+    public record GetSignUpDTO(
+            Long member_id,
+            LocalDateTime createdAt
+    ) {
+    }
+
+    // 내 미션 조회
+    @Builder
+    public record GetMemberMissionDTO(
             Long member_id,
             Long mission_id,
             String succ_yn,
             LocalDate user_start_dt
     ){}
+
+
 }

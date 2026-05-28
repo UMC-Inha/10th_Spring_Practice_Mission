@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,10 +17,11 @@ import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.member.repository.MemberMissionRepository;
 import umc.domain.member.repository.MemberRepository;
+import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.repository.MissionRepository;
 
-
+import javax.swing.plaf.synth.Region;
 import java.util.List;
 
 @Service
@@ -32,87 +34,60 @@ public class MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
-    // 멤버 생성
+    // Member 조회
+    public MemberResDTO.GetMemberDTO getMember(Long id) {
+        Member member = memberRepository.findById(id)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        return MemberConverter.toGetMember(member);
+    }
+
+    // 회원가입
     @Transactional
-    public Void createMember(
-            MemberReqDTO.CreateMember dto
-    ){
+    public MemberResDTO.GetSignUpDTO signUp(MemberReqDTO.SignUpDTO dto) {
+        validateEmailNotDuplicate(dto.email());
+        Member member = createMember(dto);
+        // 선호 음식 생성 savePreferFoods(member, dto.foodIds());
+        // 약관 생성 saveTermAgreements(member, dto.terms());
+        return MemberConverter.toGetSignUp(member);
+    }
+
+    private void validateEmailNotDuplicate(String email) {
+        if (memberRepository.existsByEmail(email)) {
+            throw new MemberException(MemberErrorCode.DUPLICATE_EMAIL);
+        }
+    }
+
+    // 멤버 생성
+    private Member createMember(MemberReqDTO.SignUpDTO dto) {
         // ★ 비밀번호 암호화
         String encodedPassword = passwordEncoder.encode(dto.password());
-
         // 멤버 생성
-        Member member = MemberConverter.toMember(dto, encodedPassword);
-
+        Member member = MemberConverter.toPutMember(dto, encodedPassword);
         // 멤버 DB 저장
-        memberRepository.save(member);
-
-        return null;
+        return memberRepository.save(member);
     }
 
-    // 멤버 호출
-    public List<MemberResDTO.GetMember> getMembers(
-            Integer pageSize,
-            Integer pageNumber,
-            String sort
-    ){
-        // 정렬 정보 생성
-        Sort sortInfo;
-        if(sort != null){
-            if(sort.equalsIgnoreCase("asc")){
-                sortInfo = Sort.by("id").ascending();
-            } else if(sort.equalsIgnoreCase("desc")){
-                sortInfo = Sort.by("id").descending();
-            } else {
-                sortInfo = Sort.by(sort); // 컬럼명으로 정렬
-            }
-        } else {
-            sortInfo = Sort.by("id").descending();
-        }
+    // 선호음식 + 약관 추가
 
-        // 페이지 정보들을 PageRequest로 만들기
-        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sortInfo);
-
-        // 가게 내 아이디 조회
-        Page<Member> memberList = memberRepository.findAll(pageRequest);
-
-
-        // 미션들 응답 DTO로 포장하기
-        return memberList.map(MemberConverter::toGetMember).getContent();
-    }
-
-    // 멤버 미션 생성
+    // 내 미션 생성
     @Transactional
-    public Void createMemberMission(
-            Long memberId,
-            Long missionId,
-            MemberReqDTO.CreateMemberMission dto
-    ){
-        // 멤버 찾기
+    public Void createMyMission(Long memberId, Long missionId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-
-        // 미션 찾기
         Mission mission = missionRepository.findById(missionId)
-                .orElseThrow(() ->new MemberException(MemberErrorCode.MEMBER_MISSION_NOT_FOUND));
-
-        // 미션 생성
-        MemberMission memberMission = MemberConverter.toMemberMission(mission, member, dto);
-
-        // 미션 DB 저장
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_MISSION_NOT_FOUND));
+        MemberMission memberMission = MemberConverter.toPutMemberMission(mission, member);
         memberMissionRepository.save(memberMission);
-
         return null;
     }
 
-    // 멤버 미션 조회
-    public List<MemberResDTO.GetMemberMission> getMemberMissions(
+    // 내 미션 조회
+    public List<MemberResDTO.GetMemberMissionDTO> getMyMissions(
             Long memberId,
-            Long missionId,
             Integer pageSize,
             Integer pageNumber,
             String sort
     ){
-        // 정렬 정보 생성
         Sort sortInfo;
         if(sort != null){
             if(sort.equalsIgnoreCase("asc")){
@@ -120,20 +95,13 @@ public class MemberService {
             } else if(sort.equalsIgnoreCase("desc")){
                 sortInfo = Sort.by("id").descending();
             } else {
-                sortInfo = Sort.by(sort); // 컬럼명으로 정렬
+                sortInfo = Sort.by(sort);
             }
         } else {
             sortInfo = Sort.by("id").descending();
         }
-
-        // 페이지 정보들을 PageRequest로 만들기
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sortInfo);
-
-        // 멤버 미션 아이디 조회
-        Page<MemberMission> memberMissionList = memberMissionRepository.findAllByMember_IdAndMission_Id(memberId, missionId, pageRequest);
-
-
-        // 미션들 응답 DTO로 포장하기
+        Page<MemberMission> memberMissionList = memberMissionRepository.findAllByMember_Id(memberId, pageRequest);
         return memberMissionList.map(MemberConverter::toGetMemberMission).getContent();
     }
 

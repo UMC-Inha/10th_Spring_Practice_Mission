@@ -27,30 +27,23 @@ public class MissionService {
 
     // 가게 미션 생성
     @Transactional
-    public Void createMission(
+    public MissionResDTO.GetCreateMissionDTO createMission(
             Long storeId,
-            MissionReqDTO.CreateMission dto
+            MissionReqDTO.CreateMissionDTO dto
     ){
-        // 가게 찾기
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
-
-        // 미션 생성
-        Mission mission = MissionConverter.toMission(store, dto);
-
-        // 미션 DB 저장
-        missionRepository.save(mission);
-
-        return null;
+        Mission mission = MissionConverter.toPutMission(store, dto);
+        return MissionConverter.toGetCreateMission(missionRepository.save(mission));
     }
 
-    public List<MissionResDTO.GetMission> getMissions(
+    // 가게 미션 조회
+    public List<MissionResDTO.GetMissionDTO> getMissions(
             Long storeId,
             Integer pageSize,
             Integer pageNumber,
             String sort
     ){
-        // 정렬 정보 생성
         Sort sortInfo;
         if(sort != null){
             if(sort.equalsIgnoreCase("asc")){
@@ -58,20 +51,14 @@ public class MissionService {
             } else if(sort.equalsIgnoreCase("desc")){
                 sortInfo = Sort.by("id").descending();
             } else {
-                sortInfo = Sort.by(sort); // 컬럼명으로 정렬
+                sortInfo = Sort.by(sort);
             }
         } else {
             sortInfo = Sort.by("id").descending();
         }
 
-        // 페이지 정보들을 PageRequest로 만들기
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize, sortInfo);
-
-        // 가게 내 미션들 조회
         Page<Mission> missionList = missionRepository.findAllByStoreId(storeId, pageRequest);
-
-
-        // 미션들 응답 DTO로 포장하기
         return missionList.map(MissionConverter::toGetMission).getContent();
     }
 }

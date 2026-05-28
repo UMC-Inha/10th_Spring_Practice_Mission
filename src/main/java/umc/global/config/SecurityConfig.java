@@ -1,5 +1,6 @@
 package umc.global.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +9,8 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import umc.global.security.handler.CustomAccessDenied;
+import umc.global.security.handler.CustomEntryPoint;
 
 @EnableWebSecurity
 @Configuration
@@ -19,15 +22,16 @@ public class SecurityConfig {
             "/swagger-resources/**",
             "/v3/api-docs/**",
 
+
             // 회원가입은 로그인 없이 가능해야 함
-            "/api/v1/member/me"   // 회원가입 경로
+            "/api/members/signup" // 회원가입만 허용
     };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
+                .authorizeHttpRequests(requests -> requests
                         .requestMatchers(allowUris).permitAll()
                         .anyRequest().authenticated()
                 )
@@ -37,8 +41,13 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/swagger-ui/index.html")
+                        .logoutSuccessUrl("/login?logout")
                         .permitAll()
+                )
+
+                .exceptionHandling(exception -> exception
+                        .accessDeniedHandler(customAccessDenied())
+                        .authenticationEntryPoint(customEntryPoint())
                 );
 
         return http.build();
@@ -47,5 +56,15 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public CustomAccessDenied customAccessDenied(){
+        return new CustomAccessDenied();
+    }
+
+    @Bean
+    public CustomEntryPoint customEntryPoint(){
+        return new CustomEntryPoint();
     }
 }

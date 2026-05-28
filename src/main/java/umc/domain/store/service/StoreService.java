@@ -1,9 +1,11 @@
 package umc.domain.store.service;
 
-import lombok.Builder;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import umc.domain.member.entity.Member;
+import umc.domain.member.exception.MemberException;
+import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.store.converter.StoreConverter;
 import umc.domain.store.dto.StoreReqDTO;
 import umc.domain.store.dto.StoreResDTO;
@@ -24,49 +26,41 @@ public class StoreService {
     private final ReviewRepository reviewRepository;
     private final MemberRepository memberRepository;
 
-    public StoreResDTO.GetStoreInfo getStoreInfo(StoreReqDTO.GetStoreInfo dto) {
-        Long storeId = dto.store_id();
+    // 가게 조회
+    public StoreResDTO.GetStoreInfoDTO getStoreInfo(Long storeId) {
         Store store = storeRepository.findById(storeId)
                 .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
         return StoreConverter.toGetStoreInfo(store);
     }
 
-    public StoreResDTO.GetReviewInfo getReviewInfo(StoreReqDTO.GetReviewInfo dto) {
+    // 리뷰 조회
+    public StoreResDTO.GetReviewInfoDTO getReviewInfo(Long memberId, Long storeId) {
         List<Review> reviews = reviewRepository
-                .findByMemberIdAndStoreId(dto.member_id(), dto.store_id());
-
+                .findByMemberIdAndStoreId(memberId, storeId);
         if (reviews.isEmpty()) {
             throw new StoreException(StoreErrorCode.REVIEW_NOT_FOUND);
         }
-
         return StoreConverter.toGetReviewInfo(reviews.get(0));
     }
 
-    public void createStore() {
-        Store store = Store.builder()
-                .store_nm("중국집")
-                .region_nm("서울시 구로구")
-                .open_dt("060001")
-                .close_dt("225959")
-                .build();
-
-        storeRepository.save(store); // ← 여기서 INSERT 실행
+    // 가게 생성
+    @Transactional
+    public StoreResDTO.GetCreateStoreDTO createStore(StoreReqDTO.CreateStoreDTO dto) {
+        Store store = StoreConverter.toPutStore(dto);
+        return StoreConverter.toGetStore(storeRepository.save(store));
     }
 
-    public void createReview() {
-        Member member = memberRepository.findById(2L)
-                .orElseThrow(() -> new RuntimeException("멤버 없음"));
-        Store store = storeRepository.findById(2L)
-                .orElseThrow(() -> new RuntimeException("가게 없음"));
+    // 리뷰 생성
+    @Transactional
+    public StoreResDTO.GetCreateReviewDTO createReview(
+            Long memberId, Long storeId, StoreReqDTO.CreateReviewDTO dto
+    ) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new StoreException(StoreErrorCode.STORE_NOT_FOUND));
 
-        Review review = Review.builder()
-                .review_text("음~ 너무 맛있어요!")
-                .star_point("5")
-                .img_id("이미지 아이디")
-                .member(member)   // ← Member 객체
-                .store(store)
-                .build();
-
-        reviewRepository.save(review); // ← 여기서 INSERT 실행
+        Review review = StoreConverter.toPutReview(dto, member, store);
+        return StoreConverter.toGetReview(reviewRepository.save(review));
     }
 }

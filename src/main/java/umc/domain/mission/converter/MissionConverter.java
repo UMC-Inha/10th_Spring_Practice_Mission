@@ -6,9 +6,11 @@ import umc.domain.mission.entity.Mission;
 import umc.domain.store.entity.Store;
 
 public class MissionConverter {
-    public static Mission toMission(
+
+    // 미션 생성 (ReqDTO → Entity)
+    public static Mission toPutMission(
             Store store,
-            MissionReqDTO.CreateMission dto
+            MissionReqDTO.CreateMissionDTO dto
     ){
         return Mission.builder()
                 .store(store)
@@ -19,18 +21,22 @@ public class MissionConverter {
                 .build();
     }
 
-    // 가게 내 미션 조회
-    public static MissionResDTO.GetMission toGetMission(
-           Mission mission
-    ){
-        return MissionResDTO.GetMission.builder()
+    // 미션 생성 조회 (Entity → ResDTO)
+    public static MissionResDTO.GetCreateMissionDTO toGetCreateMission(Mission mission) {
+        return new MissionResDTO.GetCreateMissionDTO(
+                mission.getId(),
+                mission.getCreatedAt()
+        );
+    }
+
+    // 미션 조회 (Entity → ResDTO)
+    public static MissionResDTO.GetMissionDTO toGetMission(Mission mission) {
+        return MissionResDTO.GetMissionDTO.builder()
                 .missionId(mission.getId())
                 .conditional(mission.getConditional())
                 .reward_point(mission.getReward_point())
                 .start_dt(mission.getStart_dt())
                 .end_dt(mission.getEnd_dt())
                 .build();
-
     }
-
 }
