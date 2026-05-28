@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import umc.domain.member.converter.MemberConverter;
 import umc.domain.member.dto.MemberReqDTO;
@@ -29,13 +30,18 @@ public class MemberService {
     private final MissionRepository missionRepository;
     private final MemberMissionRepository memberMissionRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     // 멤버 생성
     @Transactional
     public Void createMember(
             MemberReqDTO.CreateMember dto
     ){
+        // ★ 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(dto.password());
+
         // 멤버 생성
-        Member member = MemberConverter.toMember(dto);
+        Member member = MemberConverter.toMember(dto, encodedPassword);
 
         // 멤버 DB 저장
         memberRepository.save(member);
@@ -43,6 +49,7 @@ public class MemberService {
         return null;
     }
 
+    // 멤버 호출
     public List<MemberResDTO.GetMember> getMembers(
             Integer pageSize,
             Integer pageNumber,
