@@ -20,8 +20,9 @@ import umc.domain.member.repository.MemberRepository;
 import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.entity.Mission;
 import umc.domain.mission.repository.MissionRepository;
+import umc.global.security.entity.AuthMember;
+import umc.global.security.util.JwtUtil;
 
-import javax.swing.plaf.synth.Region;
 import java.util.List;
 
 @Service
@@ -33,12 +34,19 @@ public class MemberService {
     private final MemberMissionRepository memberMissionRepository;
 
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    // Member 조회
+    // 멤버 조회 - 마이페이지
     public MemberResDTO.GetMemberDTO getMember(Long id) {
         Member member = memberRepository.findById(id)
                 .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
         return MemberConverter.toGetMember(member);
+    }
+
+    // 마이페이지
+    public MemberResDTO.GetMemberDTO getMember(AuthMember member) {
+        // 컨버터를 이용해서 응답 DTO 생성 & return
+        return MemberConverter.toGetMember(member.getMember());
     }
 
     // 회원가입
@@ -68,6 +76,25 @@ public class MemberService {
     }
 
     // 선호음식 + 약관 추가
+
+    // 로그인
+    public MemberResDTO.LoginResponse login(MemberReqDTO.LoginRequest request) {
+        // 1. 이메일로 회원 조회
+        Member member = memberRepository.findByEmail(request.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        // 2. 비밀번호 검증
+        if (!passwordEncoder.matches(request.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
+
+        // 3. JWT 토큰 발급
+        AuthMember authMember = new AuthMember(member);
+        String accessToken = jwtUtil.createAccessToken(authMember);
+
+        // 4. 응답 반환
+        return MemberConverter.toLoginResponse(accessToken);
+    }
 
     // 내 미션 생성
     @Transactional

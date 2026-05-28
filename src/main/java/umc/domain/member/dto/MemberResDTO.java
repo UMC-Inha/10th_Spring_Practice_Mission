@@ -31,6 +31,11 @@ public class MemberResDTO {
     ) {
     }
 
+    // 로그인
+    public record LoginResponse(
+            String accessToken
+    ) {}
+
     // 내 미션 조회
     @Builder
     public record GetMemberMissionDTO(

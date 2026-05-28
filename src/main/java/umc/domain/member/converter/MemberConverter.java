@@ -11,7 +11,7 @@ import umc.domain.mission.entity.Mission;
 
 public class MemberConverter {
 
-    // 멤버 조회
+    // 멤버 조회 - 마이페이지
     public static MemberResDTO.GetMemberDTO toGetMember(Member member) {
         return MemberResDTO.GetMemberDTO.builder()
                 .member_id(member.getId())
@@ -54,6 +54,11 @@ public class MemberConverter {
         );
     }
 
+    // 로그인 인증
+    public static MemberResDTO.LoginResponse toLoginResponse(String accessToken) {
+        return new MemberResDTO.LoginResponse(accessToken);
+    }
+
     // 멤버 미션 생성
     public static MemberMission toPutMemberMission(
             Mission mission, Member member
@@ -78,7 +83,7 @@ public class MemberConverter {
                 .build();
     }
 
-    // 홈 조회, 마이페이지 조회 추가
+    // 홈 조회 추가
 
 
 }

@@ -14,6 +14,8 @@ public enum MemberErrorCode implements BaseErrorCode {
 
     DUPLICATE_EMAIL(HttpStatus.CONFLICT, "MEMBER409_1", "이미 사용 중인 이메일입니다."),
 
+    INVALID_PASSWORD(HttpStatus.UNAUTHORIZED, "MEMBER401_1", "비밀번호가 일치하지 않습니다."),
+
     ;
 
     private final HttpStatus status;

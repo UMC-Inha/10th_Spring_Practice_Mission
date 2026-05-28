@@ -55,6 +55,10 @@ public class MemberReqDTO {
             Boolean isAgreed
     ) {}
 
-
+    // 로그인
+    public record LoginRequest(
+            String email,
+            String password
+    ) {}
 
 }

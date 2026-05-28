@@ -9,22 +9,30 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import umc.global.security.filter.JwtAuthFilter;
 import umc.global.security.handler.CustomAccessDenied;
 import umc.global.security.handler.CustomEntryPoint;
+import umc.global.security.service.CustomUserDetailsService;
+import umc.global.security.util.JwtUtil;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor  // 추가
 public class SecurityConfig {
 
+    // 추가
+    private final JwtUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
+
     private final String[] allowUris = {
-            // Swagger 허용
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/v3/api-docs/**",
 
-
-            // 회원가입은 로그인 없이 가능해야 함
-            "/api/members/signup" // 회원가입만 허용
+            // 로그인, 회원가입은 인증 없이 가능
+            "/api/members/signup",
+            "/api/members/login"
     };
 
     @Bean
@@ -35,16 +43,15 @@ public class SecurityConfig {
                         .requestMatchers(allowUris).permitAll()
                         .anyRequest().authenticated()
                 )
-                .formLogin(form -> form
-                        .defaultSuccessUrl("/swagger-ui/index.html", true)
-                        .permitAll()
-                )
+                .formLogin(AbstractHttpConfigurer::disable)      // 변경
+                .sessionManagement(AbstractHttpConfigurer::disable) // 추가
+                // JWT 필터 추가
+                .addFilterBefore(jwtAuthFilter(), UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
                         .permitAll()
                 )
-
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(customAccessDenied())
                         .authenticationEntryPoint(customEntryPoint())
@@ -53,18 +60,24 @@ public class SecurityConfig {
         return http.build();
     }
 
+    // 추가
+    @Bean
+    public JwtAuthFilter jwtAuthFilter() {
+        return new JwtAuthFilter(jwtUtil, customUserDetailsService);
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public CustomAccessDenied customAccessDenied(){
+    public CustomAccessDenied customAccessDenied() {
         return new CustomAccessDenied();
     }
 
     @Bean
-    public CustomEntryPoint customEntryPoint(){
+    public CustomEntryPoint customEntryPoint() {
         return new CustomEntryPoint();
     }
 }
