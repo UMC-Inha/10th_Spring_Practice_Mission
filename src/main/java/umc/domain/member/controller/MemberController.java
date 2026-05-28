@@ -36,11 +36,4 @@ public class MemberController {
         return ApiResponse.onSuccess(code, response);
     }
 
-    @PostMapping("/users")
-    public ApiResponse<MemberResDTO.CreateMember> createMember(
-            @RequestBody @Valid MemberReqDTO.CreateMember request
-    ) {
-        BaseSuccessCode code = MemberSuccessCode.MEMBER_CREATED;
-        return ApiResponse.onSuccess(code, null);
-    }
 }

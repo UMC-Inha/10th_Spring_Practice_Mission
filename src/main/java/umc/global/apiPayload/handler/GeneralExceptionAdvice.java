@@ -1,6 +1,8 @@
 package umc.global.apiPayload.handler;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -53,5 +55,22 @@ public class GeneralExceptionAdvice {
         BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
         return ResponseEntity.status(code.getStatus())
                 .body(ApiResponse.onFailure(code, errors));
+    }
+
+    // 요청 본문 파싱 실패 예외(JSON 형식, enum 변환 실패)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<ApiResponse<Void>> handleHttpMessageNotReadableException(
+            HttpMessageNotReadableException e
+    ){
+        BaseErrorCode code = GeneralErrorCode.BAD_REQUEST;
+
+        // enum 변환 실패
+        if (e.getCause() instanceof InvalidFormatException invalidFormatException
+                && invalidFormatException.getTargetType().isEnum()){
+            code = GeneralErrorCode.INVALID_ENUM_VALUE;
+        }
+
+        return ResponseEntity.status(code.getStatus())
+                .body(ApiResponse.onFailure(code, null));
     }
 }

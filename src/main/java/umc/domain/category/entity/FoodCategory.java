@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import umc.domain.category.enums.CategoryName;
 
 @Entity
 @Getter
@@ -19,6 +20,7 @@ public class FoodCategory {
     private Long id;
 
     @Column(name = "name", nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private CategoryName name;
 
 }
