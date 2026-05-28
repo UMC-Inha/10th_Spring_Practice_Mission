@@ -33,6 +33,7 @@ import umc.domain.term.entity.Term;
 import umc.domain.term.exception.TermException;
 import umc.domain.term.exception.code.TermErrorCode;
 import umc.domain.term.repository.TermRepository;
+import umc.global.security.entity.AuthMember;
 
 import java.util.List;
 
@@ -102,11 +103,10 @@ public class MemberService {
 
     // 마이 페이지
     @Transactional
-    public MemberResponseDTO.MyPageDTO getMyPage(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-
-        return MemberConverter.toMyPageViewDTO(member);
+    public MemberResponseDTO.MyPageDTO getMyPage(
+            AuthMember authMember
+    ) {
+        return MemberConverter.toMyPageViewDTO(authMember.getMember());
     }
 
     // 홈 화면 조회
