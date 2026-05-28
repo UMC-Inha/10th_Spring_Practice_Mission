@@ -34,6 +34,7 @@ import umc.domain.term.exception.TermException;
 import umc.domain.term.exception.code.TermErrorCode;
 import umc.domain.term.repository.TermRepository;
 import umc.global.security.entity.AuthMember;
+import umc.global.security.util.JwtUtil;
 
 import java.util.List;
 
@@ -50,6 +51,7 @@ public class MemberService {
     private final MemberPreferFoodRepository memberPreferFoodRepository;
     private final MemberTermRepository memberTermRepository;
     private final TermRepository termRepository;
+    private final JwtUtil jwtUtil;
 
 
     // 회원가입
@@ -99,6 +101,21 @@ public class MemberService {
                 })
                 .toList();
         memberTermRepository.saveAll(memberTerms);
+    }
+
+    // 로그인
+    @Transactional
+    public MemberResponseDTO.LoginDTO login(MemberRequestDTO.LoginDTO dto) {
+        Member member = memberRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.INVALID_CREDENTIALS));
+        if (!passwordEncoder.matches(dto.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_CREDENTIALS);
+        }
+
+        String token = jwtUtil.createAccessToken(new AuthMember(member));
+        return MemberResponseDTO.LoginDTO.builder()
+                .accessToken(token)
+                .build();
     }
 
     // 마이 페이지

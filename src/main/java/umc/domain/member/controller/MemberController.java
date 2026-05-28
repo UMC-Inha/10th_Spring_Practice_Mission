@@ -27,6 +27,14 @@ public class MemberController {
         return ApiResponse.onSuccess(MemberSuccessCode.CREATED, memberService.signUp(requestDto));
     }
 
+    // 로그인
+    @PostMapping("/login")
+    public ApiResponse<MemberResponseDTO.LoginDTO> login(
+            @RequestBody @Valid MemberRequestDTO.LoginDTO requestDto
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.LOGIN_SUCCESS, memberService.login(requestDto));
+    }
+
     // 홈 화면 조회
     @GetMapping("/me/home")
     public ApiResponse<MemberResponseDTO.HomeDTO> getHome(
