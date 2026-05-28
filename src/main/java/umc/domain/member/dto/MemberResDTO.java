@@ -40,4 +40,9 @@ public class MemberResDTO {
     public record CreateMember(
             Long memberId
     ) {}
+
+    @Builder
+    public record Login(
+            String accessToken
+    ) {}
 }

@@ -35,4 +35,9 @@ public class MemberReqDTO {
                 @NotNull Boolean marketing
         ) {}
     }
+
+    public record Login(
+            @Email @NotBlank String email,
+            @NotBlank String paassword
+    ) {}
 }

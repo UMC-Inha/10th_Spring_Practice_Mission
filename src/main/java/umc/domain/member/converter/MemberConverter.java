@@ -69,4 +69,10 @@ public class MemberConverter {
                 .build();
     }
 
+    public static MemberResDTO.Login toLogin(String accessToken){
+        return MemberResDTO.Login.builder()
+                .accessToken(accessToken)
+                .build();
+    }
+
 }

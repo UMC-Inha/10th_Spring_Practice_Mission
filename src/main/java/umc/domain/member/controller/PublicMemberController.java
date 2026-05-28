@@ -27,4 +27,12 @@ public class PublicMemberController {
         BaseSuccessCode code = MemberSuccessCode.MEMBER_CREATED;
         return ApiResponse.onSuccess(code, memberService.createMember(request));
     }
+
+    @PostMapping("/login")
+    public ApiResponse<MemberResDTO.Login> login(
+            @RequestBody @Valid MemberReqDTO.Login request
+    ) {
+        BaseSuccessCode code = MemberSuccessCode.MEMBER_LOGIN;
+        return ApiResponse.onSuccess(code, memberService.login(request));
+    }
 }
