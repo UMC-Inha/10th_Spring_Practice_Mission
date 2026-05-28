@@ -163,6 +163,8 @@ public class MemberService {
 
         List<Term> termList = termRepository.findAllByNameIn(termNameList);
 
+        validateTermExist(termNameList, termList);
+
         validateRequiredTermAgreement(termList, agreementMap);
 
         List<TermAgreement> termAgreementList = termList.stream()
@@ -187,5 +189,14 @@ public class MemberService {
                 .ifPresent(term -> {
                     throw new TermException(TermErrorCode.REQUIRED_TERM_NOT_AGREED);
                 });
+    }
+
+    private void validateTermExist(
+            List<TermName> termNameList,
+            List<Term> termList
+    ){
+        if(termList.size() != termNameList.size()){
+            throw new TermException(TermErrorCode.TERM_MASTER_DATA_NOT_FOUND);
+        }
     }
 }
