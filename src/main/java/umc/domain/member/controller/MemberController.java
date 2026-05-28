@@ -2,6 +2,7 @@ package umc.domain.member.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.member.dto.MemberReqDTO;
 import umc.domain.member.dto.MemberResDTO;
@@ -9,6 +10,7 @@ import umc.domain.member.exception.code.MemberSuccessCode;
 import umc.domain.member.service.MemberService;
 import umc.global.apiPayload.ApiResponse;
 import umc.global.apiPayload.code.BaseSuccessCode;
+import umc.global.security.entity.AuthMember;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,10 +20,11 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/users/me")
-    public ApiResponse<MemberResDTO.GetInfo> getInfo(){
-        Long memberId = 1L; // TODO: memberId from access token
+    public ApiResponse<MemberResDTO.GetInfo> getInfo(
+            @AuthenticationPrincipal AuthMember member
+            ){
         BaseSuccessCode code = MemberSuccessCode.MEMBER_VIEW;
-        MemberResDTO.GetInfo response = memberService.getInfo(memberId);
+        MemberResDTO.GetInfo response = memberService.getInfo(member.getMember().getId());
         return ApiResponse.onSuccess(code, response);
     }
 
