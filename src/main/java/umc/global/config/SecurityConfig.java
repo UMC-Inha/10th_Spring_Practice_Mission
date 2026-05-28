@@ -66,11 +66,6 @@ public class SecurityConfig {
     }
 
     @Bean
-    public ObjectMapper objectMapepr() {
-        return new ObjectMapper();
-    }
-
-    @Bean
     public JwtAuthFilter jwtAuthFilter() {
         return new JwtAuthFilter(jwtUtil, customUserDetailService);
     }
