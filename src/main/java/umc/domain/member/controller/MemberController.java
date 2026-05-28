@@ -21,7 +21,7 @@ public class MemberController {
     public ApiResponse<MemberResponseDTO.SignUpDTO> signUp(
             @RequestBody @Valid MemberRequestDTO.SignUpDTO requestDto
     ) {
-        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, null);
+        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, memberService.signUp(requestDto));
     }
 
     // 홈 화면 조회

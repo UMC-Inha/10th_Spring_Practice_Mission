@@ -1,5 +1,6 @@
 package umc.domain.mission.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ public class MissionController {
     // 내 미션 목록 조회 (status 필터링)
     @GetMapping("/missions")
     public ApiResponse<MissionResponseDTO.MissionList> getMissions(
-            @RequestBody MissionRequestDTO.GetMyMissions request,
+            @Valid @RequestBody MissionRequestDTO.GetMyMissions request,
             @RequestParam MissionStatus status,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size
@@ -36,7 +37,7 @@ public class MissionController {
     @PostMapping("/stores/{storeId}/missions")
     public ApiResponse<Void> createMission(
             @PathVariable Long storeId,
-            @RequestBody MissionRequestDTO.CreateMission dto
+            @Valid @RequestBody MissionRequestDTO.CreateMission dto
     ) {
         BaseSuccessCode code = MissionSuccessCode.CREATED;
         return ApiResponse.onSuccess(code, missionService.createMission(storeId, dto));

@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface ReviewReplyRepository extends JpaRepository<ReviewReply, Long> {
 
-    // review 필드 안의 id 탐색
-    List<ReviewReply> findByReview_Id(Long reviewId);
+    // 리뷰 ID로 답글 조회 -> N+1 문제 해결
+    List<ReviewReply> findByReview_IdIn(List<Long> reviewIds);
 }

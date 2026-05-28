@@ -25,6 +25,7 @@ import umc.domain.store.repository.StoreRepository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -97,12 +98,21 @@ public class ReviewService {
             slice = reviewRepository.findByMemberIdOrderById(memberId, idCursor, PageRequest.of(0, pageSize));
         }
 
-        List<ReviewResponseDTO.ReviewDTO> items = slice.getContent().stream()
-                .map(review -> {
-                    ReviewReply reply = reviewReplyRepository.findByReview_Id(review.getId())
-                            .stream().findFirst().orElse(null);
-                    return ReviewConverter.toReviewDTO(review, reply);
-                })
+        List<Review> reviews = slice.getContent();
+        List<Long> reviewIds = reviews.stream()
+                .map(Review::getId)
+                .collect(Collectors.toList());
+
+        Map<Long, ReviewReply> replyMap = reviewReplyRepository.findByReview_IdIn(reviewIds)
+                .stream()
+                .collect(Collectors.toMap(
+                        reply -> reply.getReview().getId(),
+                        reply -> reply,
+                        (a, b) -> a     // 키 중복일 때 a 사용
+                ));
+
+        List<ReviewResponseDTO.ReviewDTO> items = reviews.stream()
+                .map(review -> ReviewConverter.toReviewDTO(review, replyMap.get(review.getId())))
                 .collect(Collectors.toList());
 
         String nextCursor = null;
