@@ -1,5 +1,6 @@
 package umc.global.config;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,14 +9,17 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import umc.global.security.exception.CustomAccessDenied;
 import umc.global.security.exception.CustomEntryPoint;
 
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomAccessDenied customAccessDenied;
+    private final CustomEntryPoint customEntryPoint;
 
     private final String[] allowUris = {
             // Swagger 허용
@@ -45,11 +49,11 @@ public class SecurityConfig {
                 )
                 .exceptionHandling(exception -> exception
                         .defaultAuthenticationEntryPointFor( // 폼 로그인을 위한 임시 설정
-                                customEntryPoint(),
+                                customEntryPoint,
                                 request -> request.getRequestURI().startsWith("/api")
                         )
-                        .accessDeniedHandler(customAccessDenied())
-                        // .authenticationEntryPoint(customEntryPoint()) // 전역 설정
+                        .accessDeniedHandler(customAccessDenied)
+                        // .authenticationEntryPoint(customEntryPoint) // 전역 설정
                 )
         ;
 
@@ -59,15 +63,5 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
-    }
-
-    @Bean
-    public CustomAccessDenied customAccessDenied() {
-        return new CustomAccessDenied();
-    }
-
-    @Bean
-    public CustomEntryPoint customEntryPoint() {
-        return new CustomEntryPoint();
     }
 }
