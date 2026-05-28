@@ -33,6 +33,8 @@ import umc.domain.store.exception.code.StoreErrorCode;
 import umc.domain.store.repository.RegionRepository;
 import umc.domain.term.entity.Term;
 import umc.domain.term.enums.TermName;
+import umc.domain.term.exception.TermException;
+import umc.domain.term.exception.code.TermErrorCode;
 import umc.domain.term.repository.TermRepository;
 
 import java.util.List;
@@ -161,6 +163,8 @@ public class MemberService {
 
         List<Term> termList = termRepository.findAllByNameIn(termNameList);
 
+        validateRequiredTermAgreement(termList, agreementMap);
+
         List<TermAgreement> termAgreementList = termList.stream()
                 .map(term -> TermAgreement.builder()
                         .member(member)
@@ -170,5 +174,18 @@ public class MemberService {
                 .toList();
 
         termAgreementRepository.saveAll(termAgreementList);
+    }
+
+    private void validateRequiredTermAgreement(
+            List<Term> termList,
+            Map<TermName, Boolean> agreementMap
+    ) {
+        termList.stream()
+                .filter(Term::isRequired)
+                .filter(term -> !Boolean.TRUE.equals(agreementMap.get(term.getName())))
+                .findAny()
+                .ifPresent(term -> {
+                    throw new TermException(TermErrorCode.REQUIRED_TERM_NOT_AGREED);
+                });
     }
 }
