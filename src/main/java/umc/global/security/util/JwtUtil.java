@@ -36,11 +36,13 @@ public class JwtUtil {
         return createToken(member, accessExpiration);
     }
 
+
     /** 토큰에서 이메일 가져오기
      *
      * @param token 유저 정보를 추출할 토큰
      * @return 유저 이메일을 토큰에서 추출합니다
      */
+    /*
     public String getEmail(String token) {
         try {
             return getClaims(token).getPayload().getSubject(); // Parsing해서 Subject 가져오기
@@ -48,6 +50,7 @@ public class JwtUtil {
             return null;
         }
     }
+    */
 
     /** 토큰 유효성 확인
      *
@@ -75,7 +78,8 @@ public class JwtUtil {
         return Jwts.builder()
                 .subject(member.getUsername()) // User 이메일을 Subject로
                 .claim("role", authorities)
-                .claim("email", member.getUsername())
+                .claim("email", member.getUsername()) // 일반 로그인
+                .claim("memberId", member.getMember().getId())
                 .issuedAt(Date.from(now)) // 언제 발급한지
                 .expiration(Date.from(now.plus(expiration))) // 언제까지 유효한지
                 .signWith(secretKey) // sign할 Key
@@ -89,5 +93,23 @@ public class JwtUtil {
                 .clockSkewSeconds(60)
                 .build()
                 .parseSignedClaims(token);
+    }
+
+    public Long getMemberId(String token){
+        try{
+            Object memberId = getClaims(token).getPayload().get("memberId");
+
+            if(memberId instanceof Integer id){
+                return id.longValue();
+            }
+
+            if(memberId instanceof Long id){
+                return id;
+            }
+
+            return null;
+        } catch (JwtException e){
+            return null;
+        }
     }
 }
