@@ -26,16 +26,16 @@ public class MemberConverter {
                 .build();
     }
 
-    public static Member toMember(MemberReqDTO.SingUpDTO request, String password){
+    public static Member toMember(MemberReqDTO.SingUpDTO request, String password, Gender gender, SocialType socialType){
         return Member.builder()
                 .email(request.email())
                 .password(password)
                 .name(request.name())
-                .gender(Gender.valueOf(request.gender()))
+                .gender(gender)
                 .birth(request.birth())
                 .address(request.address())
-                .socialUid(request.socailUid())
-                .socialType(SocialType.valueOf(request.socailType()))
+                .socialUid(request.socialUid())
+                .socialType(socialType)
                 .point(0)
                 .build();
     }

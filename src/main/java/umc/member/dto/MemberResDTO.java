@@ -1,6 +1,7 @@
 package umc.member.dto;
 
 import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
@@ -27,5 +28,11 @@ public class MemberResDTO {
                 String socialType,
                 LocalDateTime createdAt
         ) {}
+    }
+
+    @Builder
+    @Getter
+    public static class LoginResDTO{
+        String accessToken;
     }
 }

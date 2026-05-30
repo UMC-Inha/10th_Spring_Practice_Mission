@@ -1,13 +1,15 @@
 package umc.member.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import umc.food.entity.Food;
 import umc.food.exeption.FoodException;
 import umc.food.exeption.code.FoodErrorCode;
 import umc.food.repository.FoodRepository;
+import umc.global.security.entity.AuthMember;
+import umc.global.security.util.JwtUtil;
 import umc.member.converter.MemberConverter;
 import umc.member.dto.MemberReqDTO;
 import umc.member.dto.MemberResDTO;
@@ -22,6 +24,7 @@ import umc.member.repository.MemberFoodRepository;
 import umc.member.repository.MemberRepository;
 import umc.member.repository.MemberTermRepository;
 import umc.term.entity.Term;
+import umc.term.enums.TermName;
 import umc.term.exception.TermException;
 import umc.term.exception.code.TermErrorCode;
 import umc.term.repository.TermRepository;
@@ -38,14 +41,13 @@ public class MemberService {
     private final FoodRepository foodRepository;
     private final TermRepository termRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
-    public MemberResDTO.GetInfo getInfo(MemberReqDTO.GetInfo dto) {
-        Long memberId = dto.id();
-
-        Member member =  memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-
-        return MemberConverter.toGetInfo(member);
+    @Transactional(readOnly = true)
+    public MemberResDTO.GetInfo getInfo(
+            AuthMember member
+    ) {
+        return MemberConverter.toGetInfo(member.getMember());
     }
 
     @Transactional
@@ -57,7 +59,7 @@ public class MemberService {
                 .orElseThrow(() -> new MemberException(MemberErrorCode.INVALID_GENDER_TYPE));
 
         SocialType socialType = Arrays.stream(SocialType.values())
-                .filter(s -> s.name().equalsIgnoreCase(request.socailType()))
+                .filter(s -> s.name().equalsIgnoreCase(request.socialType()))
                 .findFirst()
                 .orElseThrow(() -> new MemberException(MemberErrorCode.INVALID_SOCIAL_TYPE));
 
@@ -67,7 +69,8 @@ public class MemberService {
 
         String encordPassword = passwordEncoder.encode(request.password());
 
-        Member newMember = MemberConverter.toMember(request, encordPassword);
+        // 검증된 enum 값 converter로 넘기기
+        Member newMember = MemberConverter.toMember(request, encordPassword, gender, socialType);
 
         List<Food> foodList = request.userFoods().stream()
                 .map(foodId -> foodRepository.findById(foodId)
@@ -76,6 +79,17 @@ public class MemberService {
 
         List<MemberFood> memberFoodList = MemberConverter.toMemberFoodList(foodList);
         memberFoodList.forEach(memberFood -> memberFood.mappingMember(newMember));
+
+        // 필수 약관 검증 추가
+        List<TermName> requiredTermNames = TermName.getRequiredTermNames();
+
+        List<Long> requiredTermIds = termRepository.findAllByNameIn(requiredTermNames).stream()
+                .map(Term::getId)
+                .toList();
+
+        if(request.agreedTerms() == null || !request.agreedTerms().containsAll(requiredTermIds)){
+            throw new TermException(TermErrorCode.REQUIRED_TERM_NOT_AGREE);
+        }
 
         List<Term> termList = request.agreedTerms().stream()
                 .map(termId -> termRepository.findById(termId)
@@ -91,5 +105,22 @@ public class MemberService {
         memberTermRepository.saveAll(memberTermList);
 
         return MemberConverter.toSignUpResultDTO(savedMember);
+    }
+
+    @Transactional
+    public MemberResDTO.LoginResDTO login(MemberReqDTO.LoginDTO request){
+        Member member = memberRepository.findByEmail(request.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+
+        if(!passwordEncoder.matches(request.password(), member.getPassword())){
+            throw new MemberException(MemberErrorCode.INVALID_PASSWORD);
+        }
+
+        AuthMember authMember = new AuthMember(member);
+
+        String accessToken = jwtUtil.createAccessToken(authMember);
+        return MemberResDTO.LoginResDTO.builder()
+                .accessToken(accessToken)
+                .build();
     }
 }
