@@ -21,20 +21,18 @@ import umc.domain.store.exception.StoreException;
 import umc.domain.store.exception.code.StoreErrorCode;
 import umc.domain.store.repository.StoreRepository;
 import umc.global.dto.CusorResDTO;
+import umc.global.security.entity.AuthMember;
 
 @Service
 @AllArgsConstructor
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
-    private final MemberRepository memberRepository;
     private final StoreRepository storeRepository;
 
     @Transactional
-    public ReviewResDTO.CreateReviewRes createReview(Long memberId, Long storeId, ReviewReqDTO.CreateReviewReq req) {
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                ()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND)
-        );
+    public ReviewResDTO.CreateReviewRes createReview(AuthMember authMember, Long storeId, ReviewReqDTO.CreateReviewReq req) {
+        Member member = authMember.getMember();
 
         Store store = storeRepository.findById(storeId).orElseThrow(
                 ()->new StoreException(StoreErrorCode.STORE_NOT_FOUND)
@@ -48,23 +46,22 @@ public class ReviewService {
         return ReviewConverter.toCreateReviewRes(saved);
     }
 
-    public CusorResDTO.Pagination<ReviewResDTO.ReviewRes> getMyReviews(ReviewReqDTO.MyReview req) {
+    public CusorResDTO.Pagination<ReviewResDTO.ReviewRes> getMyReviews(AuthMember authMember, String cursor, Integer pageSize, String sort) {
 
-        PageRequest pageRequest = PageRequest.of(0, req.pageSize());
+        PageRequest pageRequest = PageRequest.of(0, pageSize);
 
         Slice<Review> reviewList;
         String nextCursor=null;
         Long idCursor;
 
-        Member member = memberRepository.findById(req.id())
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+        Member member = authMember.getMember();
 
-        String sortType = req.sort()==null?"id":req.sort().toLowerCase();
+        String sortType = sort==null?"id":sort.toLowerCase();
 
         //cursor = id : rating
-        if (!"-1".equals(req.cursor())) {
+        if (!"-1".equals(cursor)) {
 
-            String[] cursorSplit = req.cursor().split(":");
+            String[] cursorSplit = cursor.split(":");
 
 
             switch (sortType) {
@@ -129,4 +126,5 @@ public class ReviewService {
                 , nextCursor
         );
     }
+
 }

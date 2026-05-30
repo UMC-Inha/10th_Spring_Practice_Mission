@@ -7,7 +7,7 @@ import umc.domain.member.entity.Term;
 import java.util.List;
 
 public interface TermRepository extends JpaRepository<Term, Long> {
-    List<Term> findAllByRequired(boolean isRequired);
+    List<Term> findAllByIsRequired(boolean isRequired);
 
     @Query("""
         select t.id

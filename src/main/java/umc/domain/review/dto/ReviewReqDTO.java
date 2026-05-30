@@ -19,8 +19,6 @@ public class ReviewReqDTO {
     ){}
 
     public record MyReview(
-            @NotNull
-            Long id,
             String cursor,
             Integer pageSize,
             String sort

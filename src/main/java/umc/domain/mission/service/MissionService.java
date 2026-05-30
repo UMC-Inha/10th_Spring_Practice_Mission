@@ -15,6 +15,7 @@ import umc.domain.mission.dto.MissionResDTO;
 import umc.domain.mission.entity.mapping.MemberMission;
 import umc.domain.mission.repository.MemberMissionRepository;
 import umc.global.dto.PageResDTO;
+import umc.global.security.entity.AuthMember;
 
 
 @Service
@@ -26,7 +27,7 @@ public class MissionService {
 
     @Transactional(readOnly = true)
     public PageResDTO.Pagination<MissionResDTO.MissionDTO> getMissions(
-            Long memberId,
+            AuthMember authMember,
             boolean isCompleted,
             Integer pageSize,
             Integer pageNumber,
@@ -42,9 +43,7 @@ public class MissionService {
 
         PageRequest pageRequest =  PageRequest.of(pageNumber, pageSize, sortInfo);
 
-        Member member = memberRepository.findById(memberId).orElseThrow(
-                ()->new MemberException(MemberErrorCode.MEMBER_NOT_FOUND)
-        );
+        Member member = authMember.getMember();
 
         Page<MemberMission> missionList = memberMissionRepository.findAllByMemberAndIsCompleted(member, isCompleted, pageRequest);
 

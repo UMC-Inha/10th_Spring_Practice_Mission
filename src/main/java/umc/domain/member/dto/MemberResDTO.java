@@ -28,4 +28,10 @@ public class MemberResDTO {
             Long memberId,
             LocalDateTime createdAt
     ){}
+
+    //로그인
+    @Builder
+    public record LoginRes(
+            String accessToken
+    ){}
 }
