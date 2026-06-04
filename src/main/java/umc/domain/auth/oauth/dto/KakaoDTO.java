@@ -1,4 +1,4 @@
-package umc.global.security.dto;
+package umc.domain.auth.oauth.dto;
 
 import lombok.RequiredArgsConstructor;
 import umc.domain.member.enums.SocialType;

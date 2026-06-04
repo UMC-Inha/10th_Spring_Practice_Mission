@@ -1,11 +1,11 @@
 package umc.domain.member.converter;
 
+import umc.domain.auth.oauth.dto.OAuthDTO;
 import umc.domain.member.dto.MemberResDTO;
 import umc.domain.member.entity.Member;
 import umc.domain.member.enums.Gender;
 import umc.domain.mission.entity.Mission;
 import umc.domain.region.entity.Region;
-import umc.global.security.dto.OAuthDTO;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
