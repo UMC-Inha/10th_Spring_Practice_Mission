@@ -17,6 +17,7 @@ public enum AuthErrorCode implements BaseErrorCode {
     NOT_SUPPORT_SOCIAL_PROVIDER(HttpStatus.BAD_REQUEST, "AUTH400_5", "지원하지 않는 소셜 로그인입니다."),
 
     // 401
+    OAUTH_MISSING_ATTRIBUTES(HttpStatus.UNAUTHORIZED, "AUTH401_1", "소셜 로그인 필수 정보가 누락되었습니다."),
     INVALID_LOGIN_FORM(HttpStatus.UNAUTHORIZED, "AUTH401_2", "아이디나 비밀번호가 틀렸습니다."),
 
     // 409
