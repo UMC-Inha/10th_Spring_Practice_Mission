@@ -20,6 +20,7 @@ import umc.domain.mission.repository.MissionRepository;
 import umc.domain.store.exception.StoreException;
 import umc.domain.store.exception.code.StoreErrorCode;
 import umc.domain.store.repository.RegionRepository;
+import umc.global.security.entity.AuthMember;
 
 @Service
 @RequiredArgsConstructor
@@ -31,12 +32,8 @@ public class MemberQueryService {
 	private final MissionRepository missionRepository;
 
 	@Transactional(readOnly = true)
-	public MemberResDTO.GetInfo getInfo(Long memberId) {
-
-		Member member =  memberRepository.findById(memberId)
-			.orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
-
-		return MemberConverter.toGetInfo(member);
+	public MemberResDTO.GetInfo getInfo(AuthMember authMember) {
+		return MemberConverter.toGetInfo(authMember.getMember());
 	}
 
 	// 홈화면
