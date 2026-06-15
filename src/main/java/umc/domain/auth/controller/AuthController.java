@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import umc.domain.auth.dto.AuthReqDTO;
 import umc.domain.auth.dto.AuthResDTO;
+import umc.domain.auth.exception.code.AuthSuccessCode;
 import umc.domain.auth.service.AuthService;
-import umc.domain.member.dto.MemberReqDTO;
-import umc.domain.member.dto.MemberResDTO;
-import umc.domain.member.exception.code.MemberSuccessCode;
 import umc.global.apiPayload.ApiResponse;
 
 @RestController
@@ -26,6 +24,14 @@ public class AuthController {
             @RequestBody @Valid AuthReqDTO.SignUpDTO reqDto
     ){
         AuthResDTO.SignUpDTO resDto = authService.signUp(reqDto);
-        return ApiResponse.onSuccess(MemberSuccessCode.CREATED, resDto);
+        return ApiResponse.onSuccess(AuthSuccessCode.SIGN_UP, resDto);
+    }
+
+    @PostMapping("/login")
+    public ApiResponse<AuthResDTO.LoginDTO> login(
+            @RequestBody @Valid AuthReqDTO.LoginDTO reqDto
+    ) {
+        AuthResDTO.LoginDTO resDto = authService.login(reqDto);
+        return ApiResponse.onSuccess(AuthSuccessCode.LOGIN_SUCCESS, resDto);
     }
 }

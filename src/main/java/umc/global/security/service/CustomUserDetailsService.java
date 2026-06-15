@@ -1,4 +1,4 @@
-package umc.global.security;
+package umc.global.security.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +9,7 @@ import umc.domain.member.entity.Member;
 import umc.domain.member.exception.MemberException;
 import umc.domain.member.exception.code.MemberErrorCode;
 import umc.domain.member.repository.MemberRepository;
+import umc.global.security.entity.AuthMember;
 
 @Service
 @RequiredArgsConstructor

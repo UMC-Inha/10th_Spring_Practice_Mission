@@ -1,0 +1,32 @@
+package umc.domain.auth.oauth.dto;
+
+import lombok.RequiredArgsConstructor;
+import umc.domain.member.enums.SocialType;
+
+@RequiredArgsConstructor
+public class KakaoDTO implements OAuthDTO {
+
+    private final String id;
+    private final String email;
+    private final String name;
+
+    @Override
+    public SocialType getSocialType() {
+        return SocialType.KAKAO;
+    }
+
+    @Override
+    public String getSocialUid() {
+        return id;
+    }
+
+    @Override
+    public String getEmail() {
+        return email;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+}

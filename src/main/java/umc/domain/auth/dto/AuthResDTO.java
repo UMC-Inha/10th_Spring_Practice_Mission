@@ -14,4 +14,9 @@ public class AuthResDTO {
             LocalDate birth,
             String address
     ) {}
+
+    @Builder
+    public record LoginDTO(
+            String accessToken
+    ) {}
 }
