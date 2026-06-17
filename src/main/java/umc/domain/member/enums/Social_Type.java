@@ -1,8 +1,8 @@
 package umc.domain.member.enums;
 
-public enum Org_cd {
+public enum Social_Type {
     NAVER,
     GOOGLE,
     KAKAO,
-    APPLE
+    NONE, APPLE
 }

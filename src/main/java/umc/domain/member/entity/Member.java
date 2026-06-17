@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import umc.domain.common.BaseEntity;
 import umc.domain.member.enums.Gender;
-import umc.domain.member.enums.Org_cd;
+import umc.domain.member.enums.Social_Type;
 import umc.domain.member.enums.Status;
 
 
@@ -24,7 +24,7 @@ public class Member extends BaseEntity {
     @Column(name = "member_id", nullable = false)
     private Long id;
 
-    @Column(name = "log_id", nullable = false, length = 50)
+    @Column(name = "log_id", nullable = true, length = 50)
     private String log_id;
 
     @Column(name = "email", nullable = false, length = 50)
@@ -62,8 +62,10 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-    @Column(name = "org_cd", nullable = false, length = 10)
+    @Column(name = "social_provider", nullable = false, length = 10)
     @Enumerated(EnumType.STRING)
-    private Org_cd org_cd;
+    private Social_Type social_provider;
 
+    @Column(name = "social_uid", length = 20)
+    private String social_uid;
 }

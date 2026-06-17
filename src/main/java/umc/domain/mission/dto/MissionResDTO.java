@@ -3,12 +3,20 @@ package umc.domain.mission.dto;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class MissionResDTO {
 
-    // 가게 내 미션 조회
+    // 미션 생성 응답
     @Builder
-    public record GetMission(
+    public record GetCreateMissionDTO(
+            Long mission_id,
+            LocalDateTime createdAt
+    ){}
+
+    // 미션 조회 응답
+    @Builder
+    public record GetMissionDTO(
             Long missionId,
             Integer reward_point,
             String conditional,

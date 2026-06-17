@@ -1,49 +1,57 @@
 package umc.domain.store.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import umc.domain.store.enums.ReviewSuccessCode;
-import umc.domain.store.enums.StoreSuccessCode;
 import umc.domain.store.dto.StoreReqDTO;
 import umc.domain.store.dto.StoreResDTO;
+import umc.domain.store.exception.code.StoreSuccessCode;
 import umc.domain.store.service.StoreService;
 import umc.global.apiPayload.ApiResponse;
-import umc.global.apiPayload.code.BaseSuccessCode;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/stores")
 public class StoreController {
 
     private final StoreService storeService;
 
-    @PostMapping("/v1/stores/{storeId}")
-    public ApiResponse<StoreResDTO.GetStoreInfo> getStoreInfo(
-            @RequestBody StoreReqDTO.GetStoreInfo dto
+    // 가게 조회
+    @GetMapping("/{storeId}")
+    public ApiResponse<StoreResDTO.GetStoreInfoDTO> getStoreInfo(
+            @PathVariable Long storeId
     ){
-        BaseSuccessCode code = StoreSuccessCode.OK;
-        return ApiResponse.onSuccess(code, storeService.getStoreInfo(dto));
+        return ApiResponse.onSuccess(StoreSuccessCode.STORE_SUCCESS_CODE,
+                storeService.getStoreInfo(storeId));
     }
 
-    @PostMapping("/v1/stores/{storeId}/reviews")
-    public ApiResponse<StoreResDTO.GetReviewInfo> getReviewInfo(
-            @RequestBody StoreReqDTO.GetReviewInfo dto
+    // 리뷰 조회
+    @GetMapping("/{storeId}/reviews")
+    public ApiResponse<StoreResDTO.GetReviewInfoDTO> getReviewInfo(
+            @PathVariable Long storeId,
+            @RequestParam Long memberId
     ){
-        BaseSuccessCode code = ReviewSuccessCode.OK;
-        return ApiResponse.onSuccess(code, storeService.getReviewInfo(dto));
+        return ApiResponse.onSuccess(StoreSuccessCode.REVIEW_SUCCESS_CODE,
+                storeService.getReviewInfo(memberId, storeId));
     }
 
-    @PostMapping("/v1/stores/create")
-    public ApiResponse<String> createStore() {
-        storeService.createStore();
-        return ApiResponse.onSuccess(StoreSuccessCode.OK, "저장 완료");
+    // 가게 생성
+    @PostMapping
+    public ApiResponse<StoreResDTO.GetCreateStoreDTO> createStore(
+            @RequestBody @Valid StoreReqDTO.CreateStoreDTO dto
+    ){
+        return ApiResponse.onSuccess(StoreSuccessCode.STORE_CREATED,
+                storeService.createStore(dto));
     }
 
-    @PostMapping("/v1/stores/reviews/create")
-    public ApiResponse<String> createReview() {
-        storeService.createReview();
-        return ApiResponse.onSuccess(ReviewSuccessCode.OK, "저장 완료");
+    // 리뷰 생성
+    @PostMapping("/{storeId}/reviews")
+    public ApiResponse<StoreResDTO.GetCreateReviewDTO> createReview(
+            @PathVariable Long storeId,
+            @RequestParam Long memberId,
+            @RequestBody @Valid StoreReqDTO.CreateReviewDTO dto
+    ){
+        return ApiResponse.onSuccess(StoreSuccessCode.REVIEW_CREATED,
+                storeService.createReview(memberId, storeId, dto));
     }
-
-
 }

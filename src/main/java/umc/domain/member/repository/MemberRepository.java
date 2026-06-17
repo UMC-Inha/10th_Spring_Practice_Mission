@@ -13,4 +13,5 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     // findById는 JPA가 기본 제공!
 
     Optional<Member> findByEmail(String email);
+    boolean existsByEmail(String email);
 }
