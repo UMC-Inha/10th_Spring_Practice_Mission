@@ -26,6 +26,7 @@ public class SecurityConfig {
     private final CustomEntryPoint customEntryPoint;
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService customUserDetailService;
+    private final ObjectMapper objectMapper;
 
     private final String[] allowUris = {
             // Swagger 허용
@@ -67,6 +68,6 @@ public class SecurityConfig {
 
     @Bean
     public JwtAuthFilter jwtAuthFilter() {
-        return new JwtAuthFilter(jwtUtil, customUserDetailService);
+        return new JwtAuthFilter(jwtUtil, customUserDetailService, objectMapper);
     }
 }

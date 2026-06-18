@@ -1,6 +1,6 @@
 package umc.domain.member.service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -104,7 +104,7 @@ public class MemberService {
     }
 
     // 로그인
-    @Transactional
+    @Transactional(readOnly = true)
     public MemberResponseDTO.LoginDTO login(MemberRequestDTO.LoginDTO dto) {
         Member member = memberRepository.findByEmail(dto.email())
                 .orElseThrow(() -> new MemberException(MemberErrorCode.INVALID_CREDENTIALS));
@@ -119,7 +119,7 @@ public class MemberService {
     }
 
     // 마이 페이지
-    @Transactional
+    @Transactional(readOnly = true)
     public MemberResponseDTO.MyPageDTO getMyPage(
             AuthMember authMember
     ) {
@@ -127,7 +127,7 @@ public class MemberService {
     }
 
     // 홈 화면 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public MemberResponseDTO.HomeDTO getHome(Long memberId, String regionName, int page, int pageSize){
 
         Member member = memberRepository.findById(memberId)
