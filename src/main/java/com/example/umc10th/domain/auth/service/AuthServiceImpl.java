@@ -1,4 +1,4 @@
-package com.example.umc10th.domain.member.service;
+package com.example.umc10th.domain.auth.service;
 
 import com.example.umc10th.domain.category.entity.FoodCategory;
 import com.example.umc10th.domain.category.entity.mapping.MemberFoodCategory;
@@ -6,8 +6,12 @@ import com.example.umc10th.domain.category.exception.CategoryException;
 import com.example.umc10th.domain.category.exception.code.CategoryErrorCode;
 import com.example.umc10th.domain.category.repository.FoodCategoryRepository;
 import com.example.umc10th.domain.category.repository.MemberFoodCategoryRepository;
-import com.example.umc10th.domain.member.dto.SignupRequestDto;
-import com.example.umc10th.domain.member.dto.SignupResponseDto;
+import com.example.umc10th.domain.auth.dto.LoginRequestDto;
+import com.example.umc10th.domain.auth.dto.LoginResponseDto;
+import com.example.umc10th.domain.auth.dto.SignupRequestDto;
+import com.example.umc10th.domain.auth.dto.SignupResponseDto;
+import com.example.umc10th.domain.auth.exception.AuthException;
+import com.example.umc10th.domain.auth.exception.code.AuthErrorCode;
 import com.example.umc10th.domain.member.entity.Member;
 import com.example.umc10th.domain.member.entity.MemberAddress;
 import com.example.umc10th.domain.member.exception.MemberException;
@@ -24,12 +28,18 @@ import com.example.umc10th.domain.term.exception.TermException;
 import com.example.umc10th.domain.term.exception.code.TermErrorCode;
 import com.example.umc10th.domain.term.repository.MemberTermAgreementRepository;
 import com.example.umc10th.domain.term.repository.TermRepository;
+import com.example.umc10th.global.security.AuthMember;
+import com.example.umc10th.global.security.JwtUtil;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +55,9 @@ public class AuthServiceImpl implements AuthService {
 	private final MemberTermAgreementRepository memberTermAgreementRepository;
 	private final FoodCategoryRepository foodCategoryRepository;
 	private final MemberFoodCategoryRepository memberFoodCategoryRepository;
+	private final AuthenticationManager authenticationManager;
 	private final PasswordEncoder passwordEncoder;
+	private final JwtUtil jwtUtil;
 
 	@Override
 	@Transactional
@@ -97,6 +109,21 @@ public class AuthServiceImpl implements AuthService {
 			savedMember.getPhoneNumber(),
 			savedMember.getCreatedAt()
 		);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public LoginResponseDto login(LoginRequestDto request) {
+		try {
+			Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(request.email(), request.password())
+			);
+			AuthMember authMember = (AuthMember) authentication.getPrincipal();
+			String accessToken = jwtUtil.createAccessToken(authMember);
+			return new LoginResponseDto(accessToken);
+		} catch (AuthenticationException e) {
+			throw new AuthException(AuthErrorCode.INVALID_LOGIN);
+		}
 	}
 
 	private Map<Long, Boolean> toTermAgreementMap(List<SignupRequestDto.TermAgreementRequest> terms) {

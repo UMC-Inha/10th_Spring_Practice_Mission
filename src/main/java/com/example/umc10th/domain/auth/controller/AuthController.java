@@ -1,9 +1,11 @@
-package com.example.umc10th.domain.member.controller;
+package com.example.umc10th.domain.auth.controller;
 
-import com.example.umc10th.domain.member.dto.SignupRequestDto;
-import com.example.umc10th.domain.member.dto.SignupResponseDto;
+import com.example.umc10th.domain.auth.dto.LoginRequestDto;
+import com.example.umc10th.domain.auth.dto.LoginResponseDto;
+import com.example.umc10th.domain.auth.dto.SignupRequestDto;
+import com.example.umc10th.domain.auth.dto.SignupResponseDto;
+import com.example.umc10th.domain.auth.service.AuthService;
 import com.example.umc10th.domain.member.exception.code.MemberSuccessCode;
-import com.example.umc10th.domain.member.service.AuthService;
 import com.example.umc10th.global.apiPayload.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +25,11 @@ public class AuthController {
 	public ApiResponse<SignupResponseDto> signup(@Valid @RequestBody SignupRequestDto request) {
 		SignupResponseDto response = authService.signup(request);
 		return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_CREATED, response);
+	}
+
+	@PostMapping("/login")
+	public ApiResponse<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto request) {
+		LoginResponseDto response = authService.login(request);
+		return ApiResponse.onSuccess(MemberSuccessCode.MEMBER_LOGIN, response);
 	}
 }
