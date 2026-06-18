@@ -41,4 +41,12 @@ public class MemberRequestDTO {
             Boolean isAgreed
     ) {}
 
+    // 로그인
+    public record LoginDTO(
+            @NotBlank
+            @Email
+            String email,
+            @NotBlank
+            String password
+    ) {}
 }

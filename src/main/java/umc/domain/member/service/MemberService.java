@@ -1,6 +1,6 @@
 package umc.domain.member.service;
 
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +33,8 @@ import umc.domain.term.entity.Term;
 import umc.domain.term.exception.TermException;
 import umc.domain.term.exception.code.TermErrorCode;
 import umc.domain.term.repository.TermRepository;
+import umc.global.security.entity.AuthMember;
+import umc.global.security.util.JwtUtil;
 
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class MemberService {
     private final MemberPreferFoodRepository memberPreferFoodRepository;
     private final MemberTermRepository memberTermRepository;
     private final TermRepository termRepository;
+    private final JwtUtil jwtUtil;
 
 
     // 회원가입
@@ -100,17 +103,31 @@ public class MemberService {
         memberTermRepository.saveAll(memberTerms);
     }
 
-    // 마이 페이지
-    @Transactional
-    public MemberResponseDTO.MyPageDTO getMyPage(Long memberId) {
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.MEMBER_NOT_FOUND));
+    // 로그인
+    @Transactional(readOnly = true)
+    public MemberResponseDTO.LoginDTO login(MemberRequestDTO.LoginDTO dto) {
+        Member member = memberRepository.findByEmail(dto.email())
+                .orElseThrow(() -> new MemberException(MemberErrorCode.INVALID_CREDENTIALS));
+        if (!passwordEncoder.matches(dto.password(), member.getPassword())) {
+            throw new MemberException(MemberErrorCode.INVALID_CREDENTIALS);
+        }
 
-        return MemberConverter.toMyPageViewDTO(member);
+        String token = jwtUtil.createAccessToken(new AuthMember(member));
+        return MemberResponseDTO.LoginDTO.builder()
+                .accessToken(token)
+                .build();
+    }
+
+    // 마이 페이지
+    @Transactional(readOnly = true)
+    public MemberResponseDTO.MyPageDTO getMyPage(
+            AuthMember authMember
+    ) {
+        return MemberConverter.toMyPageViewDTO(authMember.getMember());
     }
 
     // 홈 화면 조회
-    @Transactional
+    @Transactional(readOnly = true)
     public MemberResponseDTO.HomeDTO getHome(Long memberId, String regionName, int page, int pageSize){
 
         Member member = memberRepository.findById(memberId)

@@ -42,4 +42,9 @@ public class MemberResponseDTO {
             Integer points,
             String profileUrl
     ) {}
+
+    @Builder
+    public record LoginDTO(
+            String accessToken
+    ) {}
 }

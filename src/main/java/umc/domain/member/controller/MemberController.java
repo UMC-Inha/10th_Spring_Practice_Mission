@@ -2,12 +2,15 @@ package umc.domain.member.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import umc.domain.member.dto.MemberRequestDTO;
 import umc.domain.member.dto.MemberResponseDTO;
 import umc.domain.member.exception.code.MemberSuccessCode;
 import umc.domain.member.service.MemberService;
 import umc.global.apiPayload.ApiResponse;
+import umc.global.apiPayload.code.BaseSuccessCode;
+import umc.global.security.entity.AuthMember;
 
 @RestController
 @RequestMapping("/api/members")
@@ -24,6 +27,14 @@ public class MemberController {
         return ApiResponse.onSuccess(MemberSuccessCode.CREATED, memberService.signUp(requestDto));
     }
 
+    // 로그인
+    @PostMapping("/login")
+    public ApiResponse<MemberResponseDTO.LoginDTO> login(
+            @RequestBody @Valid MemberRequestDTO.LoginDTO requestDto
+    ) {
+        return ApiResponse.onSuccess(MemberSuccessCode.LOGIN_SUCCESS, memberService.login(requestDto));
+    }
+
     // 홈 화면 조회
     @GetMapping("/me/home")
     public ApiResponse<MemberResponseDTO.HomeDTO> getHome(
@@ -38,21 +49,11 @@ public class MemberController {
 
     // 마이페이지
     @GetMapping("/me")
-    public ApiResponse<MemberResponseDTO.MyPageDTO> getMyPage() {
-        MemberResponseDTO.MyPageDTO responseDto = memberService.getMyPage(1L);
-        return ApiResponse.onSuccess(MemberSuccessCode.MY_PAGE_VIEW, responseDto);
+    public ApiResponse<MemberResponseDTO.MyPageDTO> get(
+            @AuthenticationPrincipal AuthMember member
+    ) {
+        BaseSuccessCode code = MemberSuccessCode.OK;
+        return ApiResponse.onSuccess(code, memberService.getMyPage(member));
+
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
