@@ -14,6 +14,12 @@ public class MemberResDTO {
    ){}
 
    @Builder
+   public record Login(
+       String accessToken,
+       Long memberId
+   ){}
+
+   @Builder
     public record MyPage(
         String name,
         String email,

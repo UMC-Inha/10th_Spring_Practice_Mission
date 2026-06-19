@@ -7,12 +7,14 @@ import com.example.umc10th.domain.member.entity.Member;
 public class MemberConverter {
 
     // ReqDTO → Entity
-    public static Member toMember(MemberReqDTO.SignUp dto) {
+    public static Member toMember(MemberReqDTO.SignUp dto, String encodedPassword) {
         return Member.builder()
             .name(dto.name())
             .gender(dto.gender())
             .birth(dto.birth())
             .address(dto.address())
+            .email(dto.email())
+            .password(encodedPassword)
             .build();
     }
 
@@ -24,10 +26,18 @@ public class MemberConverter {
             .build();
     }
 
+    public static MemberResDTO.Login toLoginRes(Member member, String accessToken){
+       return MemberResDTO.Login.builder()
+           .memberId(member.getId())
+           .accessToken(accessToken)
+           .build();
+    }
+
     // Entity → ResDTO (마이페이지)
     public static MemberResDTO.MyPage toMyPageRes(Member member) {
         return MemberResDTO.MyPage.builder()
             .name(member.getName())
+            .email(member.getEmail())
             .point(member.getPoint())
             .build();
     }

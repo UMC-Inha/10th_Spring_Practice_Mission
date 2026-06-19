@@ -15,6 +15,11 @@ public class MemberReqDTO {
        String password
    ){}
 
+   public record Login(
+       String email,
+       String password
+   ){}
+
    public record GetMyPage(
         Long id
     ) {}
